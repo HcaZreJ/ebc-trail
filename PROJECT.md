@@ -2,7 +2,7 @@
 
 ## 报告的目的
 
-给 6 名同行者一份可直接照做的 EBC 徒步行前决策文档：每项决策（怎么进山、办哪些证、请不请向导、买哪个保险、带什么装备、花多少钱）给出结论、金额区间和出处，另附代理报价的逐项比价，让「自己组」和「找代理」这个选择有数字支撑。产物是单文件 HTML，浏览器打开阅读，打印成 PDF 分享。
+给 6 名同行者一份可直接照做的 EBC 徒步行前决策文档：每项决策（怎么进山、办哪些证、请不请向导、买哪个保险、带什么装备、花多少钱）给出结论、金额和出处，另附代理报价的逐项比价，让「自己组」和「找代理」这个选择有数字支撑。产物是单文件 HTML，浏览器打开阅读，打印成 PDF 分享。
 
 ## 行程硬约束
 
@@ -49,10 +49,10 @@
 
 - **`itinerary.csv`**（12 行数据，20 列）— 12 天定点安排：日期、`day_type`（徒步/适应日/转场）、`start_point`/`end_point`、`route`、茶屋与海拔、三餐、单日食宿花费、注意事项、出处。里程与爬升强度查 `route-segments.csv`，`route` 列负责把日期接到路段上。
 - **`route-segments.csv`**（11 行数据，10 列）— 路段库，与日期解耦：EBC 徒步涉及的 11 段固定点对点路线（含 2 段适应日往返），每段的距离、起止海拔、海拔差、总爬升、总下降。人工整理：GPX 覆盖且无噪声标记的路段直接取 `route-track-stats.csv` 的爬升/下降（`note` 列写「GPX 实测」）；无 GPX 覆盖的路段按 `sources/06` 的文献净海拔差估算（单调假设，即中途不折返），算法与出处写在 `note` 列。哪天走哪段由 `itinerary.csv` 的 `route` 列对应。
-- **`cost-breakdown.csv`**（20 行数据，12 列）— 必要开销明细与合计。`in_total=yes` 的行进合计，`in_total=no` 的行进参考表（装备按用户口径另算；兜底预备金不动用不花；放弃当天进山的备选方案供对照）。`shared_by_n` 列声明该项由几个人分摊。`category=合计` 那一行存每人区间的美元与人民币四个值。
+- **`cost-breakdown.csv`**（21 行数据，10 列）— 必要开销明细与合计。`in_total=yes` 的行进合计，`in_total=no` 的行进参考表（装备按用户口径另算；兜底预备金不动用不花；放弃当天进山的备选方案供对照）。`shared_by_n` 列声明该项由几个人分摊。`pp_usd` 与 `pp_cny` 是每人单点最佳估算，取值规则见该行 `notes`。`category=合计` 那一行存每人合计的美元与人民币两个值，以人民币列为准，美元列由各行分别取整后求和。
 - **`packing-list.csv`**（33 行数据，8 列）— 零装备起步的最小装备清单：分类、数量、优先级、放驼包还是随身、购买或租赁渠道、备注、出处。
 - **`route-track-stats.csv`**（脚本产物，两个表块）— 由 `scripts/make_profile.py` 从 GPX 计算：第一块是 11 个村庄的累计里程、GPX 海拔、文献海拔、吸附偏差；第二块是相邻在轨村庄之间的 8 段距离与爬升/下降。峡谷段（Phakding–Monjo、Monjo–Namche）的爬升列受 GPS 噪声影响偏大，`note` 列标注，正文与 `route-segments.csv` 以文献数据为准。这张表由脚本重写，手工改动会在下次重跑时被覆盖。
-- **`quote-comparison.csv`**（11 行数据，7 列）— 代理报价与自组成本的逐项比对。`block` 列把行分成 `items`（他的套餐内容逐项）与 `totals`（口径合计）。`ours_pp_usd` 列是每人单值，取自 `cost-breakdown.csv`：有明确来源值的用来源值，只给区间的取中值，取值规则写在 `basis` 列。改了 `cost-breakdown.csv` 之后同步复核这张表。
+- **`quote-comparison.csv`**（11 行数据，7 列）— 代理报价与自组成本的逐项比对。`block` 列把行分成 `items`（他的套餐内容逐项）与 `totals`（口径合计）。`ours_pp_usd` 列是每人单值，取自 `cost-breakdown.csv`，取值规则写在 `basis` 列。改了 `cost-breakdown.csv` 之后同步复核这张表。
 
 关系链：`route-track-stats.csv`（GPX 实测）→ 供 `route-segments.csv` 取爬升/下降 → 经 `itinerary.csv` 的 `route` 列接到日期；`cost-breakdown.csv`（明细与合计）→ 供 `quote-comparison.csv` 的 `ours_pp_usd` 取单值。
 

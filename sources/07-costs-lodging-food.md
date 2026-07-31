@@ -17,7 +17,7 @@
   - https://weramblers.com/how-much-cash-you-need-for-everest-base-camp-trek/
   - https://www.bestheritagetour.com/blog/everest-base-camp-trek-cash-budget-guide
 - 要点：
-  - 12 天 EBC 建议随身现金 ¥3,400–4,760 等值的 NPR（或 NPR 50,000–80,000），在加德满都换好带上山。
+  - 12 天 EBC 建议随身现金 NPR 50,000–80,000（≈ ¥2,630–4,210，按 1 CNY ≈ 19 NPR），在加德满都换好带上山。
   - 日均开销按 ¥272/人/天准备（宽裕按 ¥340）。
   - Namche 有两台 ATM（Standard Chartered、Nabil），**都不可靠**（缺钞、断网、吞卡常见）；Namche 以上到 EBC 全程无 ATM。
   - 带小面额（100/500/1000 卢比）。
@@ -42,9 +42,9 @@
   - https://honeyguideapps.com/blog/wifi-mobile-network-and-electricity-along-the-everest-base-camp-trek
   - https://www.mounteverestgo.com/internet-wifi-in-the-entire-everest-region/
 - 要点：
-  - SIM 卡 NPR 100–200（~¥10），Ncell 低段（Lukla、Namche）信号好，NTC 整体覆盖更广；很多人双卡或 SIM+Everest Link 组合。
-  - Everest Link WiFi 卡：Namche 以上多数茶屋可用，参考价 10GB / NPR 2,000（≈¥102）。
-  - 充电：Namche 以下多数免费或便宜；以上 NPR 200–500/台次（¥10–27）。带大容量充电宝可以省一笔。
+  - SIM 卡 NPR 100–200（≈ ¥5–11），实际要买的流量套餐另计 见 14-xiaohongshu-field-intel.md，Ncell 低段（Lukla、Namche）信号好，NTC 整体覆盖更广；很多人双卡或 SIM+Everest Link 组合。
+  - Everest Link WiFi 卡：Namche 以上多数茶屋可用，参考价 10GB / NPR 2,000（≈ ¥105）。按时长计价的卡见 14-xiaohongshu-field-intel.md。
+  - 充电：Namche 以下多数免费或便宜；以上 NPR 200–500/台次（≈ ¥11–26）；2024-11 的实报是 NPR 500–1,500/次 见 14-xiaohongshu-field-intel.md。带大容量充电宝可以省一笔。
   - 热水澡：高处 ¥20–41/次；越高越贵。
 
 ## 来源 5：小费惯例

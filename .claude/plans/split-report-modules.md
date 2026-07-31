@@ -327,6 +327,31 @@ token 供需精确匹配 28 = 28。
   token 的占位符会被二次展开。当前六张 CSV 与 14 份 sources 里 `{{` 零命中，两种实现输出相同，
   单趟替换把这条隐患一并关掉。
 
+### 与 origin/main 的合并（并发 session 同期改了同一批文件）
+
+拆分期间另一个 session 把「费用表改为单点最佳估算」推上了 main，动的正是本次拆掉的三个文件：
+`report/template.html`（+77 行）、`scripts/build_report.py`（成本模型从区间改单点）、`AGENTS.md`。
+
+合并办法是**重新执行同一套切割**，而不是手工合并散文：把上游的 `template.html` 按它自己的行号
+重切成 14 个 section（CSS 段与拆分基点零差异，`shell.html` 的 include 清单一一对应、无需改动），
+上游的改动自然落进 9 个 section 文件；`build_report.py` 的成本模型改动翻译进 `costs.py` 与 `money.py`
+（`rng` → `amt`，`pp_low_cny`/`pp_high_cny` → `pp_cny`，token `TOTAL_CNY_RANGE`/`TOTAL_USD_RANGE`/
+`TOTAL_CNY_MID` → `TOTAL_CNY`/`TOTAL_USD`）。
+
+合并判据同样是逐字节守恒，基线换成 origin/main 自己的构建产物：
+raw sha256 `57d1797018c71c564850f3dcef74109ab815e826d14242229a279ed3dd07a472`、12,008,721 字节，
+与 origin/main 里 tracked 的 `report/EBC-report.html` 零差异。合并后的拆分结构重建出同一个哈希。
+
+上游改动同时作废了四份文档里的 10 处陈述（token 计数、`money.rng`、cost-breakdown 的列数与区间口径、
+分摊人数），已按实测值就地改写。
+
+### 合并暴露的一处待定问题
+
+`sources/` 出现两个 14 号：`14-agency-quote-majestic-trails.md`（报价单事实）与
+`14-xiaohongshu-field-intel.md`（小红书实地情报），分别来自两个并发 session。正文的
+`（sources/14）` 括注因此指向不明，附录 B 按文件名排序把两份都收录。改号会移动附录 B 的
+章节顺序与锚点、改变产物内容，属内容改动，留给用户定哪一份改成 15。
+
 ### 计划外查明的一件事（不在本 plan 范围）
 
 逐段海拔剖面里 6 张小图画的是虚线直线。原因不是 GPX 缺数据：`assets/Everest_Base_Camp.gpx` 在

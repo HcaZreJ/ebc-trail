@@ -66,7 +66,7 @@ scripts/
     config.py                  ROOT 与各目录路径 · RATE 6.8 · PAX 6
     csvio.py                   read_csv · blocks · esc · signed
     tables.py                  table 渲染器
-    money.py                   rng · y（美元转人民币）· diff
+    money.py                   amt · y（美元转人民币）· diff
     figures.py                 四张图的 base64 data URI token
     costs.py                   费用明细表 · 参考项表 · 三个合计数字 token
     quotes.py                  报价评估两张表与七个内联数字 token

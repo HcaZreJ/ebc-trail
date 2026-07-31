@@ -1,10 +1,9 @@
-"""美元转人民币与金额区间格式化。"""
+"""美元转人民币与金额格式化。"""
 from .config import RATE
 
 
-def rng(lo, hi):
-    lo, hi = f"{int(lo):,}", f"{int(hi):,}"
-    return lo if lo == hi else f"{lo}–{hi}"
+def amt(v):
+    return f"{int(v):,}"
 
 
 def y(u):

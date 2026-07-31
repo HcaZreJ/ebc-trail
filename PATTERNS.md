@@ -25,12 +25,12 @@
 CSV 表格、图片、合计数字通过 `{{TOKEN}}` 占位进入章节，值由 `scripts/reportgen/` 下的 provider 提供。
 
 - **每个 provider 暴露一个 `tokens()`**，返回 `{裸 token 名: 已渲染的 HTML 或字符串}`。键不带花括号，加花括号与合并由 `assemble.collect_tokens()` 负责。
-- **provider 之间零 import 依赖。** 五个 provider `figures.py` / `costs.py` / `quotes.py` / `route.py` / `appendix.py` 各自只从共用基础设施取东西：`config.py`（`ROOT` 与各目录路径、`RATE`、`PAX`）、`csvio.py`（`read_csv` / `blocks` / `esc` / `signed`）、`tables.py`（`table` 渲染器）、`money.py`（`rng` / `y` / `diff`）。新增 provider 沿用这条边界。
+- **provider 之间零 import 依赖。** 五个 provider `figures.py` / `costs.py` / `quotes.py` / `route.py` / `appendix.py` 各自只从共用基础设施取东西：`config.py`（`ROOT` 与各目录路径、`RATE`、`PAX`）、`csvio.py`（`read_csv` / `blocks` / `esc` / `signed`）、`tables.py`（`table` 渲染器）、`money.py`（`amt` / `y` / `diff`）。新增 provider 沿用这条边界。
 - **`assemble.py` 只认 `tokens()` 这个接口**，在 `collect_tokens()` 里惰性 import 五个 provider，本身只从 `config.py` 取 `REPORT_DIR`，不知道任何领域细节。
 - **token 名全局唯一。** 两个 provider 返回同一个键时构建停下。
 - **token 供需精确匹配。** 每个 provider 产出的 token 在某个 section 里被引用，每个 section 引用的 token 有 provider 提供。加一个 token 就同时改 provider 与引用它的 section。
 - **token 值原样插入，不做二次替换。** 值里出现的 `{{...}}` 字样会被残留检查报出来。
-- 当前 token 分工，共 28 个：`figures.py` 四张图的 base64 data URI（4）；`costs.py` 费用明细表与参考表加三个合计数字（5，其中 `TOTAL_CNY_MID` 由报价评估一节引用）；`quotes.py` 报价评估的两张表加七个内联数字（9）；`route.py` 路段库表与日期安排表（2）；`appendix.py` 附录 A 六张全量表加附录 B 的 sources 全文（7）；`BUILD_DATE` 由 `assemble.py` 自己给（1）。
+- 当前 token 分工，共 27 个：`figures.py` 四张图的 base64 data URI（4）；`costs.py` 费用明细表与参考表加合计的人民币与美元两个数字（4）；`quotes.py` 报价评估的两张表加七个内联数字（9）；`route.py` 路段库表与日期安排表（2）；`appendix.py` 附录 A 六张全量表加附录 B 的 sources 全文（7）；`BUILD_DATE` 由 `assemble.py` 自己给（1）。
 
 ## 构建期闸门
 
@@ -58,7 +58,7 @@ CSV 表格、图片、合计数字通过 `{{TOKEN}}` 占位进入章节，值由
 
 ### 新增一个 token
 
-1. 在对应领域的 `scripts/reportgen/<领域>.py` 的 `tokens()` 返回字典里加一个键值对；渲染表格用 `tables.table()`，读 CSV 用 `csvio.read_csv()`，美元转人民币用 `money.y()`，区间格式化用 `money.rng()`。领域不在现有五个里时新建一个模块，只 import `config` / `csvio` / `tables` / `money`，并在 `assemble.collect_tokens()` 的 provider 元组里加上它。
+1. 在对应领域的 `scripts/reportgen/<领域>.py` 的 `tokens()` 返回字典里加一个键值对；渲染表格用 `tables.table()`，读 CSV 用 `csvio.read_csv()`，美元转人民币用 `money.y()`，千分位格式化用 `money.amt()`。领域不在现有五个里时新建一个模块，只 import `config` / `csvio` / `tables` / `money`，并在 `assemble.collect_tokens()` 的 provider 元组里加上它。
 2. 在引用它的 `report/sections/*.html` 里写 `{{该键}}`。
 3. 跑构建。两步只做一步时闸门会报出未被引用或未解析。
 
@@ -81,8 +81,8 @@ CSV 表格、图片、合计数字通过 `{{TOKEN}}` 占位进入章节，值由
 
 ## 数据引用规则
 
-- **报告只引用 CSV，不另立数字。** 表格与合计走 `{{TOKEN}}` 从 `data/*.csv` 取，改 CSV 之后报告跟着变。会随 CSV 变动的关键数字尽量走 token（`TOTAL_CNY_RANGE`、`TOTAL_USD_RANGE`、`TOTAL_CNY_MID`、`QUOTE_*` 这批已经是这样）。
-- **正文里复述的单项金额与 CSV 保持一致。** Section 0 到 7 的散文和手写表里出现的金额区间（每人 ¥340–612 的向导费、¥3,400–4,760 的直升机拼机、¥6,576–7,936 的包机分摊这类）是 `cost-breakdown.csv` 或 `sources/` 对应行的复述。改了金额之后 `grep` 该数字，把正文里复述它的地方一起改。
+- **报告只引用 CSV，不另立数字。** 表格与合计走 `{{TOKEN}}` 从 `data/*.csv` 取，改 CSV 之后报告跟着变。会随 CSV 变动的关键数字尽量走 token（`TOTAL_CNY`、`TOTAL_USD`、`QUOTE_*` 这批已经是这样）。
+- **正文里复述的单项金额与 CSV 保持一致。** Section 0 到 7 的散文和手写表里出现的金额是 `cost-breakdown.csv` 或 `sources/` 对应行的复述。`cost-breakdown.csv` 的每行是单点估算，正文里仍以区间出现的 11 处金额（`¥6,800–9,520` 的独立徒步公开区间、`¥34–54` 的低海拔单餐这类）直接复述 `sources/` 的原始区间，与费用表的单点值各有出处。改了金额之后 `grep` 该数字，把正文里复述它的地方一起改。
 - **手写表放在 section 文件里的场合**：内容是分类结论、条款对比、行动清单这类不参与算术的定性信息（Section 0/1/2/3/4/6/7/9 的表都是这类），单独一列写 `sources/NN`。参与算术、需要跟合计对齐、或者要在附录 A 出全量的数据进 CSV。
 - **脚本产物不手改。** `data/route-track-stats.csv` 与 `assets/*.png` 由 `scripts/make_profile.py` 和 `scripts/make_map.py` 重写，改它们改脚本或改输入。
 - **口径写在数据旁边。** 取数规则、估算算法、噪声警示写进 CSV 自己的 `note` / `basis` / `source` 列，附录 A 的每张表附一段 `<p class="meta">` 复述这个口径，读报告的人不必回来读 CSV。
