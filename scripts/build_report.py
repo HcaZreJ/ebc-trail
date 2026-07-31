@@ -73,30 +73,24 @@ def cost_tables():
     def pick(r, name):
         return r[col[name]]
 
-    def rng(lo, hi):
-        lo, hi = f"{int(lo):,}", f"{int(hi):,}"
-        return lo if lo == hi else f"{lo}–{hi}"
+    def amt(v):
+        return f"{int(v):,}"
 
     main = [["类别", "项目", "原报价", "每人 ¥", "备注"]]
     total_cny = total_usd = None
     for r in body:
         if pick(r, "category") == "合计":
-            total_cny = (pick(r, "pp_low_cny"), pick(r, "pp_high_cny"))
-            total_usd = (pick(r, "pp_low_usd"), pick(r, "pp_high_usd"))
-            main.append(["合计", pick(r, "item"), "—", rng(*total_cny), pick(r, "notes")])
+            total_cny, total_usd = pick(r, "pp_cny"), pick(r, "pp_usd")
+            main.append(["合计", pick(r, "item"), "—", amt(total_cny), pick(r, "notes")])
         elif pick(r, "in_total") == "yes":
             main.append([pick(r, "category"), pick(r, "item"), pick(r, "unit_price_quote"),
-                         rng(pick(r, "pp_low_cny"), pick(r, "pp_high_cny")), pick(r, "notes")])
+                         amt(pick(r, "pp_cny")), pick(r, "notes")])
     ref = [["项目", "每人 ¥", "说明"]]
     for r in body:
         if pick(r, "in_total") == "no":
-            ref.append([pick(r, "item"),
-                        rng(pick(r, "pp_low_cny"), pick(r, "pp_high_cny")), pick(r, "notes")])
-    mid = (int(total_cny[0]) + int(total_cny[1])) / 2
+            ref.append([pick(r, "item"), amt(pick(r, "pp_cny")), pick(r, "notes")])
     return (table(main, total_marker="合计"), table(ref),
-            f"¥{int(total_cny[0]):,}–{int(total_cny[1]):,}",
-            f"USD {int(total_usd[0]):,}–{int(total_usd[1]):,}",
-            f"¥{round(mid):,}")
+            f"¥{int(total_cny):,}", f"USD {int(total_usd):,}")
 
 
 def quote_tables():
@@ -209,19 +203,18 @@ def sources_appendix():
 
 def main():
     tpl = TEMPLATE.read_text()
-    tbl_main, tbl_ref, total_cny, total_usd, total_mid = cost_tables()
+    tbl_main, tbl_ref, total_cny, total_usd = cost_tables()
 
     reps = {
         "{{BUILD_DATE}}": date.today().isoformat(),
-        "{{TOTAL_CNY_MID}}": total_mid,
         "{{IMG_OVERVIEW_MAP}}": img_uri("route-map-overview.png"),
         "{{IMG_TREK_MAP}}": img_uri("route-map-trek.png"),
         "{{IMG_ELEV_PROFILE}}": img_uri("elevation-profile.png"),
         "{{IMG_ELEV_PROFILE_DAILY}}": img_uri("elevation-profile-daily.png"),
         "{{TBL_COSTS_MAIN}}": tbl_main,
         "{{TBL_COSTS_REF}}": tbl_ref,
-        "{{TOTAL_CNY_RANGE}}": total_cny,
-        "{{TOTAL_USD_RANGE}}": total_usd,
+        "{{TOTAL_CNY}}": total_cny,
+        "{{TOTAL_USD}}": total_usd,
         "{{TBL_ROUTE_SEGMENTS}}": route_segments_table(),
         "{{TBL_ITINERARY_DATES}}": itinerary_dates_table(),
         "{{TBL_ITINERARY_FULL}}": table(read_csv("itinerary.csv")),

@@ -1,12 +1,12 @@
 block,item,his_scope,his_pp_usd,ours_pp_usd,basis,source
-items,加都↔Lukla 往返固定翼（含 Ramechhap 地面段）,含 报价单标价值 USD 520,,512,旺季经 Ramechhap 往返综合成本的明确值 不取中值,sources/02
-items,茶屋住宿 10 晚（双人间）,含,,75,USD 5-10/人/晚 取中值 7.5 ×10 晚,sources/07
-items,加德满都 3 星双人间 2 晚,含,,53,USD 21-32/人/晚 取中值 26.5 ×2 晚,sources/12
-items,两个许可证,含,,45,NPR 3000 ×2 固定价 没有区间,sources/04
-items,机场接送 2 趟,含,,6,USD 4-8 取中值 一车坐 3 人,sources/12
-items,持证向导 ×1 · 11 天,含,,64.17,USD 25-45/天 取中值 35 ÷6 人,sources/05
-items,背夫 ×3 · 11 天,含 1 名背夫背 2 人,,132,USD 18-30/天 取中值 24 每名背夫由 2 人分摊,sources/05
+items,加都↔Lukla 往返固定翼（含 Ramechhap 地面段）,含 报价单标价值 USD 520,,420,单程固定翼 USD 180 加地面拼车 USD 30 往返 ×2,sources/02 sources/14
+items,茶屋住宿 10 晚（双人间）,含,,91.18,房费单值 ¥62/人/晚 ×10 晚,sources/07 sources/14
+items,加德满都 3 星双人间 2 晚,含,,22.06,前台实付 ¥150/间 ÷2 人 ×2 晚,sources/12 sources/14
+items,两个许可证,含,,46,NPR 3000 ×2 固定价 没有区间,sources/04
+items,机场接送 2 趟,含,,2.06,Pathao 或 inDrive NPR 390/趟 一车坐 3 人 共 2 趟,sources/12 sources/14
+items,持证向导 ×1 · 11 天,含,,58.67,向导单值 USD 32/天 ×11 天 ÷6 人,sources/05 sources/14
+items,背夫 ×3 · 11 天,含 1 名背夫背 2 人,,107.57,背夫单值 ¥133/天 ×11 天 每名背夫由 2 人分摊,sources/05 sources/14
 items,70L 驼包 + 急救包血氧仪 + 完成证书,含,,0,调研里没有对应报价 按 0 计入 实际值几十美元,—
-totals,套餐基础价（不含餐食）,,1015,887.17,他按 4-6 pax 档；我们这一列是上表 8 项按调研单值加总,data/quote-comparison.csv
-totals,全包餐 11 天,,410,302.5,他 USD 37.3/天；我们 USD 20-35/天 取中值 27.5 ×11 天,sources/07
-totals,两边都不含 我们都要另付,,337.5,337.5,保险 115 + 小费 100 + 饮水充电热水澡 WiFi 110 + SIM 12.5,sources/07 08
+totals,套餐基础价（不含餐食）,,1015,747.54,他按 4-6 pax 档；我们这一列是上表 8 项按调研单值加总,data/quote-comparison.csv
+totals,全包餐 11 天,,410,161.76,他 USD 37.3/天；我们按三餐单值 ¥100/人/天 ×11 天,sources/07 sources/14
+totals,两边都不含 我们都要另付,,255.14,255.14,保险 115 + 小费 33.82 + 饮水充电热水澡上网 97.79 + SIM 8.53,sources/07 08 14
