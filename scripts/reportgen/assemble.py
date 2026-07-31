@@ -102,10 +102,10 @@ def substitute(text, tokens):
 
 def collect_tokens():
     """合并全部 provider 的 tokens()，键为不带花括号的裸 token 名。"""
-    from . import appendix, costs, figures, quotes, route
+    from . import costs, figures, packing, quotes, route, sources
 
     merged = {"BUILD_DATE": date.today().isoformat()}
-    for provider in (figures, costs, quotes, route, appendix):
+    for provider in (figures, costs, quotes, route, packing, sources):
         for name, value in provider.tokens().items():
             if name in merged:
                 raise SystemExit(f"token 名冲突：{name} 同时由 {provider.__name__} 提供")

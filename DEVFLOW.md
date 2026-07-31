@@ -42,7 +42,7 @@
 2. 改了 `scripts/reportgen/assemble.py` 之后跑 `uv run --with pytest pytest tests/ -q`。
 3. 改了 `data/cost-breakdown.csv` 之后复核 `data/quote-comparison.csv` 的 `ours_pp_usd` 列（它从费用表取单值），并 `grep` 变动的金额，把散文与手写表里复述它的地方一起改。
 4. 改了 `scripts/route_points.py` 之后跑 `make_profile.py` 与 `make_map.py`，再跑 `build_report.py`。
-5. 新增的事实在 `sources/` 有对应文件，正文括注了 `（sources/NN）`。
+5. 新增的事实在 `sources/` 有对应文件，详解正文括注并链接了 `（sources/NN）`。
 
 ## 构建产物不进版本库
 
@@ -56,7 +56,7 @@
 
 - **一个 agent 一个 section 文件 + 它对应的 CSV 与 sources 文件。** 章节文件与事实源的对照表在 PROJECT.md 的章节清单里，认领前先查它，确认自己要动的文件没有被别人认领。
 - **`report/shell.html` 只在增删章节时才动。** 改正文、改数字、改样式都不触碰它。要增删章节时在报告里说明这一处改动。
-- **`scripts/reportgen/` 的共用基础设施（`config.py` `csvio.py` `tables.py` `money.py` `assemble.py`）由一个 agent 独占改。** 领域 provider（`figures.py` `costs.py` `quotes.py` `route.py` `appendix.py`）之间零 import 依赖，可以并行改。
+- **`scripts/reportgen/` 的共用基础设施（`config.py` `csvio.py` `tables.py` `money.py` `assemble.py`）由一个 agent 独占改。** 领域 provider（`figures.py` `costs.py` `quotes.py` `route.py` `packing.py` `sources.py`）之间零 import 依赖，可以并行改。
 - **`report/styles/` 下五个 CSS 各自独立**，改不同文件可以并行；层叠顺序由 `shell.html` 决定，改顺序算增删章节那一类改动。
 - **图件脚本（`make_profile.py` `make_map.py` `route_points.py`）与它们的 PNG 产物由一个 agent 独占改**，因为两个脚本共用 `route_points.py`，PNG 是二进制文件、并发重写无法合并。
 - 合并回 main 用 merge。合并后跑一次 `uv run --with markdown scripts/build_report.py`，据输出确认闸门全过。

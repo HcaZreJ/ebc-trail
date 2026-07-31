@@ -14,34 +14,41 @@
 - 9-25 当天进山只有一个可行方案：提前包 2 架直升机下午从加德满都直飞 Lukla（旺季固定翼全部改从 Ramechhap 的 Manthali 机场起降，且只飞上午）。
 - 10-06 返程没有缓冲日，固定翼因天气取消时当场改乘直升机，这笔额度（每人 ¥3,400–4,760）提前留出。
 
+## 报告结构：三层
+
+- **速览**（`sections/faq.html`）：13 个问题各配一句话回答，问题链接到对应详解块。
+- **详解**（`sections/ext-*.html`）：每个问题一个 `<section class="ext">` 块，讲答案的依据、关键数字与必要表格，标题带跳回速览的回链，句末括注链接到出处层。
+- **出处**（`sections/sources.html`）：`sources/*.md` 全文收录，每份开头由构建脚本自动列出「被引用于」的问题回链。
+
 ## 报告章节清单
 
-`report/shell.html` 的 include 顺序即章节顺序。每个文件一节，锚点 id 写在该文件的 `<h2>` 上。
+`report/shell.html` 的 include 顺序即章节顺序。速览行、详解块与问题的对应关系如下（锚点契约见 PATTERNS.md）。
 
 | 章节文件 | 讲什么 | 事实源 |
 |---|---|---|
-| `sections/header.html` | 大标题、行程窗口、6 人、汇率口径与徒步方式的总述导语 | 行程硬约束；`{{BUILD_DATE}}` |
-| `sections/quote-review.html` | 代理 Majestic Trails Nepal 12 天套餐评估：按同一行程形态、同一覆盖范围逐项比价，三条要点（人数档位、砍掉 Namche 适应日、9.25 当天进山未解决），以及要向他书面确认的四件事 | `data/quote-comparison.csv`、`data/cost-breakdown.csv`、`sources/14`、`sources/02`、`sources/03`、`sources/06`、`sources/07` |
-| `sections/s0-summary.html` | 七条结论速览（签证、9.25 进山、许可证、向导、背夫、保险、必要开销总价）加一条最大风险 | `sources/01`–`sources/05`、`sources/08`；`data/cost-breakdown.csv` |
-| `sections/s1-visa.html` | 落地签类型与办理地点、中国边检出境所需材料、费用、机上到柜台的流程 | `sources/01` |
-| `sections/s2-transport.html` | 旺季固定翼改从 Ramechhap 起降的 CAAN 规定、直升机拼机与包机价格；9.25 包机进山、10.6 固定翼出山、天气取消时的直升机兜底；全局路线图 | `sources/02`、`sources/03`；`assets/route-map-overview.png` |
-| `sections/s3-permits.html` | 两个许可证（Khumbu 市政证、Sagarmatha 国家公园门票）各自的价格、办理地点、所需材料，以及本行程在哪天顺路办 | `sources/04` |
-| `sections/s4-guide-porter.html` | Khumbu 地区向导豁免的现状与核实建议；请一名向导的三条理由（保险条款、旺季订房、突发处置）；1 向导 + 3 背夫的配置、价格与雇佣方式 | `sources/05`、`sources/07`、`sources/08` |
-| `sections/s5-route.html` | 路段库表（11 段固定点对点路线）与 12 天定点安排表；逐段海拔小图、全程海拔剖面、徒步详图三张图件；适应日与三餐形态的说明 | `data/route-segments.csv`、`data/itinerary.csv`、`sources/06`、`sources/07`；`assets/elevation-profile-daily.png`、`assets/elevation-profile.png`、`assets/route-map-trek.png` |
-| `sections/s6-packing.html` | 零装备起步的八条决策要点（睡袋、羽绒服、徒步靴、穿衣体系、头灯、净水、药品、重量约束），租与买的取舍 | `data/packing-list.csv`、`sources/05`、`sources/07`、`sources/09` |
-| `sections/s7-insurance.html` | 五个保险产品逐条对比与选购三条核对项、一个实际理赔案例；现金、通讯、高反监控、天气窗口、订房五件其它事项；返程无缓冲日的警示 | `sources/02`、`sources/03`、`sources/05`、`sources/06`、`sources/07`、`sources/08`、`sources/10` |
-| `sections/s8-costs.html` | 必要开销明细表与参考项表，每人合计与分摊口径 | `data/cost-breakdown.csv` |
-| `sections/s9-action-plan.html` | 从现在到 9.24 登机前按时间倒排的行动清单 | `sources/05`；`data/packing-list.csv` |
-| `sections/appendix-a-data.html` | 六张 CSV 的全量表，每张附一段取数说明 | `data/` 全部六张 CSV |
-| `sections/appendix-b-sources.html` | `sources/*.md` 全文收录（14 份，按文件名排序，每份一个 `<section class="src">`） | `sources/*.md` |
+| `sections/header.html` | 大标题、行程窗口、汇率与取值口径导语 | 行程硬约束；`{{BUILD_DATE}}` |
+| `sections/faq.html` | 速览：13 个问题（Q1–Q13）各一句话回答 | 各详解块的结论 |
+| `sections/ext-intro.html` | 详解层的标题与阅读指引 | — |
+| `sections/ext-costs.html` | Q1 总价：必要开销明细表与参考表、分摊与取值口径 | `data/cost-breakdown.csv` |
+| `sections/ext-quote.html` | Q2 Majestic Trails 12 天套餐评估：结论、签约前要改的三处、两张比价表、四件书面确认 | `data/quote-comparison.csv`、`data/cost-breakdown.csv`、`sources/15`、`02`、`03`、`04`、`05`、`06`、`07` |
+| `sections/ext-transport.html` | Q3 9.25 当天进山（双直升机包机）+ Q4 10.6 返程与直升机兜底；全局路线图 | `sources/01`、`02`、`03`、`14`；`assets/route-map-overview.png` |
+| `sections/ext-route.html` | Q5 12 天行程：日期安排表、路段库表、三张图件、9.26 备选行程 | `data/itinerary.csv`、`data/route-segments.csv`、`sources/06`、`11`；`assets/` 三张图 |
+| `sections/ext-health.html` | Q6 高反：适应日实证、Diamox、血氧监控、下撤原则 | `sources/06`、`09`、`14` |
+| `sections/ext-guide.html` | Q7 向导背夫：豁免现状、请向导的三条理由、配置价格、雇佣方式 | `sources/05`、`07`、`08`、`14` |
+| `sections/ext-paperwork.html` | Q8 签证 + Q9 许可证 | `sources/01`、`04`、`14` |
+| `sections/ext-insurance.html` | Q10 保险：产品核实表、选购三条核对项、买后动作 | `sources/08`、`14` |
+| `sections/ext-packing.html` | Q11 装备：决策要点表 + 33 项全量清单 | `data/packing-list.csv`、`sources/07`、`09`、`14` |
+| `sections/ext-cash.html` | Q12 现金、通讯、市内安全与天气窗口 | `sources/07`、`10`、`12`、`14` |
+| `sections/ext-todo.html` | Q13 从现在到 9.24 登机前按时间倒排的行动清单 | `sources/05`；各详解块 |
+| `sections/sources.html` | 出处层：`sources/*.md` 全文（按文件名排序，回链由 `scripts/reportgen/sources.py` 自动生成） | `sources/*.md` |
 
 ## 出处文件
 
-`sources/` 一个主题一份文件，含来源 URL、抓取日期和提取出的具体数字。真人走完全程的完整攻略（trip report）是最高优先级来源。当前 14 份：
+`sources/` 一个主题一份文件，含来源 URL、抓取日期和提取出的具体数字。真人走完全程的完整攻略（trip report）是最高优先级来源。当前 15 份：
 
-`01` 签证（中国公民）· `02` 加德满都↔Lukla 固定翼（旺季改飞 Ramechhap）· `03` 加德满都↔Lukla 直升机 · `04` 两个许可证 · `05` 向导与背夫 · `06` 路线与逐日行程（Earth Trekkers 完整攻略）· `07` 沿途食宿与杂项价格 · `08` 保险（高海拔 + 直升机救援，中国公民视角）· `09` 装备清单与加德满都租赁 · `10` 中文完整攻略 · `11` GPX 轨迹文件 · `12` 加德满都市内 · `13` 带地形静态地图的选型 · `14` 代理报价单 Majestic Trails Nepal
+`01` 签证（中国公民）· `02` 加德满都↔Lukla 固定翼（旺季改飞 Ramechhap）· `03` 加德满都↔Lukla 直升机 · `04` 两个许可证 · `05` 向导与背夫 · `06` 路线与逐日行程（Earth Trekkers 完整攻略）· `07` 沿途食宿与杂项价格 · `08` 保险（高海拔 + 直升机救援，中国公民视角）· `09` 装备清单与加德满都租赁 · `10` 中文完整攻略 · `11` GPX 轨迹文件 · `12` 加德满都市内 · `13` 带地形静态地图的选型 · `14` 小红书实地情报汇总 · `15` 代理报价单 Majestic Trails Nepal
 
-`trek-packages.md` 存代理报价单原文，从它提取出的事实写在 `sources/14`。
+`trek-packages.md` 存代理报价单原文，从它提取出的事实写在 `sources/15`。
 
 ## 六张 CSV 的职责与相互关系
 
@@ -58,6 +65,8 @@
 
 ## 当前状态
 
-报告全部 14 个章节、六张 CSV、14 份出处、四张图件齐备，构建通过。
+报告为三层结构（速览 13 问 + 详解 12 个文件 + 出处 15 份），六张 CSV、四张图件齐备，构建通过，层间锚点成对。
 
-**待议事项：是否请向导。** 法规上 Khumbu 地区允许不请（两个独立来源确认，其中一个更新于 2026-01-08）；报告按「请 1 名」计入费用，理由是 World Nomads 承保到 6,000m 的前提是随行有合格向导、旺季逐站订房需要人打电话、高反恶化时需要人协调直升机救援与保险对接。出发前一个月再核实一次豁免政策。这个决定同时决定保险选型。
+**待议事项一：是否请向导。** 法规上 Khumbu 地区允许不请（两个独立来源确认，其中一个更新于 2026-01-08）；报告按「请 1 名」计入费用，理由是 World Nomads 承保到 6,000m 的前提是随行有合格向导、旺季逐站订房需要人打电话、高反恶化时需要人协调直升机救援与保险对接。出发前一个月再核实一次豁免政策。这个决定同时决定保险选型。
+
+**待议事项二：是否走 Majestic Trails 套餐。** 报告结论是价格可接受（跟团区间最低端），但要等他答复两处行程修改（恢复 Namche 适应日、9.25 直升机进山单独报价）与四件书面确认（详见 ext-quote 一节）再定。这个决定与待议事项一联动：走套餐则向导背夫由他配。

@@ -55,8 +55,8 @@ assets/
 
 report/
   shell.html               骨架 + include 装载清单（装载顺序的唯一事实源）
-  styles/                  base · tables · components · appendix · print 五个 CSS
-  sections/                14 个章节文件
+  styles/                  base · tables · components · appendix（出处层） · print 五个 CSS
+  sections/                章节文件（速览 faq · 详解 ext-* · 出处 sources 等，清单见 PROJECT.md）
   EBC-report.html          构建产物，12 MB 自包含单文件，不进版本库
 
 scripts/
@@ -71,7 +71,8 @@ scripts/
     costs.py                   费用明细表 · 参考项表 · 三个合计数字 token
     quotes.py                  报价评估两张表与七个内联数字 token
     route.py                   路段库表与日期安排表 token
-    appendix.py                附录 A 六张全量表与附录 B sources 全文 token
+    packing.py                 装备全量表 token
+    sources.py                 出处层 sources 全文与「被引用于」回链 token
   route_points.py          全线关键点位坐标与文献海拔，两个图件脚本共用
   make_profile.py          解析 GPX → route-track-stats.csv + 两张海拔图
   make_map.py              抓瓦片 → 两张路线地图
