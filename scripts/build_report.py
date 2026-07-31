@@ -65,28 +65,24 @@ def cost_tables():
     def pick(r, name):
         return r[col[name]]
 
-    def rng(lo, hi):
-        lo, hi = f"{int(lo):,}", f"{int(hi):,}"
-        return lo if lo == hi else f"{lo}–{hi}"
+    def amt(v):
+        return f"{int(v):,}"
 
     main = [["类别", "项目", "原报价", "每人 ¥", "备注"]]
     total_cny = total_usd = None
     for r in body:
         if pick(r, "category") == "合计":
-            total_cny = (pick(r, "pp_low_cny"), pick(r, "pp_high_cny"))
-            total_usd = (pick(r, "pp_low_usd"), pick(r, "pp_high_usd"))
-            main.append(["合计", pick(r, "item"), "—", rng(*total_cny), pick(r, "notes")])
+            total_cny, total_usd = pick(r, "pp_cny"), pick(r, "pp_usd")
+            main.append(["合计", pick(r, "item"), "—", amt(total_cny), pick(r, "notes")])
         elif pick(r, "in_total") == "yes":
             main.append([pick(r, "category"), pick(r, "item"), pick(r, "unit_price_quote"),
-                         rng(pick(r, "pp_low_cny"), pick(r, "pp_high_cny")), pick(r, "notes")])
+                         amt(pick(r, "pp_cny")), pick(r, "notes")])
     ref = [["项目", "每人 ¥", "说明"]]
     for r in body:
         if pick(r, "in_total") == "no":
-            ref.append([pick(r, "item"),
-                        rng(pick(r, "pp_low_cny"), pick(r, "pp_high_cny")), pick(r, "notes")])
+            ref.append([pick(r, "item"), amt(pick(r, "pp_cny")), pick(r, "notes")])
     return (table(main, total_marker="合计"), table(ref),
-            f"¥{int(total_cny[0]):,}–{int(total_cny[1]):,}",
-            f"USD {int(total_usd[0]):,}–{int(total_usd[1]):,}")
+            f"¥{int(total_cny):,}", f"USD {int(total_usd):,}")
 
 
 def signed(v):
