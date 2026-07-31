@@ -14,7 +14,7 @@ import time
 import xml.etree.ElementTree as ET
 from pathlib import Path
 
-from PIL import Image, ImageDraw, ImageFont
+from PIL import Image, ImageDraw, ImageEnhance, ImageFont
 
 from route_points import TREK_VILLAGES, KALA_PATTHAR, KATHMANDU_TIA, RAMECHHAP_AIRPORT
 
@@ -24,10 +24,24 @@ TILE_URL = "https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png"
 UA = "ebc-trail-report/1.0 (one-off personal trip map; contact aibrary@ouraca.ai)"
 CACHE = ROOT / "assets" / ".tile-cache"
 
-BLUE = (28, 92, 171)      # 轨迹主色
-MAGENTA = (216, 27, 96)   # 航段/交通节点：避开 OpenTopoMap 地形色带（低海拔黄绿到高海拔橙红棕）
+# 语义色板：两张图共用，同一条 EBC 轨迹在详图和全局图里保持同一个颜色。
+# 改这里的任何一个值，两张图同时变；只想调单张图，改下面 per-figure 的线宽与底图参数。
+# 选色约束来自 OpenTopoMap 底图本身：底图用蓝画河流与冰川、用黄绿到橙红棕的色带画海拔，
+# 所以叠加要素落在红到洋红到紫罗兰这一段，与底图两套颜色都拉开距离。
+TRAIL = (196, 30, 30)     # EBC 徒步轨迹 + 沿线村庄 marker
+HELI = (216, 27, 96)      # 直升机航段 + 进出山交通节点
+FIXED = (74, 58, 167)     # 固定翼航段 + Kala Patthar 支线标记
 GRAY = (90, 90, 86)
 INK = (31, 31, 30)
+WHITE = (255, 255, 255)
+
+# per-figure 参数：详图承担导航（保留底图等高线与冰川细节），
+# 全局图只承担"三段交通怎么接上"的示意，底图压成低饱和浅色，让路线成为唯一主体。
+TREK_TRAIL_W = 9
+TREK_BASEMAP_MUTE = None
+OVERVIEW_TRAIL_W = 7
+OVERVIEW_ROUTE_W = 7
+OVERVIEW_BASEMAP_MUTE = (0.30, 0.52)   # (保留饱和度, 混白比例)
 
 FONT_LATIN = "/System/Library/Fonts/Helvetica.ttc"
 FONT_CJK = "/System/Library/Fonts/Hiragino Sans GB.ttc"
@@ -81,9 +95,16 @@ def build_basemap(bbox, z):
     return img, to_px
 
 
+def mute(img, saturation, whiten):
+    """把底图压成低饱和浅色背景。OpenTopoMap 在小比例尺下整片是高饱和的橙红棕海拔色带，
+    亮度和叠加线路接近，路线读不出来；降饱和再混白，把底图退到背景层。"""
+    img = ImageEnhance.Color(img).enhance(saturation)
+    return Image.blend(img, Image.new("RGB", img.size, WHITE), whiten)
+
+
 def draw_path(draw, pts, color, width, casing=True):
     if casing:
-        draw.line(pts, fill=(255, 255, 255), width=width + 4, joint="curve")
+        draw.line(pts, fill=WHITE, width=width + 4, joint="curve")
     draw.line(pts, fill=color, width=width, joint="curve")
 
 
@@ -132,8 +153,10 @@ def make_trek_map(track):
     print("trek map:")
     bbox = (86.665, 27.655, 86.895, 28.035)
     img, to_px = build_basemap(bbox, 13)
+    if TREK_BASEMAP_MUTE:
+        img = mute(img, *TREK_BASEMAP_MUTE)
     draw = ImageDraw.Draw(img)
-    draw_path(draw, [to_px(*p) for p in track], BLUE, 5)
+    draw_path(draw, [to_px(*p) for p in track], TRAIL, TREK_TRAIL_W)
 
     f = ImageFont.truetype(FONT_LATIN, 26)
     f_small = ImageFont.truetype(FONT_LATIN, 22)
@@ -141,7 +164,7 @@ def make_trek_map(track):
     left = {"Namche", "Pheriche", "Gorak Shep"}
     for name, lat, lon, ele in TREK_VILLAGES:
         xy = to_px(lon, lat)
-        marker(draw, xy, MAGENTA if name in ("Lukla", "EBC") else BLUE)
+        marker(draw, xy, HELI if name in ("Lukla", "EBC") else TRAIL)
         anchor = "rm" if name in left else "lm"
         dx = -16 if name in left else 16
         label(draw, (xy[0] + dx, xy[1]), f"{name} {ele}m",
@@ -149,7 +172,7 @@ def make_trek_map(track):
     kp = KALA_PATTHAR
     xy = to_px(kp[2], kp[1])
     draw.polygon([(xy[0], xy[1] - 12), (xy[0] - 11, xy[1] + 8), (xy[0] + 11, xy[1] + 8)],
-                 fill=(74, 58, 167), outline=(255, 255, 255), width=2)
+                 fill=FIXED, outline=WHITE, width=2)
     label(draw, (xy[0] - 16, xy[1]), f"{kp[0]} {kp[3]}m", f_small, anchor="rm")
 
     attribution(img, ImageFont.truetype(FONT_LATIN, 15))
@@ -162,6 +185,7 @@ def make_overview_map(track):
     print("overview map:")
     bbox = (85.15, 27.28, 87.05, 28.12)
     img, to_px = build_basemap(bbox, 10)
+    img = mute(img, *OVERVIEW_BASEMAP_MUTE)
     draw = ImageDraw.Draw(img)
 
     ktm, rhp = KATHMANDU_TIA, RAMECHHAP_AIRPORT
@@ -170,40 +194,38 @@ def make_overview_map(track):
     p_ktm, p_rhp = to_px(ktm[2], ktm[1]), to_px(rhp[2], rhp[1])
     p_lukla = to_px(lukla[2], lukla[1])
 
-    ROAD = (250, 250, 250)
-    WHITE = (255, 255, 255)
-    draw_path(draw, [to_px(*p) for p in track], BLUE, 4)
-    draw_dashed(draw, p_ktm, p_lukla, MAGENTA, width=4, casing=WHITE)          # 9.25 直升机
-    draw_dashed(draw, p_lukla, p_rhp, (74, 58, 167), width=4, casing=WHITE)    # 10.6 固定翼
-    draw_dashed(draw, p_rhp, p_ktm, ROAD, width=3, dash=6, gap=8, casing=GRAY)  # 10.6 公路
+    ROAD = (72, 72, 68)   # 公路段用中性深灰：底图压浅后，深色线比原来的白线更实
+    w = OVERVIEW_ROUTE_W
+    draw_path(draw, [to_px(*p) for p in track], TRAIL, OVERVIEW_TRAIL_W)
+    draw_dashed(draw, p_ktm, p_lukla, HELI, width=w, casing=WHITE)                # 9.25 直升机
+    draw_dashed(draw, p_lukla, p_rhp, FIXED, width=w, casing=WHITE)               # 10.6 固定翼
+    draw_dashed(draw, p_rhp, p_ktm, ROAD, width=w - 1, dash=10, gap=9, casing=WHITE)  # 10.6 公路
 
     f = ImageFont.truetype(FONT_LATIN, 24)
     for pt, anchor, dx, dy in ((ktm, "lm", 14, -34), (rhp, "lm", 14, 18), (lukla, "lm", 14, 14)):
         xy = to_px(pt[2], pt[1])
-        marker(draw, xy, MAGENTA)
+        marker(draw, xy, HELI)
         label(draw, (xy[0] + dx, xy[1] + dy), pt[0], f, anchor=anchor)
     xy = to_px(ebc[2], ebc[1])
-    marker(draw, xy, MAGENTA)
+    marker(draw, xy, HELI)
     label(draw, (xy[0] - 14, xy[1] - 14), "Everest Base Camp", f, anchor="rm")
     nb = TREK_VILLAGES[3]
     xy = to_px(nb[2], nb[1])
-    marker(draw, xy, BLUE, r=6)
+    marker(draw, xy, TRAIL, r=6)
     label(draw, (xy[0] - 12, xy[1]), "Namche", ImageFont.truetype(FONT_LATIN, 20), anchor="rm")
 
     # 图例（中文），框宽按文字实测
     fc = ImageFont.truetype(FONT_CJK, 22)
     lx, ly = 24, 24
-    rows = [(MAGENTA, None, "9.25 直升机包机 KTM→Lukla（示意）"),
-            ((74, 58, 167), None, "10.6 固定翼 Lukla→Manthali（示意）"),
-            (ROAD, GRAY, "10.6 公路拼车 Manthali→KTM（示意）"),
-            (BLUE, None, "EBC 徒步轨迹（GPX 实测）")]
-    box_w = 52 + 14 + max(draw.textlength(t, font=fc) for _, _, t in rows)
-    draw.rectangle([lx - 10, ly - 10, lx + box_w, ly + 130], fill=(255, 255, 255), outline=GRAY)
-    for i, (color, casing, text) in enumerate(rows):
+    rows = [(HELI, "9.25 直升机包机 KTM→Lukla（示意）"),
+            (FIXED, "10.6 固定翼 Lukla→Manthali（示意）"),
+            (ROAD, "10.6 公路拼车 Manthali→KTM（示意）"),
+            (TRAIL, "EBC 徒步轨迹（GPX 实测）")]
+    box_w = 52 + 14 + max(draw.textlength(t, font=fc) for _, t in rows)
+    draw.rectangle([lx - 10, ly - 10, lx + box_w, ly + 130], fill=WHITE, outline=GRAY)
+    for i, (color, text) in enumerate(rows):
         y = ly + 12 + i * 30
-        if casing:
-            draw.line([(lx + 4, y), (lx + 40, y)], fill=casing, width=9)
-        draw.line([(lx + 4, y), (lx + 40, y)], fill=color, width=5)
+        draw.line([(lx + 4, y), (lx + 40, y)], fill=color, width=7)
         draw.text((lx + 52, y), text, font=fc, anchor="lm", fill=INK)
 
     attribution(img, ImageFont.truetype(FONT_LATIN, 15))

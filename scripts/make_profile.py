@@ -144,6 +144,134 @@ def main():
     fig.savefig(PNG_OUT, facecolor="white")
     print(f"wrote {PNG_OUT}")
 
+    make_daily_profiles(plt, cum, ele_smooth, snapped)
+
+
+DAILY_PNG_OUT = ROOT / "assets" / "elevation-profile-daily.png"
+SEGMENTS_CSV = ROOT / "data" / "route-segments.csv"
+
+# Everest View Hotel、Nangkartshang、Kala Patthar 不在主 GPX 轨迹上，
+# 这三段和所有触及 Dingboche/Pheriche 的路段用文献海拔点连线（虚线），
+# 其余在主轨迹上的路段用 GPX 逐点曲线（实线）。
+EVEREST_VIEW_HOTEL_ELE = 3880
+NANGKARTSHANG_ELE = 5080
+PANGBOCHE_DINGBOCHE_EXT_KM = 5.3  # 10.7 减去 Tengboche–Pangboche 的 GPX 距离 5.4
+
+
+def make_daily_profiles(plt, cum, ele_smooth, snapped):
+    """读 data/route-segments.csv 的路段顺序与标签，逐段画海拔剖面小图，
+    所有子图共享同一 x/y 轴比例尺，方便直接比较每段的强度。
+    """
+    # V[name] = (轨迹索引, 沿轨迹里程km, GPX海拔, 文献海拔)；
+    # 实线段用 GPX 海拔（贴合真实曲线），虚线段（无 GPX 覆盖）统一用文献海拔，与表格数字一致
+    V = {name: (j, cum[j] / 1000, ele_smooth[j], lit) for name, j, km, ele, lit, off in snapped}
+
+    def gpx_curve(name_a, name_b):
+        ja = V[name_a][0]
+        jb = V[name_b][0]
+        lo, hi = min(ja, jb), max(ja, jb)
+        pts = [(cum[i] / 1000, ele_smooth[i]) for i in range(lo, hi + 1)]
+        if ja > jb:
+            pts = pts[::-1]
+        base = pts[0][0]
+        return [(abs(k - base), e) for k, e in pts]
+
+    def reverse_curve(curve):
+        length = curve[-1][0]
+        return [(length - k, e) for k, e in reversed(curve)]
+
+    def shifted(curve, offset_km):
+        return [(k + offset_km, e) for k, e in curve]
+
+    def seg_lobuche_ebc_loop():
+        c1 = gpx_curve("Lobuche", "Gorak Shep")
+        o1 = c1[-1][0]
+        c2 = gpx_curve("Gorak Shep", "EBC")
+        c2_abs = shifted(c2, o1)
+        o2 = c2_abs[-1][0]
+        c3_abs = shifted(reverse_curve(c2), o2)
+        return [("solid", c1), ("solid", c2_abs), ("solid", c3_abs)]
+
+    def seg_tengboche_dingboche():
+        c = gpx_curve("Tengboche", "Pangboche")
+        end_km, end_ele = c[-1]
+        ext = [(end_km, end_ele), (end_km + PANGBOCHE_DINGBOCHE_EXT_KM, V["Dingboche"][3])]
+        return [("solid", c), ("dashed", ext)]
+
+    # order 对应 data/route-segments.csv 的 order 列，取该文件的 from/to 做小图标题
+    PIECES_BY_ORDER = {
+        1: lambda: [("solid", gpx_curve("Lukla", "Phakding"))],
+        2: lambda: [("solid", gpx_curve("Phakding", "Namche"))],
+        3: lambda: [("dashed", [(0, V["Namche"][3]), (2.5, EVEREST_VIEW_HOTEL_ELE), (5.0, V["Namche"][3])])],
+        4: lambda: [("solid", gpx_curve("Namche", "Tengboche"))],
+        5: seg_tengboche_dingboche,
+        6: lambda: [("dashed", [(0, V["Dingboche"][3]), (3.0, NANGKARTSHANG_ELE), (6.0, V["Dingboche"][3])])],
+        7: lambda: [("dashed", [(0, V["Dingboche"][3]), (9.7, V["Lobuche"][3])])],
+        8: seg_lobuche_ebc_loop,
+        9: lambda: [("dashed", [(0, V["Gorak Shep"][3]), (4, 5545), (8, V["Gorak Shep"][3]), (17, V["Pheriche"][3])])],
+        10: lambda: [("dashed", [(0, V["Pheriche"][3]), (17, V["Namche"][3])])],
+        11: lambda: [("solid", gpx_curve("Namche", "Lukla"))],
+    }
+
+    # 小图标题用短标签（完整地点说明见 route-segments.csv 对应表格）
+    SHORT_TITLES = {
+        1: "Lukla → Phakding",
+        2: "Phakding → Namche",
+        3: "Namche 往返 Everest View Hotel",
+        4: "Namche → Tengboche",
+        5: "Tengboche → Dingboche",
+        6: "Dingboche 往返 Nangkartshang",
+        7: "Dingboche → Lobuche",
+        8: "Lobuche → EBC 往返",
+        9: "Gorak Shep → Pheriche",
+        10: "Pheriche → Namche",
+        11: "Namche → Lukla",
+    }
+
+    with open(SEGMENTS_CSV, newline="") as f:
+        seg_rows = list(csv.DictReader(f))
+
+    labels, all_pieces = [], []
+    for row in seg_rows:
+        order = int(row["order"])
+        labels.append(f"{order}. {SHORT_TITLES[order]}")
+        all_pieces.append(PIECES_BY_ORDER[order]())
+
+    x_max = max(p[0] for pieces in all_pieces for _, pts in pieces for p in pts)
+    y_min, y_max = 2300, 5900
+
+    fig, axes = plt.subplots(4, 3, figsize=(13, 15), dpi=200)
+    axes_flat = axes.flatten()
+    for ax, label, pieces in zip(axes_flat, labels, all_pieces):
+        for style, pts in pieces:
+            xs_ = [p[0] for p in pts]
+            ys_ = [p[1] for p in pts]
+            ax.plot(xs_, ys_, color="#2a78d6", linewidth=2,
+                    linestyle="-" if style == "solid" else "--")
+            ax.fill_between(xs_, ys_, y_min, color="#2a78d6", alpha=0.12, linewidth=0)
+        ax.set_xlim(0, x_max)
+        ax.set_ylim(y_min, y_max)
+        ax.set_title(label, fontsize=10, color="#1f1f1e")
+        ax.tick_params(labelsize=7.5, colors="#5f5e56")
+        ax.grid(axis="y", color="#e4e3db", linewidth=0.6)
+        ax.set_axisbelow(True)
+        for s in ("top", "right"):
+            ax.spines[s].set_visible(False)
+        for s in ("left", "bottom"):
+            ax.spines[s].set_color("#c3c2b7")
+    for ax in axes_flat[len(labels):]:
+        ax.axis("off")
+
+    fig.suptitle("12 天行程逐段海拔剖面（各段共用同一距离/海拔比例尺，方便比较强度）",
+                 fontsize=13, color="#1f1f1e", y=0.995)
+    fig.text(0.5, 0.005,
+             "实线＝GPX 实测；虚线＝无 GPX 覆盖路段，按文献海拔点连线示意（Everest View Hotel、"
+             "Nangkartshang、Kala Patthar 及 Dingboche/Pheriche 相关路段）",
+             ha="center", fontsize=8.5, color="#8a897f")
+    fig.tight_layout(rect=(0, 0.012, 1, 0.985))
+    fig.savefig(DAILY_PNG_OUT, facecolor="white")
+    print(f"wrote {DAILY_PNG_OUT}")
+
 
 if __name__ == "__main__":
     main()

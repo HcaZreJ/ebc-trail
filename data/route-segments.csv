@@ -1,0 +1,12 @@
+order,from,to,distance_km,start_ele_m,end_ele_m,ele_diff_m,ascent_m,descent_m,note
+1,Lukla,Phakding,7.8（GPX 8.6）,2860,2610,-250,98,334,GPX 实测
+2,Phakding,Namche Bazaar（经 Monjo 办证）,10.4（GPX 10.9）,2610,3440,830,830,0,峡谷段 GPX 爬升受噪声影响偏高；爬升/下降按文献净海拔差计（单调假设）
+3,Namche Bazaar,Namche Bazaar（往返 Everest View Hotel 3880m）,3-5,3440,3440,0,440,440,文献口径，往返净变化对称
+4,Namche Bazaar,Tengboche,9.0,3440,3860,420,607,299,GPX 实测
+5,Tengboche,Dingboche（经 Pangboche）,10.7,3860,4410,550,775,180,Tengboche–Pangboche 段 GPX 实测（爬升 295/下降 180）；Pangboche–Dingboche 无 GPX 覆盖，按文献净爬升 480 估算（单调假设）
+6,Dingboche,Dingboche（往返 Nangkartshang 山脊 约5080m）,4-6,4410,4410,0,670,670,文献口径，往返净变化对称
+7,Dingboche,Lobuche（经 Dughla）,9.7,4410,4940,530,530,0,无 GPX 覆盖，按文献净爬升计（单调假设）
+8,Lobuche,Gorak Shep（经 EBC 5364m 往返）,11.3（GPX 12.3）,4940,5164,224,380,131,GPX 实测（Lobuche→Gorak Shep→EBC→返 Gorak Shep）
+9,Gorak Shep,Pheriche（经 Kala Patthar 5545m 往返后下撤）,16-18,5164,4280,-884,380,1265,无 GPX 覆盖，按文献口径计（Kala Patthar 往返 +380/-381，再下撤 Pheriche -884，合计下降 1265）
+10,Pheriche,Namche Bazaar（经 Tengboche）,15-20,4280,3440,-840,0,840,无 GPX 覆盖，按文献净海拔差计（单调假设）
+11,Namche Bazaar,Lukla,18.2（GPX 19.5）,3440,2860,-580,0,580,峡谷段 GPX 爬升受噪声影响；按文献净海拔差计（单调假设）

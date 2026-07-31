@@ -6,14 +6,15 @@
 
 - `sources/` — 调研出处。每个主题一个文件，含 URL、抓取日期、提取的具体数字。**报告里的每个事实都必须能追溯到这里的某个文件**。只放核心来源，垃圾信息不进来。真人完整攻略（走完全程的 trip report）是最高优先级来源。
 - `data/` — 表格类数据的 source of truth（CSV）。报告只引用，不另立数字：
-  - `itinerary.csv` — 12 天逐日行程（日期、区段、里程、海拔、茶屋、三餐、单日花费）
+  - `itinerary.csv` — 12 天定点安排（日期、day_type[徒步/适应日/转场]、start_point/end_point、茶屋、三餐、单日花费）；里程/海拔/爬升强度不在这里看，查 `route-segments.csv`
+  - `route-segments.csv` — 路段库，与日期解耦：EBC 徒步涉及的 11 段固定点对点路线（含 2 段适应日往返），每段的距离、起止海拔、海拔差、总爬升/下降。人工整理自 `route-track-stats.csv`（GPX 覆盖且无噪声标记的路段直接用 GPX 爬升/下降）与 `itinerary.csv`/`sources/06`（无 GPX 覆盖路段用文献净海拔差，按单调升或降估算，见每行 note 列）。哪天走哪段由 `itinerary.csv` 的 route 列对应
   - `cost-breakdown.csv` — 必要开销明细与合计（`in_total=no` 的行不计入总价：装备按用户口径另算，兜底预备金不动用不花）
   - `packing-list.csv` — 零装备者的最小装备清单
   - `route-track-stats.csv` — 由 GPX 计算的逐村里程/海拔（脚本产物，不手改；Phakding–Namche 峡谷段爬升列受 GPS 噪声影响，以文献数据为准）
-- `assets/` — `Everest_Base_Camp.gpx`（轨迹原始文件，来源见 `sources/11`）、`elevation-profile.png`（海拔剖面）、`route-map-trek.png` 与 `route-map-overview.png`（OpenTopoMap 瓦片合成的地形路线图，选型依据见 `sources/13`）、`.tile-cache/`（瓦片缓存，可删）
+- `assets/` — `Everest_Base_Camp.gpx`（轨迹原始文件，来源见 `sources/11`）、`elevation-profile.png`（全程海拔剖面）、`elevation-profile-daily.png`（`route-segments.csv` 11 段各一张小图，共用同一距离/海拔比例尺，用于比较每段强度；脚本产物，不手改）、`route-map-trek.png` 与 `route-map-overview.png`（OpenTopoMap 瓦片合成的地形路线图，选型依据见 `sources/13`）、`.tile-cache/`（瓦片缓存，可删）
 - `scripts/route_points.py` — 全线关键点位坐标（村庄、机场、Kala Patthar），两个图件脚本共用
-- `scripts/make_profile.py` — 解析 GPX、生成 `route-track-stats.csv` 和海拔图：`uv run --with matplotlib scripts/make_profile.py`
-- `scripts/make_map.py` — 抓瓦片合成两张路线地图：`uv run --with pillow scripts/make_map.py`
+- `scripts/make_profile.py` — 解析 GPX、生成 `route-track-stats.csv`、全程海拔图，并读 `route-segments.csv` 生成逐段海拔小图：`uv run --with matplotlib scripts/make_profile.py`
+- `scripts/make_map.py` — 抓瓦片合成两张路线地图：`uv run --with pillow scripts/make_map.py`。文件顶部的语义色板（`TRAIL`/`HELI`/`FIXED`）**两张图共用**，同一条 EBC 轨迹在详图（Section 5）和全局图（Section 2）里保持同一颜色；只想调其中一张图，改 per-figure 的线宽与底图压色参数（`TREK_*` / `OVERVIEW_*`），改色板会两张图同时变
 - `report/template.html` + `scripts/build_report.py` — 报告正文写在 template 里，构建脚本把 CSV 表格、sources 全文、图片（base64 内嵌）填进去，产出自包含的 `report/EBC-report.html`（浏览器打开即可打印成 PDF 分享）：`uv run --with markdown scripts/build_report.py`
 - **改了任何 CSV、sources 或图件后，重跑 build_report.py 再交付**；报告正文的文字改动改 template.html
 
