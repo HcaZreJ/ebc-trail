@@ -1,0 +1,22 @@
+village,cum_km_from_lukla,ele_gpx_m,ele_literature_m,snap_offset_m
+Lukla,0.0,2865,2860,54
+Phakding,8.6,2628,2610,29
+Monjo,14.3,2791,2835,316
+Namche,19.5,3538,3440,22
+Tengboche,28.5,3857,3860,31
+Pangboche,33.9,3964,3930,30
+Dingboche,39.7,4297,4410,521
+Pheriche,40.6,4406,4280,521
+Lobuche,49.3,4921,4940,63
+Gorak Shep,53.8,5161,5164,62
+EBC,57.7,5299,5364,106
+
+segment_from,segment_to,distance_km,ascent_m,descent_m,note
+Lukla,Phakding,8.6,98,334,
+Phakding,Monjo,5.7,448,292,峡谷段 GPS 海拔噪声大，爬升偏高，以文献数据为准
+Monjo,Namche,5.2,1170,428,峡谷段 GPS 海拔噪声大，爬升偏高，以文献数据为准
+Namche,Tengboche,9.0,607,299,
+Tengboche,Pangboche,5.4,295,180,
+Pangboche,Lobuche,15.5,1002,48,
+Lobuche,Gorak Shep,4.5,249,0,
+Gorak Shep,EBC,3.9,131,0,
