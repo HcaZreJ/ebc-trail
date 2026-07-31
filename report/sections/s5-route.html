@@ -1,0 +1,31 @@
+<h2 id="s5">5 · 12 天路线</h2>
+<p>这里把「路线」和「日期安排」拆成两张表：表 5.1 是 EBC 徒步涉及的固定路段（每段的距离、起止海拔、总爬升/下降都是该段本身的属性，与哪天走无关）；表 5.2 是把这些路段分配到 12 个日期上的定点安排，含两个适应日和一个转场日。完整逐日数据（茶屋、三餐、单日花费、注意事项）在 <code>data/itinerary.csv</code>，附录 A 有全表。</p>
+
+<h3>5.1 路段库（与日期解耦）</h3>
+<p>里程与海拔的主要出处是 Earth Trekkers 的逐日实测记录（sources/06，作者走的季节与你们相同）；GPX 轨迹覆盖到的路段（Lukla–Phakding、Namche–Tengboche、Lobuche–EBC 往返）用轨迹实测爬升/下降，其余路段（Dingboche/Pheriche 一带、Everest View Hotel、Nangkartshang、Kala Patthar 均不在主轨迹上）按文献净海拔差估算，数据出处与估算方法见附录 A.5。</p>
+{{TBL_ROUTE_SEGMENTS}}
+
+<figure>
+  <img src="{{IMG_ELEV_PROFILE_DAILY}}" alt="EBC 徒步逐段海拔剖面">
+  <figcaption>上表 11 段各一张剖面图，横轴（距离）和纵轴（海拔 2,300–5,900m）在所有子图里刻度一致，图形的高矮胖瘦可以直接对比强度。实线为 GPX 实测，虚线为文献海拔点连线示意。</figcaption>
+</figure>
+
+<figure>
+  <img src="{{IMG_ELEV_PROFILE}}" alt="EBC 海拔剖面图">
+  <figcaption>全程海拔剖面（GPX 轨迹生成，11 段首尾相接）。往返约 117 km；文献口径的「约 130 km」把适应日徒步和 Kala Patthar 支线也算了进去。逐村里程数据见附录 A.4 的 route-track-stats 表。</figcaption>
+</figure>
+
+<h3>5.2 12 天定点安排</h3>
+{{TBL_ITINERARY_DATES}}
+
+<figure class="trekmap">
+  <img src="{{IMG_TREK_MAP}}" alt="Lukla 到 EBC 徒步详图">
+  <figcaption>徒步详图：红线为 GPX 实测轨迹（Lukla → EBC 单程 58.3 km），沿线标注各宿营村庄与海拔；Kala Patthar 为 Gorak Shep 旁支线。底图 OpenTopoMap（含等高线与山体阴影）。</figcaption>
+</figure>
+
+<ul>
+  <li>行程结构上，这就是行业标准的 12 天走法：两个适应日（Namche、Dingboche）一个都不能省。Earth Trekkers 的同行者在 Kala Patthar 顶附近急性高反（眩晕、呕吐），快速下撤后缓解。这个案例是保留适应日的直接证据。（sources/06）</li>
+  <li>茶屋、三餐和单日花费的安排都在 <code>data/itinerary.csv</code> 里，茶屋名单来自 sources/07 汇总的推荐名录，热门站点让向导提前打电话订房。</li>
+  <li>三餐的基本形态：早饭在茶屋吃粥、吐司加鸡蛋配奶茶；午饭在途中茶屋吃 dal bhat（米饭配豆汤和咖喱菜，主食可以续）或炒饭、汤面；晚饭回茶屋吃 dal bhat、momo（藏式饺子）或意面。低海拔单餐 ¥34–54，Gorak Shep 一带单餐 ¥68–102。（sources/06、07）</li>
+</ul>
+<p><b>备选行程（9.25 下午包机没飞成时启用）</b>：9.25 宿加德满都或 Lukla，9.26 早上飞 Lukla 后当天直接走到 Namche（约 19 km，爬升 1,200m，7–9 小时，对体能有要求）。这样 9.26 晚上就回到主计划的进度，两个适应日和 Kala Patthar 都保得住。第一晚睡 Lukla（2,860m）与主计划睡 Phakding（2,610m）海拔相差 250m，对适应节奏影响很小。</p>

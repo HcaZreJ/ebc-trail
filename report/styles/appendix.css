@@ -1,0 +1,9 @@
+  .appendix h2 { margin-top: 60px; }
+  .appendix table { font-size: 12px; }
+  .appendix th, .appendix td { white-space: normal; overflow-wrap: break-word; max-width: 320px; }
+  .appendix .src { margin: 26px 0 40px; }
+  .appendix .src h1 { font-size: 17px; border-bottom: none; margin: 24px 0 8px; }
+  .appendix .src h2 { font-size: 15px; margin: 18px 0 6px; border-bottom: none; }
+  .appendix .src { font-size: 14px; }
+  .toc { font-size: 14px; }
+  .toc a { text-decoration: none; }
