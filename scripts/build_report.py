@@ -89,6 +89,38 @@ def cost_tables():
             f"USD {int(total_usd[0]):,}–{int(total_usd[1]):,}")
 
 
+def signed(v):
+    n = int(v)
+    return f"+{n:,}" if n > 0 else f"{n:,}" if n < 0 else "0"
+
+
+def route_segments_table():
+    rows = read_csv("route-segments.csv")
+    head, body = rows[0], rows[1:]
+    col = {name: i for i, name in enumerate(head)}
+    out = [["#", "起点", "终点", "距离 km", "起点海拔 m", "终点海拔 m",
+            "海拔差 m", "总爬升 m", "总下降 m"]]
+    for r in body:
+        out.append([
+            r[col["order"]], r[col["from"]], r[col["to"]], r[col["distance_km"]],
+            f"{int(r[col['start_ele_m']]):,}", f"{int(r[col['end_ele_m']]):,}",
+            signed(r[col["ele_diff_m"]]),
+            f"{int(r[col['ascent_m']]):,}", f"{int(r[col['descent_m']]):,}",
+        ])
+    return table(out)
+
+
+def itinerary_dates_table():
+    rows = read_csv("itinerary.csv")
+    head, body = rows[0], rows[1:]
+    col = {name: i for i, name in enumerate(head)}
+    out = [["天", "日期", "类型", "起点", "终点"]]
+    for r in body:
+        out.append([r[col["day"]], r[col["date"]], r[col["day_type"]],
+                    r[col["start_point"]], r[col["end_point"]]])
+    return table(out)
+
+
 def sources_appendix():
     md = markdown.Markdown(extensions=["tables"])
     out = []
@@ -109,14 +141,18 @@ def main():
         "{{IMG_OVERVIEW_MAP}}": img_uri("route-map-overview.png"),
         "{{IMG_TREK_MAP}}": img_uri("route-map-trek.png"),
         "{{IMG_ELEV_PROFILE}}": img_uri("elevation-profile.png"),
+        "{{IMG_ELEV_PROFILE_DAILY}}": img_uri("elevation-profile-daily.png"),
         "{{TBL_COSTS_MAIN}}": tbl_main,
         "{{TBL_COSTS_REF}}": tbl_ref,
         "{{TOTAL_CNY_RANGE}}": total_cny,
         "{{TOTAL_USD_RANGE}}": total_usd,
+        "{{TBL_ROUTE_SEGMENTS}}": route_segments_table(),
+        "{{TBL_ITINERARY_DATES}}": itinerary_dates_table(),
         "{{TBL_ITINERARY_FULL}}": table(read_csv("itinerary.csv")),
         "{{TBL_COSTS_FULL}}": table(read_csv("cost-breakdown.csv")),
         "{{TBL_PACKING_FULL}}": table(read_csv("packing-list.csv")),
         "{{TBL_TRACKSTATS_FULL}}": "\n".join(table(b) for b in blocks(read_csv("route-track-stats.csv"))),
+        "{{TBL_ROUTE_SEGMENTS_FULL}}": table(read_csv("route-segments.csv")),
         "{{APPENDIX_SOURCES}}": sources_appendix(),
     }
     for k, v in reps.items():
