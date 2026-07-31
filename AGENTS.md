@@ -14,7 +14,7 @@
 - `assets/` — `Everest_Base_Camp.gpx`（轨迹原始文件，来源见 `sources/11`）、`elevation-profile.png`（全程海拔剖面）、`elevation-profile-daily.png`（`route-segments.csv` 11 段各一张小图，共用同一距离/海拔比例尺，用于比较每段强度；脚本产物，不手改）、`route-map-trek.png` 与 `route-map-overview.png`（OpenTopoMap 瓦片合成的地形路线图，选型依据见 `sources/13`）、`.tile-cache/`（瓦片缓存，可删）
 - `scripts/route_points.py` — 全线关键点位坐标（村庄、机场、Kala Patthar），两个图件脚本共用
 - `scripts/make_profile.py` — 解析 GPX、生成 `route-track-stats.csv`、全程海拔图，并读 `route-segments.csv` 生成逐段海拔小图：`uv run --with matplotlib scripts/make_profile.py`
-- `scripts/make_map.py` — 抓瓦片合成两张路线地图：`uv run --with pillow scripts/make_map.py`
+- `scripts/make_map.py` — 抓瓦片合成两张路线地图：`uv run --with pillow scripts/make_map.py`。文件顶部的语义色板（`TRAIL`/`HELI`/`FIXED`）**两张图共用**，同一条 EBC 轨迹在详图（Section 5）和全局图（Section 2）里保持同一颜色；只想调其中一张图，改 per-figure 的线宽与底图压色参数（`TREK_*` / `OVERVIEW_*`），改色板会两张图同时变
 - `report/template.html` + `scripts/build_report.py` — 报告正文写在 template 里，构建脚本把 CSV 表格、sources 全文、图片（base64 内嵌）填进去，产出自包含的 `report/EBC-report.html`（浏览器打开即可打印成 PDF 分享）：`uv run --with markdown scripts/build_report.py`
 - **改了任何 CSV、sources 或图件后，重跑 build_report.py 再交付**；报告正文的文字改动改 template.html
 
