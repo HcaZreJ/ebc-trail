@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>EBC 徒步行前调研报告 2026.9.25–10.6</title>
+<style>
+  :root { color-scheme: light; }
+  * { box-sizing: border-box; }
+  body {
+    font-family: "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", system-ui, sans-serif;
+    color: #1f1f1e; margin: 0; padding: 0 16px; font-size: 15px; line-height: 1.75;
+    background: #fff;
+  }
+  main { max-width: 920px; margin: 0 auto; padding: 40px 0 80px; }
+  h1 { font-size: 26px; line-height: 1.4; margin: 0 0 6px; }
+  h2 { font-size: 19px; margin: 44px 0 12px; padding-bottom: 6px; border-bottom: 1px solid #d9d8d0; }
+  h3 { font-size: 16px; margin: 28px 0 8px; }
+  p, ul, ol { margin: 10px 0; }
+  li { margin: 4px 0; }
+  .meta { color: #6b6a62; font-size: 13px; }
+  .lede { margin: 14px 0 6px; }
+  table { border-collapse: collapse; width: 100%; margin: 14px 0; font-size: 13.5px; line-height: 1.6; }
+  th, td { border: 1px solid #d9d8d0; padding: 7px 10px; text-align: left; vertical-align: top; }
+  th { background: #f4f3ee; font-weight: 600; white-space: nowrap; }
+  td.num, th.num { text-align: right; white-space: nowrap; }
+  tr.total td { font-weight: 600; background: #f4f3ee; }
+  .warn { border-left: 4px solid #b3261e; background: #faf4f3; padding: 10px 14px; margin: 16px 0; }
+  .warn b:first-child { color: #b3261e; }
+  figure { margin: 22px 0; }
+  figure img { max-width: 100%; height: auto; display: block; margin: 0 auto; border: 1px solid #d9d8d0; }
+  figure.trekmap img { max-width: 680px; }
+  figcaption { color: #6b6a62; font-size: 13px; margin-top: 8px; text-align: center; }
+  code { font-family: "SF Mono", Menlo, monospace; font-size: 0.92em; background: #f4f3ee; padding: 1px 5px; border-radius: 3px; }
+  a { color: #1c5cab; }
+  .appendix h2 { margin-top: 60px; }
+  .appendix table { font-size: 12px; }
+  .appendix th, .appendix td { white-space: normal; word-break: break-all; }
+  .appendix .src { margin: 26px 0 40px; }
+  .appendix .src h1 { font-size: 17px; border-bottom: none; margin: 24px 0 8px; }
+  .appendix .src h2 { font-size: 15px; margin: 18px 0 6px; border-bottom: none; }
+  .appendix .src { font-size: 14px; }
+  .toc { font-size: 14px; }
+  .toc a { text-decoration: none; }
+  @media print {
+    body { font-size: 12px; padding: 0; }
+    main { max-width: none; padding: 0; }
+    h2 { break-after: avoid; }
+    table { font-size: 10.5px; }
+    tr, figure { break-inside: avoid; }
+    .appendix > section { break-before: page; }
+    .appendix table { font-size: 8.5px; }
+    a { color: inherit; text-decoration: none; }
+  }
+</style>
+</head>
+<body>
+<main>
+
+<h1>EBC 徒步行前调研报告</h1>
+<p class="meta">行程窗口 2026-09-25 → 2026-10-06 · 6 人 · 生成于 {{BUILD_DATE}} · 数据以 repo 内 data/*.csv 为准，出处全文见附录 B</p>
+
+<p class="lede">行程硬约束：9 月 25 日上午 11:00 落地加德满都，当天出发进山；10 月 6 日晚上回到加德满都；10 月 7 日早上飞回上海。山上共 12 天。轻装徒步，驼包交给背夫，沿途住茶屋，自带睡袋。金额展示为人民币，换算汇率 1 USD ≈ 6.8 CNY（2026-07 参考价）；尼泊尔卢比（NPR）保留原价；预订时运营商的原始报价多为美元，表中「原报价」列保留。</p>
+
+<h2 id="s0">0 · 结论速览</h2>
+<table>
+  <tr><th style="width:9em">事项</th><th>结论</th><th style="width:8em">出处</th></tr>
+  <tr><td>签证</td><td>落地签，中国公民免费，选 30 天停留期</td><td>sources/01</td></tr>
+  <tr><td>9.25 当天进山</td><td>只有一个可行选项：提前包直升机，下午从加德满都直飞 Lukla。6 人加驼包要 2 架（单架上限 5 人）。旺季固定翼全部改从 Ramechhap 起飞且只飞上午，当天赶不上</td><td>sources/02、03</td></tr>
+  <tr><td>许可证</td><td>两个：Sagarmatha 国家公园门票 + Khumbu 市政证，各 NPR 3,000，都能在进山路上办</td><td>sources/04</td></tr>
+  <tr><td>向导</td><td>法规上 Khumbu 地区允许不请向导（是否请待议）；综合保险条款、旺季订房、突发处置三个因素，建议请一名。1 名向导带 6 人符合行业惯例，摊到每人 ¥340–612</td><td>sources/05、08</td></tr>
+  <tr><td>背夫</td><td>惯例一名背夫背两个人的驼包，6 人配 3 名。可以在 Lukla 现场雇；旺季人手紧张，建议提前订好、约在 Lukla 会合</td><td>sources/05</td></tr>
+  <tr><td>保险</td><td>必买覆盖 6,000 米海拔和直升机救援的产品。大部分国内在售旅行险的海拔上限卡在 5,000–5,500 米，买之前逐条核对条款</td><td>sources/08</td></tr>
+  <tr><td>必要开销总价</td><td>6 人组每人约 {{TOTAL_CNY_RANGE}}（≈{{TOTAL_USD_RANGE}}）。国际机票和个人装备不计入</td><td>data/cost-breakdown.csv</td></tr>
+</table>
+<div class="warn"><b>最大风险：</b>10.6 从 Lukla 飞出这一段没有缓冲日。天气取消航班时，要立刻改乘直升机（每人 ¥3,400–4,760）才能保住 10.7 的国际航班，这笔额度要提前留出。（sources/02、03）</div>
+
+<h2 id="s1">1 · 签证</h2>
+<table>
+  <tr><th style="width:9em">项目</th><th>内容</th><th style="width:14em">出处</th></tr>
+  <tr><td>类型</td><td>落地签（Visa on Arrival），加德满都特里布万国际机场（TIA）入境大厅办理</td><td>尼泊尔驻北京大使馆官网（sources/01）</td></tr>
+  <tr><td>费用</td><td>中国公民免签证费。其他国籍按时长收费，中国护照全免</td><td>同上</td></tr>
+  <tr><td>停留期</td><td>15 / 30 / 90 天三档，均为多次入境。本行程选 30 天</td><td>同上</td></tr>
+  <tr><td>材料</td><td>有效期 6 个月以上的护照、35×45mm 证件照、往返机票与酒店预订证明</td><td>同上</td></tr>
+  <tr><td>中国边检出境</td><td>尼泊尔在中国官方认可的落地签名单内。凭有效护照和往返机票行程单即可出境，白本护照可以放行</td><td>中国领事服务网（sources/01）</td></tr>
+  <tr><td>流程</td><td>飞机上空乘发出入境卡；落地后填表、在自助机拍照、走 gratis visa（免费签证）柜台</td><td>知乎落地签流程实录（sources/01）</td></tr>
+  <tr><td>注意</td><td>落地签只适用于从加德满都机场或印度口岸入境；从西藏陆路口岸进入尼泊尔享受不到这个政策。你们坐飞机入境，不受影响</td><td>同上</td></tr>
+</table>
+
+<h2 id="s2">2 · 进出山交通</h2>
+<h3>2.1 背景事实</h3>
+<p>尼泊尔民航局（CAAN）规定：春季（3–5 月）和秋季（9–11 月）两个旺季，所有飞 Lukla 的固定翼航班从 Ramechhap 的 Manthali 机场起降，加德满都不发固定翼航班。上一个秋季的切换日期是 9 月 25 日。加德满都到 Manthali 车程 4–5 小时，航班只在上午 6:00–11:00 的目视飞行窗口内运行。（sources/02）</p>
+<p>直升机在旺季照常从加德满都国内机场直飞 Lukla，飞行时间约 45 分钟。拼机每人 ¥3,400–4,760（USD 500–700），包机每架 ¥19,720–23,800（USD 2,900–3,500）、最多坐 5 人（按总重量核定，预订时要报体重）。常规拼机班次都排在早上；下午没有定期班次，包机在天气允许时可以飞，但午后云量上升，取消概率高于上午。（sources/03）</p>
+
+<figure>
+  <img src="{{IMG_OVERVIEW_MAP}}" alt="加德满都—Lukla—EBC 全局路线图">
+  <figcaption>全局图：加德满都 → Lukla（9.25 直升机）→ EBC 徒步走廊 → Lukla → Manthali/Ramechhap（10.6 固定翼）→ 加德满都（公路拼车）。航段与公路为示意直线。底图 OpenTopoMap。</figcaption>
+</figure>
+
+<h3>2.2 本行程的方案</h3>
+<table>
+  <tr><th style="width:7em">段</th><th>方案</th><th style="width:19em">价格</th><th style="width:6em">出处</th></tr>
+  <tr><td>9.25 进山</td><td>提前包 2 架直升机，约定 14:00–15:00 从加德满都国内航站起飞直达 Lukla。11:00 落地后办落地签、取行李、转国内航站，时间刚好衔接</td><td>包机 ¥19,720–23,800/架（USD 2,900–3,500），6 人 2 架摊到每人 ¥6,576–7,936</td><td>sources/03</td></tr>
+  <tr><td>10.6 出山</td><td>Lukla 早班固定翼飞 Manthali，落地后拼车回加德满都，傍晚到</td><td>机票 ¥1,190–1,292（USD 175–190）+ 拼车 ¥204（USD 30）</td><td>sources/02</td></tr>
+  <tr><td>10.6 兜底</td><td>固定翼因天气取消时，立刻改直升机直飞加德满都</td><td>拼机每人 ¥3,400–4,760（USD 500–700），作为预备金，不动用就不花</td><td>sources/03</td></tr>
+</table>
+<p>两点提醒：</p>
+<ol>
+  <li>你们提到的「$500 的小飞机」，对应的是固定翼往返总价（旺季经 Ramechhap 往返约 ¥3,482 / USD 512）。它解决不了 9.25 当天进山的问题：航班只在上午飞，而且要先坐 4–5 小时车到 Ramechhap。</li>
+  <li>9.25 下午的包机存在天气风险。9 月底是雨季的尾巴，午后山区容易起云。预订时把「11:00 落地 TIA、下午飞 Lukla、6 人 2 架」的需求明确告诉运营商，并谈好当天飞不成时顺延到 9.26 早上的改期条款。9.26 早上飞的备选行程见第 5 节末尾。</li>
+</ol>
+
+<h2 id="s3">3 · 许可证（两个证）</h2>
+<table>
+  <tr><th>证件</th><th style="width:13em">费用</th><th>办理地点</th><th style="width:9em">材料</th><th style="width:6em">出处</th></tr>
+  <tr><td>Khumbu Pasang Lhamu Rural Municipality 市政证</td><td>NPR 3,000（2025 年从 2,000 上调，部分旧攻略的数字已过期）</td><td>只能在 Lukla 镇尾的市政检查站或 Monjo 办理，加德满都办不了</td><td>护照</td><td>sources/04</td></tr>
+  <tr><td>Sagarmatha National Park 国家公园门票</td><td>NPR 3,000（外国人价）</td><td>Monjo 公园门口，或提前在加德满都 Nepal Tourism Board 办</td><td>护照，建议带 2 张证件照备用</td><td>sources/04</td></tr>
+</table>
+<p>两个证合计 NPR 6,000（约 ¥306/人）。TIMS 卡在 Khumbu 地区不需要办。你们直飞 Lukla，两个证都在进山路上顺路办：D1 在 Lukla 办市政证，D2 路过 Monjo 办公园门票。（sources/04）</p>
+
+<h2 id="s4">4 · 向导与背夫</h2>
+<h3>4.1 是否必须请向导（待议事项）</h3>
+<p>尼泊尔 2023 年 4 月起在全国推行强制向导规定，但 Khumbu 地区（整条 EBC 主线）由地方市政自治，主动退出了这项规定。两个独立来源（其中一个更新于 2026 年 1 月 8 日）确认：独立徒步者只需持两个许可证即可通行，检查站不查向导。个别 2026 年的网页声称豁免即将收紧，与上述两个更具体的来源矛盾，本报告按豁免仍然有效处理，建议出发前一个月再核实一次。（sources/05）</p>
+<p>法规之外，有三个因素支持请一名向导：</p>
+<ol>
+  <li><b>保险条款</b>：World Nomads 承保到 6,000 米的前提是随行有合格向导。保险决策和向导决策绑在一起（见第 7 节）。（sources/08）</li>
+  <li><b>旺季订房</b>：10 月初是全年最挤的时段，Tengboche、Gorak Shep 等站点床位紧张，向导会提前打电话逐站订房。6 人要 3 个房间，现场碰运气的难度比 2 人组大得多。（sources/07）</li>
+  <li><b>突发处置</b>：高原反应恶化时，向导负责联络直升机救援和与保险公司对接。第 7 节的救援理赔案例里，报案和协调都由当地代理完成。（sources/08）</li>
+</ol>
+<h3>4.2 配置、价格与雇佣方式</h3>
+<p>行业惯例：1 名持证向导带 8–10 名徒步者；1 名背夫背 2 人的驼包。6 人团的标准配置是 <b>1 名向导 + 3 名背夫</b>。（sources/05）</p>
+<table>
+  <tr><th>角色</th><th style="width:15em">日薪（原报价，含其本人食宿、保险）</th><th style="width:10em">12 天合计（每名）</th><th style="width:11em">摊到每人</th><th style="width:6em">出处</th></tr>
+  <tr><td>持证向导 ×1</td><td>USD 25–45/天（¥170–306）</td><td>¥2,040–3,672</td><td>¥340–612（÷6）</td><td>sources/05</td></tr>
+  <tr><td>背夫 ×3</td><td>USD 18–30/天（¥122–204）</td><td>¥1,469–2,448</td><td>¥734–1,224（每名背夫由 2 人分摊）</td><td>sources/05</td></tr>
+  <tr><td>小费</td><td colspan="2">全程一次性</td><td>约 ¥680/人（中文完整攻略实报数；英文来源建议按工资的 10–15%，两者量级一致）</td><td>sources/07</td></tr>
+</table>
+<p>雇佣方式的结论：</p>
+<ul>
+  <li><b>背夫可以到 Lukla 现场雇</b>，机场出口就有背夫在揽客，这是成熟做法。一名背夫负重上限 20–25kg，即每人驼包控制在 10–12kg 以内。（sources/05）</li>
+  <li><b>旺季到现场再雇，有风险</b>。10 月人手紧张，一次要雇 3 名背夫更可能要等，也没有机会核验服务质量。多个来源建议提前通过加德满都的正规代理订好，约在 Lukla 会合，这样还能省掉向导和背夫从加德满都飞进山的机票（单程 USD 180–220/人）。（sources/05）</li>
+  <li>建议动作：出发前 1–2 个月联系代理，订「1 向导 + 3 背夫，Lukla 会合」，同时把沿途 3 个房间的订房委托给向导。</li>
+</ul>
+
+<h2 id="s5">5 · 12 天路线</h2>
+<p>完整逐日数据在 <code>data/itinerary.csv</code>（日期、区段、里程、海拔、茶屋、三餐、单日花费、注意事项，附录 A 有全表），以下是浓缩视图。里程与海拔的主要出处是 Earth Trekkers 的逐日实测记录（sources/06，作者走的季节与你们相同），距离一栏同时给出 GPX 轨迹的计算值作对照。</p>
+<table>
+  <tr><th>天</th><th>日期</th><th>行程</th><th style="width:8em">里程 km</th><th style="width:10em">海拔变化</th><th style="width:8em">宿</th><th class="num">海拔 m</th></tr>
+  <tr><td>1</td><td>9.25</td><td>加德满都 →（包机）Lukla → Phakding</td><td>7.8（GPX 8.6）</td><td>2860 → 2610</td><td>Phakding</td><td class="num">2,610</td></tr>
+  <tr><td>2</td><td>9.26</td><td>Phakding → Monjo（办证）→ Namche</td><td>10.4（GPX 10.9）</td><td>+830</td><td>Namche Bazaar</td><td class="num">3,440</td></tr>
+  <tr><td>3</td><td>9.27</td><td>Namche 适应日：往返 Everest View Hotel（3,880m）</td><td>3–5</td><td>+440 往返</td><td>Namche Bazaar</td><td class="num">3,440</td></tr>
+  <tr><td>4</td><td>9.28</td><td>Namche → Tengboche</td><td>9.0</td><td>+430（先下河谷再爬 600）</td><td>Tengboche</td><td class="num">3,860</td></tr>
+  <tr><td>5</td><td>9.29</td><td>Tengboche → Dingboche</td><td>10.7（GPX 11.2）</td><td>+540</td><td>Dingboche</td><td class="num">4,410</td></tr>
+  <tr><td>6</td><td>9.30</td><td>Dingboche 适应日：Nangkartshang 山脊（约 5,080m）</td><td>4–6</td><td>+500 往返</td><td>Dingboche</td><td class="num">4,410</td></tr>
+  <tr><td>7</td><td>10.1</td><td>Dingboche → Dughla → Lobuche</td><td>9.7（GPX 9.6）</td><td>+530</td><td>Lobuche</td><td class="num">4,940</td></tr>
+  <tr><td>8</td><td>10.2</td><td>Lobuche → Gorak Shep → <b>EBC 5,364m</b> → 返 Gorak Shep</td><td>11.3（GPX 12.3）</td><td>+440</td><td>Gorak Shep</td><td class="num">5,164</td></tr>
+  <tr><td>9</td><td>10.3</td><td>凌晨 <b>Kala Patthar 5,545m</b> 看日出 → 下撤 Pheriche</td><td>16–18</td><td>+380 / −1,265</td><td>Pheriche</td><td class="num">4,280</td></tr>
+  <tr><td>10</td><td>10.4</td><td>Pheriche → Tengboche → Namche</td><td>15–20</td><td>−840</td><td>Namche Bazaar</td><td class="num">3,440</td></tr>
+  <tr><td>11</td><td>10.5</td><td>Namche → Lukla</td><td>18.2（GPX 19.5）</td><td>−580</td><td>Lukla</td><td class="num">2,860</td></tr>
+  <tr><td>12</td><td>10.6</td><td>Lukla →（固定翼）Manthali →（拼车）加德满都</td><td>—</td><td>—</td><td>Thamel</td><td class="num">1,400</td></tr>
+</table>
+
+<figure class="trekmap">
+  <img src="{{IMG_TREK_MAP}}" alt="Lukla 到 EBC 徒步详图">
+  <figcaption>徒步详图：蓝线为 GPX 实测轨迹（Lukla → EBC 单程 58.3 km），沿线标注各宿营村庄与海拔；Kala Patthar 为 Gorak Shep 旁支线。底图 OpenTopoMap（含等高线与山体阴影）。</figcaption>
+</figure>
+
+<figure>
+  <img src="{{IMG_ELEV_PROFILE}}" alt="EBC 海拔剖面图">
+  <figcaption>海拔剖面（GPX 轨迹生成）。往返约 117 km；文献口径的「约 130 km」把适应日徒步和 Kala Patthar 支线也算了进去。逐村里程数据见附录 A 的 route-track-stats 表。</figcaption>
+</figure>
+
+<ul>
+  <li>行程结构上，这就是行业标准的 12 天走法：两个适应日（Namche、Dingboche）一个都不能省。Earth Trekkers 的同行者在 Kala Patthar 顶附近急性高反（眩晕、呕吐），快速下撤后缓解。这个案例是保留适应日的直接证据。（sources/06）</li>
+  <li>茶屋、三餐和单日花费的安排都在 <code>data/itinerary.csv</code> 里，茶屋名单来自 sources/07 汇总的推荐名录，热门站点让向导提前打电话订房。</li>
+  <li>三餐的基本形态：早饭在茶屋吃粥、吐司加鸡蛋配奶茶；午饭在途中茶屋吃 dal bhat（米饭配豆汤和咖喱菜，主食可以续）或炒饭、汤面；晚饭回茶屋吃 dal bhat、momo（藏式饺子）或意面。低海拔单餐 ¥34–54，Gorak Shep 一带单餐 ¥68–102。（sources/06、07）</li>
+</ul>
+<p><b>备选行程（9.25 下午包机没飞成时启用）</b>：9.25 宿加德满都或 Lukla，9.26 早上飞 Lukla 后当天直接走到 Namche（约 19 km，爬升 1,200m，7–9 小时，对体能有要求）。这样 9.26 晚上就回到主计划的进度，两个适应日和 Kala Patthar 都保得住。第一晚睡 Lukla（2,860m）与主计划睡 Phakding（2,610m）海拔相差 250m，对适应节奏影响很小。</p>
+
+<h2 id="s6">6 · 装备清单（针对零装备起步）</h2>
+<p>完整清单在 <code>data/packing-list.csv</code>（33 项，含数量、优先级、放驼包还是随身、购买或租赁渠道，附录 A 有全表）。这里列决策要点：</p>
+<table>
+  <tr><th style="width:8em">决策</th><th>结论</th><th style="width:6em">出处</th></tr>
+  <tr><td>睡袋</td><td>四季款、舒适温标 -10°C。茶屋提供毯子但高海拔不够暖，与你们对被子的判断一致。可以在加德满都 Thamel 租，¥7–14/天</td><td>sources/09</td></tr>
+  <tr><td>厚羽绒服</td><td>必备，Lobuche 以上早晚用。Thamel 租 ¥7–20/天。这类用完即闲置的大件，租比买划算</td><td>sources/09</td></tr>
+  <tr><td>徒步靴</td><td>必须在国内买好并提前 4 周以上磨合。全程最重要的单品，新靴直接上山大概率磨出水泡</td><td>sources/09</td></tr>
+  <tr><td>穿衣体系</td><td>三层：速干底层（棉质不可）+ 抓绒中层 + 防风防水硬壳。逐件清单见 CSV</td><td>sources/09</td></tr>
+  <tr><td>头灯</td><td>必备：Kala Patthar 凌晨出发、茶屋停电、夜间上厕所都用它</td><td>sources/09</td></tr>
+  <tr><td>净水</td><td>带净水片或过滤器。瓶装水越往上越贵（¥20–34/瓶），12 天能省 ¥680 以上</td><td>sources/07</td></tr>
+  <tr><td>药品</td><td>Diamox（乙酰唑胺，预防急性高山病的标准用药，行前咨询医生并试敏）、布洛芬、肠胃药、口服补液盐；推荐带指夹式血氧仪每天自查</td><td>sources/09</td></tr>
+  <tr><td>重量约束</td><td>驼包每人 10–12kg 以内（背夫负重上限决定），固定翼托运限额也是 10kg + 手提 5kg</td><td>sources/05、09</td></tr>
+</table>
+
+<h2 id="s7">7 · 保险与其它必须考虑的事项</h2>
+<h3>7.1 保险（必买，且要挑对产品）</h3>
+<p>直升机救援单次费用在数万元人民币量级，多个来源引用的上限是 ¥136,000–204,000（USD 20,000–30,000，含后续医疗）。一个有据可查的实际理赔案例：尼泊尔徒步高反救援，直升机费用 22,327 元人民币，加医疗共 29,740 元，由「保游全球旅行保险」全额报销。（sources/08）</p>
+<p>中国居民买保险的现实困难：EBC 有多个点位超过 5,500 米（Kala Patthar 5,545m），而大部分国内在售产品的海拔条款卡在这条线以下。已核实的情况：</p>
+<table>
+  <tr><th style="width:11em">产品</th><th>海拔条款</th><th>直升机救援</th><th>结论</th><th style="width:6em">出处</th></tr>
+  <tr><td>World Nomads</td><td>承保到 6,000m，<b>前提是随行有合格向导</b></td><td>覆盖紧急撤离</td><td>首选；下单前在官网把居住国选为中国，确认有可购买的计划</td><td>sources/08</td></tr>
+  <tr><td>保游全球旅行保险</td><td>有尼泊尔高海拔救援的实际赔付案例</td><td>有实赔记录（2.2 万元救援费全报）</td><td>可作为主选或备选</td><td>sources/08</td></tr>
+  <tr><td>京东安联「环游四海」</td><td>承保 6,000m 以下</td><td>尼泊尔直升机救援限额 6,000 元人民币，单次救援缺口约 2 万元</td><td>只能作为组合件，缺口自担</td><td>sources/08</td></tr>
+  <tr><td>平安「24 全球旅游保险」</td><td>援助方不承担 5,500m 以上的责任</td><td>—</td><td>不适用本行程</td><td>sources/08</td></tr>
+  <tr><td>美亚</td><td>已无在售个人旅行险</td><td>—</td><td>不适用</td><td>sources/08</td></tr>
+</table>
+<p>选购时核对下面三点：急性病（高反、肺水肿）身故与医疗责任在保障范围内；海拔上限 ≥ 5,600m；紧急医疗运送限额 ≥ 30 万元人民币。另外，2026 年 4 月尼泊尔直升机骗保产业链被曝光后，保险公司对该地区的救援理赔收紧，救援时走保险公司指定的救援协调方、保留全部票据。（sources/08）</p>
+
+<h3>7.2 其它事项</h3>
+<table>
+  <tr><th style="width:9em">事项</th><th>要点</th><th style="width:8em">出处</th></tr>
+  <tr><td>现金</td><td>在加德满都换好 NPR 50,000–80,000/人 随身带上山（约合每天 ¥272–340 的开销）。Namche 有两台 ATM 但缺钞、断网、吞卡常见，山上其他地方没有 ATM。带小面额。人民币在 Thamel 可以直接换，参考汇率 1 CNY ≈ 15 NPR。8264 中文攻略作者的教训：现金带少了，中途专门折返 Namche 取钱</td><td>sources/07、10</td></tr>
+  <tr><td>通讯</td><td>机场或 Thamel 买 Ncell 或 NTC 的 SIM 卡（NPR 100–200）：Ncell 在 Lukla、Namche 一带信号好，NTC 整体覆盖更广。Namche 以上主要靠茶屋的 Everest Link WiFi 卡，参考价 10GB 约 ¥102</td><td>sources/07</td></tr>
+  <tr><td>高反监控</td><td>每天早晚测血氧；头痛加重、呕吐、嗜睡是下撤信号，处置原则只有一条：降低海拔。行程里 D9 从 Kala Patthar 当天下降 1,265m，是安全设计</td><td>sources/06</td></tr>
+  <tr><td>天气窗口</td><td>9 月底是雨季向旱季过渡的尾巴，9.25 前后仍可能遇到降雨和午后起云；10 月初进入全年最稳定的窗口。这两点分别影响 9.25 的包机和 10.6 的返程航班</td><td>sources/02、03</td></tr>
+  <tr><td>订房</td><td>10 月初是全年最旺的两周，Gorak Shep、Tengboche 床位最紧张，6 人要 3 个房间。委托向导逐站提前电话订房</td><td>sources/05、07</td></tr>
+</table>
+<div class="warn"><b>返程没有缓冲日：</b>10.6 飞出、10.7 国际段。多个来源明确反对这种排法（旺季建议留 1–2 天缓冲），你们的日期定死了，能做的准备就是第 2.2 节的直升机预备金：每人预留 ¥3,400–4,760 额度，固定翼取消时当场改乘。（sources/02、03）</div>
+
+<h2 id="s8">8 · 预估总价（必要开销，国际机票与个人装备不计入）</h2>
+<p>明细以 <code>data/cost-breakdown.csv</code> 为准（下表由该文件自动生成）。共享项（包机、向导、背夫、房间）按 6 人分摊；「原报价」保留运营商报价货币，「每人」列为人民币。</p>
+{{TBL_COSTS_MAIN}}
+<p>不计入总价、但要知道的三笔钱：</p>
+{{TBL_COSTS_REF}}
+
+<h2 id="s9">9 · 建议的行动清单（按时间倒排）</h2>
+<table>
+  <tr><th style="width:9em">时间</th><th>动作</th></tr>
+  <tr><td>现在 → 8 月中</td><td>确认 6 人名单并收集体重（包机按总重核定）；定下「是否请向导」（连带决定保险选型）；买保险前逐条核对海拔与救援条款；在国内买徒步靴开始磨合</td></tr>
+  <tr><td>8 月</td><td>联系加德满都代理：订 9.25 下午 2 架直升机包机（写明 11:00 落地 TIA 的衔接和顺延条款）、订「1 向导 + 3 背夫，Lukla 会合」、订 6 张 10.6 早班 Lukla→Manthali 机票</td></tr>
+  <tr><td>9 月上旬</td><td>备齐 <code>data/packing-list.csv</code> 上的自购项；行前咨询医生开 Diamox 并试敏</td></tr>
+  <tr><td>出发前 1 周</td><td>核实 Khumbu 向导豁免政策有没有变化（sources/05 的两个来源）；看 9 月底加德满都与 Khumbu 天气趋势</td></tr>
+  <tr><td>9.24 登机前</td><td>打印往返机票行程单和酒店订单（中国边检出境 + 落地签材料）；带 4 张证件照、护照复印件 2 份</td></tr>
+</table>
+
+<div class="appendix">
+
+<h2 id="appendix-a">附录 A · 数据表全量（data/*.csv）</h2>
+<p class="meta">CSV 是这些表的唯一事实源；改数据请改 CSV 后重新生成本报告（<code>uv run --with markdown scripts/build_report.py</code>）。</p>
+
+<section>
+<h3>A.1 逐日行程 itinerary.csv</h3>
+{{TBL_ITINERARY_FULL}}
+</section>
+
+<section>
+<h3>A.2 费用明细 cost-breakdown.csv</h3>
+{{TBL_COSTS_FULL}}
+</section>
+
+<section>
+<h3>A.3 装备清单 packing-list.csv</h3>
+{{TBL_PACKING_FULL}}
+</section>
+
+<section>
+<h3>A.4 GPX 轨迹统计 route-track-stats.csv</h3>
+<p class="meta">由 <code>scripts/make_profile.py</code> 从 GPX 计算。峡谷段（Phakding–Namche）爬升列受 GPS 噪声影响偏大，正文以文献数据为准。</p>
+{{TBL_TRACKSTATS_FULL}}
+</section>
+
+<h2 id="appendix-b">附录 B · 调研出处全文（sources/）</h2>
+<p class="meta">每个主题一份文件，含来源 URL、抓取日期与提取的事实。以下为全文收录。</p>
+{{APPENDIX_SOURCES}}
+
+</div>
+
+<p class="meta">报告生成：{{BUILD_DATE}} · 生成脚本 scripts/build_report.py · 轨迹与图件 assets/ · 海拔图与地图由 GPX + OpenTopoMap 瓦片合成</p>
+
+</main>
+</body>
+</html>

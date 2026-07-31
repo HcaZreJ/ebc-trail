@@ -15,20 +15,7 @@ PNG_OUT = ROOT / "assets" / "elevation-profile.png"
 
 NS = {"g": "http://www.topografix.com/GPX/1/1"}
 
-# 村庄公开坐标（用于吸附到轨迹最近点）与文献海拔（来自 sources/06：EarthTrekkers / Real World Adventures）
-VILLAGES = [
-    ("Lukla",       27.6869, 86.7314, 2860),
-    ("Phakding",    27.7433, 86.7133, 2610),
-    ("Monjo",       27.7789, 86.7186, 2835),
-    ("Namche",      27.8054, 86.7140, 3440),
-    ("Tengboche",   27.8361, 86.7645, 3860),
-    ("Pangboche",   27.8571, 86.7940, 3930),
-    ("Dingboche",   27.8925, 86.8312, 4410),
-    ("Pheriche",    27.8945, 86.8190, 4280),
-    ("Lobuche",     27.9490, 86.8102, 4940),
-    ("Gorak Shep",  27.9812, 86.8283, 5164),
-    ("EBC",         28.0026, 86.8528, 5364),
-]
+from route_points import TREK_VILLAGES as VILLAGES
 
 
 def haversine_m(lat1, lon1, lat2, lon2):

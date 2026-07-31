@@ -1,6 +1,6 @@
 # EBC Trail 调研 Repo
 
-2026-09-24 → 2026-10-07 尼泊尔 EBC（Everest Base Camp）徒步的行前调研与规划。硬约束：9-25 上午 11:00 落地加德满都后当天出发进山，10-6 晚上必须回到加德满都（10-7 早国际段回上海）。徒步方式：轻装 + 背夫背驼包 + 沿途茶屋食宿 + 自带睡袋；进出山走飞机/直升机，不走陆路。
+2026-09-24 → 2026-10-07 尼泊尔 EBC（Everest Base Camp）徒步的行前调研与规划。**6 人同行**。硬约束：9-25 上午 11:00 落地加德满都后当天出发进山，10-6 晚上必须回到加德满都（10-7 早国际段回上海）。徒步方式：轻装 + 背夫背驼包 + 沿途茶屋食宿 + 自带睡袋；进出山走飞机/直升机，不走陆路。待议事项：是否请向导（当前报告按「请 1 名」计入费用）。
 
 ## 目录结构
 
@@ -10,9 +10,12 @@
   - `cost-breakdown.csv` — 必要开销明细与合计（`in_total=no` 的行不计入总价：装备按用户口径另算，兜底预备金不动用不花）
   - `packing-list.csv` — 零装备者的最小装备清单
   - `route-track-stats.csv` — 由 GPX 计算的逐村里程/海拔（脚本产物，不手改；Phakding–Namche 峡谷段爬升列受 GPS 噪声影响，以文献数据为准）
-- `assets/` — `Everest_Base_Camp.gpx`（轨迹原始文件，来源见 `sources/11`）和 `elevation-profile.png`（海拔剖面图）
-- `scripts/make_profile.py` — 解析 GPX、生成 `route-track-stats.csv` 和海拔图。改村庄点位或样式后用 `uv run --with matplotlib scripts/make_profile.py` 重新生成
-- `report/EBC-report.md` — 面向用户的汇总报告，后续可导出 PDF
+- `assets/` — `Everest_Base_Camp.gpx`（轨迹原始文件，来源见 `sources/11`）、`elevation-profile.png`（海拔剖面）、`route-map-trek.png` 与 `route-map-overview.png`（OpenTopoMap 瓦片合成的地形路线图，选型依据见 `sources/13`）、`.tile-cache/`（瓦片缓存，可删）
+- `scripts/route_points.py` — 全线关键点位坐标（村庄、机场、Kala Patthar），两个图件脚本共用
+- `scripts/make_profile.py` — 解析 GPX、生成 `route-track-stats.csv` 和海拔图：`uv run --with matplotlib scripts/make_profile.py`
+- `scripts/make_map.py` — 抓瓦片合成两张路线地图：`uv run --with pillow scripts/make_map.py`
+- `report/template.html` + `scripts/build_report.py` — 报告正文写在 template 里，构建脚本把 CSV 表格、sources 全文、图片（base64 内嵌）填进去，产出自包含的 `report/EBC-report.html`（浏览器打开即可打印成 PDF 分享）：`uv run --with markdown scripts/build_report.py`
+- **改了任何 CSV、sources 或图件后，重跑 build_report.py 再交付**；报告正文的文字改动改 template.html
 
 ## 工作约定（来自用户）
 
