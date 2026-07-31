@@ -33,12 +33,12 @@ def read_csv(name):
 
 def table(rows, header=True, total_marker=None):
     out = io.StringIO()
-    out.write("<table>\n")
+    out.write('<div class="table-scroll">\n<table>\n')
     for i, row in enumerate(rows):
         tag = "th" if (header and i == 0) else "td"
         cls = ' class="total"' if total_marker and row and row[0] == total_marker else ""
         out.write(f"<tr{cls}>" + "".join(f"<{tag}>{esc(c)}</{tag}>" for c in row) + "</tr>\n")
-    out.write("</table>\n")
+    out.write("</table>\n</div>\n")
     return out.getvalue()
 
 
