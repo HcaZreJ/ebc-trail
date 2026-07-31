@@ -25,7 +25,7 @@ UA = "ebc-trail-report/1.0 (one-off personal trip map; contact aibrary@ouraca.ai
 CACHE = ROOT / "assets" / ".tile-cache"
 
 BLUE = (28, 92, 171)      # 轨迹主色
-ORANGE = (235, 104, 52)   # 航段/交通节点
+MAGENTA = (216, 27, 96)   # 航段/交通节点：避开 OpenTopoMap 地形色带（低海拔黄绿到高海拔橙红棕）
 GRAY = (90, 90, 86)
 INK = (31, 31, 30)
 
@@ -141,7 +141,7 @@ def make_trek_map(track):
     left = {"Namche", "Pheriche", "Gorak Shep"}
     for name, lat, lon, ele in TREK_VILLAGES:
         xy = to_px(lon, lat)
-        marker(draw, xy, ORANGE if name in ("Lukla", "EBC") else BLUE)
+        marker(draw, xy, MAGENTA if name in ("Lukla", "EBC") else BLUE)
         anchor = "rm" if name in left else "lm"
         dx = -16 if name in left else 16
         label(draw, (xy[0] + dx, xy[1]), f"{name} {ele}m",
@@ -171,18 +171,19 @@ def make_overview_map(track):
     p_lukla = to_px(lukla[2], lukla[1])
 
     ROAD = (250, 250, 250)
+    WHITE = (255, 255, 255)
     draw_path(draw, [to_px(*p) for p in track], BLUE, 4)
-    draw_dashed(draw, p_ktm, p_lukla, ORANGE, width=4)          # 9.25 直升机
-    draw_dashed(draw, p_lukla, p_rhp, (74, 58, 167), width=4)   # 10.6 固定翼
+    draw_dashed(draw, p_ktm, p_lukla, MAGENTA, width=4, casing=WHITE)          # 9.25 直升机
+    draw_dashed(draw, p_lukla, p_rhp, (74, 58, 167), width=4, casing=WHITE)    # 10.6 固定翼
     draw_dashed(draw, p_rhp, p_ktm, ROAD, width=3, dash=6, gap=8, casing=GRAY)  # 10.6 公路
 
     f = ImageFont.truetype(FONT_LATIN, 24)
     for pt, anchor, dx, dy in ((ktm, "lm", 14, -34), (rhp, "lm", 14, 18), (lukla, "lm", 14, 14)):
         xy = to_px(pt[2], pt[1])
-        marker(draw, xy, ORANGE)
+        marker(draw, xy, MAGENTA)
         label(draw, (xy[0] + dx, xy[1] + dy), pt[0], f, anchor=anchor)
     xy = to_px(ebc[2], ebc[1])
-    marker(draw, xy, ORANGE)
+    marker(draw, xy, MAGENTA)
     label(draw, (xy[0] - 14, xy[1] - 14), "Everest Base Camp", f, anchor="rm")
     nb = TREK_VILLAGES[3]
     xy = to_px(nb[2], nb[1])
@@ -192,7 +193,7 @@ def make_overview_map(track):
     # 图例（中文），框宽按文字实测
     fc = ImageFont.truetype(FONT_CJK, 22)
     lx, ly = 24, 24
-    rows = [(ORANGE, None, "9.25 直升机包机 KTM→Lukla（示意）"),
+    rows = [(MAGENTA, None, "9.25 直升机包机 KTM→Lukla（示意）"),
             ((74, 58, 167), None, "10.6 固定翼 Lukla→Manthali（示意）"),
             (ROAD, GRAY, "10.6 公路拼车 Manthali→KTM（示意）"),
             (BLUE, None, "EBC 徒步轨迹（GPX 实测）")]
