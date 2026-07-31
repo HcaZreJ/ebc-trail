@@ -1,0 +1,14 @@
+# 构建产物：12 MB 自包含 HTML，每次构建整份重写。需要时跑
+# uv run --with markdown scripts/build_report.py 重建，不进版本库。
+report/EBC-report.html
+
+# Python 字节码
+__pycache__/
+*.pyc
+
+# macOS
+.DS_Store
+
+# 并发开发用的 git worktree 住在仓库内，不进版本库。
+# .claude/plans/ 是 tracked 的设计文档，不受这条影响。
+.claude/worktrees/

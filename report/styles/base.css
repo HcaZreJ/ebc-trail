@@ -1,0 +1,15 @@
+  :root { color-scheme: light; }
+  * { box-sizing: border-box; }
+  body {
+    font-family: "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", system-ui, sans-serif;
+    color: #1f1f1e; margin: 0; padding: 0 16px; font-size: 15px; line-height: 1.75;
+    background: #fff;
+  }
+  main { max-width: 920px; margin: 0 auto; padding: 40px 0 80px; }
+  h1 { font-size: 26px; line-height: 1.4; margin: 0 0 6px; }
+  h2 { font-size: 19px; margin: 44px 0 12px; padding-bottom: 6px; border-bottom: 1px solid #d9d8d0; }
+  h3 { font-size: 16px; margin: 28px 0 8px; }
+  p, ul, ol { margin: 10px 0; }
+  li { margin: 4px 0; }
+  .meta { color: #6b6a62; font-size: 13px; }
+  .lede { margin: 14px 0 6px; }
