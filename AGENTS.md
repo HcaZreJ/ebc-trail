@@ -10,6 +10,8 @@
   - `cost-breakdown.csv` — 必要开销明细与合计（`in_total=no` 的行不计入总价：装备按用户口径另算，兜底预备金不动用不花）
   - `packing-list.csv` — 零装备者的最小装备清单
   - `route-track-stats.csv` — 由 GPX 计算的逐村里程/海拔（脚本产物，不手改；Phakding–Namche 峡谷段爬升列受 GPS 噪声影响，以文献数据为准）
+  - `quote-comparison.csv` — 代理报价与自组成本的逐项比对。`ours_pp_usd` 列是每人单值，取自 `cost-breakdown.csv`（有明确来源值的用来源值，只给区间的取中值），取值规则写在 `basis` 列。改了 `cost-breakdown.csv` 后同步复核这张表
+- `trek-packages.md` — 代理方 Majestic Trails Nepal 提供的报价单原文，提取出的事实见 `sources/14`
 - `assets/` — `Everest_Base_Camp.gpx`（轨迹原始文件，来源见 `sources/11`）、`elevation-profile.png`（海拔剖面）、`route-map-trek.png` 与 `route-map-overview.png`（OpenTopoMap 瓦片合成的地形路线图，选型依据见 `sources/13`）、`.tile-cache/`（瓦片缓存，可删）
 - `scripts/route_points.py` — 全线关键点位坐标（村庄、机场、Kala Patthar），两个图件脚本共用
 - `scripts/make_profile.py` — 解析 GPX、生成 `route-track-stats.csv` 和海拔图：`uv run --with matplotlib scripts/make_profile.py`
