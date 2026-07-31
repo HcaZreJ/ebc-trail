@@ -24,7 +24,7 @@ TILE_URL = "https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png"
 UA = "ebc-trail-report/1.0 (one-off personal trip map; contact aibrary@ouraca.ai)"
 CACHE = ROOT / "assets" / ".tile-cache"
 
-TRAIL = (196, 30, 30)     # 轨迹主色：红，避开 OpenTopoMap 底图的蓝（河流/冰川）与暖色地形带
+BLUE = (28, 92, 171)      # 轨迹主色
 MAGENTA = (216, 27, 96)   # 航段/交通节点：避开 OpenTopoMap 地形色带（低海拔黄绿到高海拔橙红棕）
 GRAY = (90, 90, 86)
 INK = (31, 31, 30)
@@ -133,7 +133,7 @@ def make_trek_map(track):
     bbox = (86.665, 27.655, 86.895, 28.035)
     img, to_px = build_basemap(bbox, 13)
     draw = ImageDraw.Draw(img)
-    draw_path(draw, [to_px(*p) for p in track], TRAIL, 5)
+    draw_path(draw, [to_px(*p) for p in track], BLUE, 5)
 
     f = ImageFont.truetype(FONT_LATIN, 26)
     f_small = ImageFont.truetype(FONT_LATIN, 22)
@@ -141,7 +141,7 @@ def make_trek_map(track):
     left = {"Namche", "Pheriche", "Gorak Shep"}
     for name, lat, lon, ele in TREK_VILLAGES:
         xy = to_px(lon, lat)
-        marker(draw, xy, MAGENTA if name in ("Lukla", "EBC") else TRAIL)
+        marker(draw, xy, MAGENTA if name in ("Lukla", "EBC") else BLUE)
         anchor = "rm" if name in left else "lm"
         dx = -16 if name in left else 16
         label(draw, (xy[0] + dx, xy[1]), f"{name} {ele}m",
@@ -172,7 +172,7 @@ def make_overview_map(track):
 
     ROAD = (250, 250, 250)
     WHITE = (255, 255, 255)
-    draw_path(draw, [to_px(*p) for p in track], TRAIL, 4)
+    draw_path(draw, [to_px(*p) for p in track], BLUE, 4)
     draw_dashed(draw, p_ktm, p_lukla, MAGENTA, width=4, casing=WHITE)          # 9.25 直升机
     draw_dashed(draw, p_lukla, p_rhp, (74, 58, 167), width=4, casing=WHITE)    # 10.6 固定翼
     draw_dashed(draw, p_rhp, p_ktm, ROAD, width=3, dash=6, gap=8, casing=GRAY)  # 10.6 公路
@@ -187,7 +187,7 @@ def make_overview_map(track):
     label(draw, (xy[0] - 14, xy[1] - 14), "Everest Base Camp", f, anchor="rm")
     nb = TREK_VILLAGES[3]
     xy = to_px(nb[2], nb[1])
-    marker(draw, xy, TRAIL, r=6)
+    marker(draw, xy, BLUE, r=6)
     label(draw, (xy[0] - 12, xy[1]), "Namche", ImageFont.truetype(FONT_LATIN, 20), anchor="rm")
 
     # 图例（中文），框宽按文字实测
@@ -196,7 +196,7 @@ def make_overview_map(track):
     rows = [(MAGENTA, None, "9.25 直升机包机 KTM→Lukla（示意）"),
             ((74, 58, 167), None, "10.6 固定翼 Lukla→Manthali（示意）"),
             (ROAD, GRAY, "10.6 公路拼车 Manthali→KTM（示意）"),
-            (TRAIL, None, "EBC 徒步轨迹（GPX 实测）")]
+            (BLUE, None, "EBC 徒步轨迹（GPX 实测）")]
     box_w = 52 + 14 + max(draw.textlength(t, font=fc) for _, _, t in rows)
     draw.rectangle([lx - 10, ly - 10, lx + box_w, ly + 130], fill=(255, 255, 255), outline=GRAY)
     for i, (color, casing, text) in enumerate(rows):
