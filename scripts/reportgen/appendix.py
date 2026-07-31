@@ -23,7 +23,7 @@ def tokens():
         "TBL_COSTS_FULL": table(read_csv("cost-breakdown.csv")),
         "TBL_PACKING_FULL": table(read_csv("packing-list.csv")),
         "TBL_TRACKSTATS_FULL": "\n".join(table(b) for b in blocks(read_csv("route-track-stats.csv"))),
-        "TBL_ROUTE_SEGMENTS_FULL": table(read_csv("route-segments.csv")),
+        "TBL_DAY_TRACK_STATS_FULL": table(read_csv("day-track-stats.csv")),
         "TBL_QUOTE_CMP_FULL": table(read_csv("quote-comparison.csv")),
         "APPENDIX_SOURCES": sources_appendix(),
     }
