@@ -18,7 +18,7 @@
   - https://www.mountmania.com/blog/rent-trekking-gears-in-kathmandu-and-pokhara
   - https://theeverestholiday.com/blog/buying-and-renting-trekking-gear-in-kathmandu-the-thamel-shopping-guide
 - 要点：
-  - 睡袋租金 USD 1–2/天（按质量分档）；羽绒服 USD 1–3/天；12 天全程租羽绒服约 USD 12–24。
+  - 睡袋租金 ¥7–14/天（按质量分档）；羽绒服 ¥7–20/天；12 天全程租羽绒服约 ¥82–163。
   - Thamel 几百家装备店，基本所有东西都能租或买（山寨品牌为主，应付 EBC 足够）；口碑租赁店：Shona's、Sportswear International。
   - 结论：徒步杖、厚羽绒服、睡袋这类"用完即闲置"的大件，到加德满都租比在国内买划算；贴身的（靴子、袜子、底层衣物）必须自备且提前磨合。
 

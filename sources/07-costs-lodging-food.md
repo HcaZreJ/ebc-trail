@@ -4,12 +4,12 @@
 - URL: https://himalayanhero.com/everest/blog/everest-base-camp-trek-cost-guide/
 - 抓取日期: 2026-07-31
 - 要点：
-  - 茶屋房费：基础 USD 5–10/晚，标准 USD 10–20/晚，高端 USD 20–40/晚。
-  - 餐费：低海拔单餐 USD 5–8，高海拔（Gorak Shep）单餐 USD 10–15；每日餐费预算 USD 20–35。
-  - 瓶装水：越往上越贵，USD 3–5/瓶（建议净水手段替代）。
-  - 向导 USD 25–35/天、背夫 USD 18–25/天。
-  - 旅行保险 USD 80–150。
-  - 独立徒步者全程总预算（不含国际机票）USD 1,000–1,400；跟团 USD 1,400–2,500。
+  - 茶屋房费：基础 ¥34–68/晚，标准 ¥68–136/晚，高端 ¥136–272/晚。
+  - 餐费：低海拔单餐 ¥34–54，高海拔（Gorak Shep）单餐 ¥68–102；每日餐费预算 ¥136–238。
+  - 瓶装水：越往上越贵，¥20–34/瓶（建议净水手段替代）。
+  - 向导 ¥170–238/天、背夫 ¥122–170/天。
+  - 旅行保险 ¥544–1,020。
+  - 独立徒步者全程总预算（不含国际机票）¥6,800–9,520；跟团 ¥9,520–17,000。
 
 ## 来源 2：The Everest Holiday《Nepal Currency Guide for Trekkers》+ 多站点现金建议
 - 参考 URL：
@@ -17,8 +17,8 @@
   - https://weramblers.com/how-much-cash-you-need-for-everest-base-camp-trek/
   - https://www.bestheritagetour.com/blog/everest-base-camp-trek-cash-budget-guide
 - 要点：
-  - 12 天 EBC 建议随身现金 USD 500–700 等值的 NPR（或 NPR 50,000–80,000），在加德满都换好带上山。
-  - 日均开销按 USD 40/人/天准备（宽裕按 50）。
+  - 12 天 EBC 建议随身现金 ¥3,400–4,760 等值的 NPR（或 NPR 50,000–80,000），在加德满都换好带上山。
+  - 日均开销按 ¥272/人/天准备（宽裕按 ¥340）。
   - Namche 有两台 ATM（Standard Chartered、Nabil），**都不可靠**（缺钞、断网、吞卡常见）；Namche 以上到 EBC 全程无 ATM。
   - 带小面额（100/500/1000 卢比）。
 
@@ -42,11 +42,11 @@
   - https://honeyguideapps.com/blog/wifi-mobile-network-and-electricity-along-the-everest-base-camp-trek
   - https://www.mounteverestgo.com/internet-wifi-in-the-entire-everest-region/
 - 要点：
-  - SIM 卡 NPR 100–200（~USD 1.5），Ncell 低段（Lukla、Namche）信号好，NTC 整体覆盖更广；很多人双卡或 SIM+Everest Link 组合。
-  - Everest Link WiFi 卡：Namche 以上多数茶屋可用，参考价 10GB / NPR 2,000（≈USD 15）。
-  - 充电：Namche 以下多数免费或便宜；以上 NPR 200–500/台次（USD 1.5–4）。带大容量充电宝可以省一笔。
-  - 热水澡：高处 USD 3–6/次；越高越贵。
+  - SIM 卡 NPR 100–200（~¥10），Ncell 低段（Lukla、Namche）信号好，NTC 整体覆盖更广；很多人双卡或 SIM+Everest Link 组合。
+  - Everest Link WiFi 卡：Namche 以上多数茶屋可用，参考价 10GB / NPR 2,000（≈¥102）。
+  - 充电：Namche 以下多数免费或便宜；以上 NPR 200–500/台次（¥10–27）。带大容量充电宝可以省一笔。
+  - 热水澡：高处 ¥20–41/次；越高越贵。
 
 ## 来源 5：小费惯例
 - 参考 URL: https://m.8264.com/thread-2007759-3.html（8264 三万字中文攻略）
-- 要点：向导+背夫小费合计约 USD 100/徒步者/全程（中文攻略实报数）。英文来源普遍建议按工资 10–15% 或每天 USD 2–5/人给。
+- 要点：向导+背夫小费合计约 ¥680/徒步者/全程（中文攻略实报数）。英文来源普遍建议按工资 10–15% 或每天 ¥14–34/人给。

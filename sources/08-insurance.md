@@ -1,7 +1,7 @@
 # 保险（高海拔 + 直升机救援，中国公民视角）
 
 ## 核心事实：直升机救援费用
-- 尼泊尔 EBC 直升机救援单次费用 USD 5,000–10,000 量级，多来源引用上限 USD 20,000–30,000（含后续医疗）。
+- 尼泊尔 EBC 直升机救援单次费用 ¥34,000–68,000 量级，多来源引用上限 ¥136,000–204,000（含后续医疗）。
 - 参考 URL: https://www.travelarbitrage.net/blog/nepal-trekking-complete-guide-2026/ 、https://nepaltrekkingroutes.com/blog/best-travel-insurance-for-ebc-trek
 
 ## 来源 1：知乎《在尼泊尔徒步ACT和EBC需要购买保险吗？如何选？》+ 5 款境外旅行险测评

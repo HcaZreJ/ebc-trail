@@ -4,7 +4,7 @@
 - URL: https://travelhimalayanepal.com/permits/everest-base-camp
 - 抓取日期: 2026-07-31
 - 要点：
-  - EBC 需要且只需要两个证：**Sagarmatha National Park Entry Permit**（NPR 3,000/人）+ **Khumbu Pasang Lhamu Rural Municipality Entry Permit**（NPR 3,000/人，2025 年从 NPR 2,000 上调）。合计 NPR 6,000 ≈ USD 45/人。
+  - EBC 需要且只需要两个证：**Sagarmatha National Park Entry Permit**（NPR 3,000/人）+ **Khumbu Pasang Lhamu Rural Municipality Entry Permit**（NPR 3,000/人，2025 年从 NPR 2,000 上调）。合计 NPR 6,000 ≈ ¥306/人。
   - **TIMS 卡在 Khumbu 地区不需要**。
 
 ## 来源 2：Himalayan Recreation《EBC Trek Permits and Fees 2026》
@@ -19,4 +19,4 @@
   - 办证材料：护照 + 2 张证件照。
 
 ## 结论
-直接飞 Lukla 的人**两证都可以进山路上办**：Khumbu 证在 Lukla 办，SNP 证在 Monjo 公园门口办（或提前在加德满都 NTB 办 SNP 证）。预算按 NPR 6,000/人（≈ USD 45，2026 年）。带护照复印件和证件照。
+直接飞 Lukla 的人**两证都可以进山路上办**：Khumbu 证在 Lukla 办，SNP 证在 Monjo 公园门口办（或提前在加德满都 NTB 办 SNP 证）。预算按 NPR 6,000/人（≈ ¥306，2026 年）。带护照复印件和证件照。

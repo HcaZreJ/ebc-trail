@@ -22,15 +22,15 @@
 
 ### 来源 3：Nepal Guide Info《EBC and Gokyo Trek Guides-Porters / Cost and Daily Charge 2026》
 - URL: https://nepalguideinfo.com/blog/ebc-and-gokyo-trek-guides-porters-cost-and-daily-charge/
-- 要点：向导 USD 25–35/天，背夫 USD 20–25/天（含他们自己的食宿、保险）；在 Lukla 雇可以省掉向导/背夫从加德满都飞进来的机票（单程 USD 180–220）。
+- 要点：向导 ¥170–238/天，背夫 ¥136–170/天（含他们自己的食宿、保险）；在 Lukla 雇可以省掉向导/背夫从加德满都飞进来的机票（单程 ¥1,224–1,496）。
 
 ### 来源 4：Himalayan Hero《EBC Trek Cost Guide 2026》
 - URL: https://himalayanhero.com/everest/blog/everest-base-camp-trek-cost-guide/
-- 要点：向导 USD 25–35/天，背夫 USD 18–25/天；向导+背夫 14 天合计（含其开销）约 USD 700–1,000。
+- 要点：向导 ¥170–238/天，背夫 ¥122–170/天；向导+背夫 14 天合计（含其开销）约 ¥4,760–6,800。
 
 ### 来源 5：多站点聚合（2026）
 - 参考 URL: https://www.himalayanrecreation.com/blog/everest-base-camp-trek-cost 、https://mosaicadventure.com/everest-base-camp-trek-daily-budget/
-- 要点：英语向导报价区间 USD 35–45/天 也常见（正规持证、旺季）。
+- 要点：英语向导报价区间 ¥238–306/天 也常见（正规持证、旺季）。
 
 ## 在 Lukla 现场雇 vs 提前订
 
@@ -40,9 +40,19 @@
   - https://overlandtreknepal.com/blog/hiring-a-guide-from-lukla
   - https://nepalguidetrekking.com/blogs/hire-guide-and-porter-from-lukla
 - 要点：
-  - Lukla 机场落地后现场有很多背夫/向导可雇，价格 USD 15–25/天（背夫）。
+  - Lukla 机场落地后现场有很多背夫/向导可雇，价格 ¥102–170/天（背夫）。
   - **旺季（3–5 月、10–11 月）人手紧张**：现场雇可能要等、且没机会核验服务质量；多个来源建议旺季提前通过代理订好，落地即出发。
   - 一个背夫通常服务 2 名徒步者，负重上限约 20–25kg（两个驼包）。
+
+## 团队人数与人力配比
+
+### 来源 7：Travel Himalaya Nepal《Nepal Group Trekking 2026》等（搜索聚合）
+- 参考 URL：
+  - https://travelhimalayanepal.com/blog/nepal-group-trekking-guide-2026
+  - https://www.bestheritagetour.com/blog/hiring-a-guide-and-porter-for-ebc-trek
+- 要点：
+  - 向导配比惯例：1 名持证向导带 8–10 名徒步者，10 人以上加助理向导。6 人团 1 名向导即可。
+  - 背夫配比惯例：1 名背夫服务 2 名徒步者（驼包每人 10–12kg 上限）。6 人团配 3 名背夫。
 
 ## 结论
 法规上可以不请向导；实际建议至少雇 1 名背夫（2 人共享）+ 视经验决定是否加向导。9 月底属旺季，**提前 1–2 个月通过加德满都正规代理预订**向导/背夫，指定 Lukla 会合（省其机票），比落地现找稳妥。小费惯例另计（见费用来源文件）。
