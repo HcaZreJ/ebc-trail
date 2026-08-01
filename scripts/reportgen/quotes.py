@@ -1,8 +1,19 @@
-"""代理报价评估：把报价单的套餐内容按 data/cost-breakdown.csv 的单值定价再比对。"""
+"""代理报价评估：把报价单的套餐内容按 data/cost-breakdown.csv 的单值定价再比对。
+
+两档口径：Lukla 会合档不含向导背夫的进山机票，加都同机档在它之上加这笔机票。
+"""
 from .config import PAX
 from .csvio import read_csv
-from .money import diff, y
+from .money import diff, usd
 from .tables import table
+
+BASE = "套餐基础价"
+MEALS = "全包餐"
+SHARED = "两边都不含"
+CREW = "加购"
+
+LUKLA = "小计 · 向导背夫在 Lukla 会合"
+KTM = "小计 · 向导背夫从加都同机进山"
 
 
 def tokens():
@@ -13,49 +24,68 @@ def tokens():
     def pick(r, name):
         return r[col[name]]
 
-    def usd(r, name):
+    def num(r, name):
         v = pick(r, name).strip()
         return float(v) if v else 0.0
 
     items = [r for r in body if pick(r, "block") == "items"]
     totals = [r for r in body if pick(r, "block") == "totals"]
-    SELL = "小计：他实际卖的部分（套餐 + 全包餐）"
-    ALLIN = "合计（同一行程形态：固定翼往返、9.25 宿加德满都）"
 
     tbl_items = [["报价单的套餐内容", "报价单口径", "我们的单值 每人", "取值依据", "出处"]]
     for r in items:
-        tbl_items.append([pick(r, "item"), pick(r, "his_scope"), y(usd(r, "ours_pp_usd")),
+        tbl_items.append([pick(r, "item"), pick(r, "his_scope"), usd(num(r, "ours_pp_usd")),
                           pick(r, "basis"), pick(r, "source")])
-    base_ours = sum(usd(r, "ours_pp_usd") for r in items)
-    tbl_items.append(["小计", "—", y(base_ours), "—", "—"])
+    base_ours = sum(num(r, "ours_pp_usd") for r in items)
+    tbl_items.append(["小计", "—", usd(base_ours), "—", "—"])
+
+    def block_row(prefix):
+        for r in totals:
+            if pick(r, "item").startswith(prefix):
+                return num(r, "his_pp_usd"), num(r, "ours_pp_usd")
+        return 0.0, 0.0
+
+    base_his, _ = block_row(BASE)
+    meals_his, meals_ours = block_row(MEALS)
+    shared_his, shared_ours = block_row(SHARED)
+    crew_his, crew_ours = block_row(CREW)
+
+    his_sell = base_his + meals_his
+    ours_sell = base_ours + meals_ours
+    his_ktm, ours_ktm = his_sell + crew_his, ours_sell + crew_ours
+    his_allin, ours_allin = his_sell + shared_his, ours_sell + shared_ours
+    gap, gap_ktm = his_sell - ours_sell, his_ktm - ours_ktm
 
     tbl_tot = [["口径", "他的报价 每人", "自己组 每人", "差额", "说明"]]
-    his_sell = ours_sell = 0.0
-    shared_his = shared_ours = 0.0
     for r in totals:
-        his, ours = usd(r, "his_pp_usd"), usd(r, "ours_pp_usd")
-        if pick(r, "item").startswith("两边都不含"):
-            tbl_tot.append([SELL, y(his_sell), y(ours_sell), diff(his_sell, ours_sell),
-                            "上面两行的合计，也就是「他到底贵多少」的答案"])
-            shared_his, shared_ours = his, ours
-        else:
-            his_sell += his
-            ours_sell += ours
-        tbl_tot.append([pick(r, "item"), y(his), y(ours),
-                        diff(his, ours) if his > ours else "—", pick(r, "basis")])
-    his_all, ours_all = his_sell + shared_his, ours_sell + shared_ours
-    tbl_tot.append([ALLIN, y(his_all), y(ours_all), diff(his_all, ours_all),
-                    "两边都不含的必付项在双方完全相同，不影响判断"])
+        item, his, ours = pick(r, "item"), num(r, "his_pp_usd"), num(r, "ours_pp_usd")
+        # 「两边都不含」两列相等，「加购」是自己组的单边附加项，两行都不是比价，差额留空。
+        one_sided = item.startswith((SHARED, CREW))
+        tbl_tot.append([item, usd(his), usd(ours),
+                        "—" if one_sided else diff(his, ours), pick(r, "basis")])
+        if item.startswith(MEALS):
+            tbl_tot.append([LUKLA, usd(his_sell), usd(ours_sell), diff(his_sell, ours_sell),
+                            "他实际卖的部分（套餐 + 全包餐）与自己组同口径相比，也就是「他到底贵多少」的答案"])
+        elif item.startswith(CREW):
+            tbl_tot.append([KTM, usd(his_ktm), usd(ours_ktm), diff(his_ktm, ours_ktm),
+                            "自己组一列加上向导背夫的往返机票，他那一列不变"])
 
-    gap = his_sell - ours_sell
     return {
         "TBL_QUOTE_ITEMS": table(tbl_items, total_marker="小计"),
-        "TBL_QUOTE_TOTALS": table(tbl_tot, total_marker=(SELL, ALLIN)),
-        "QUOTE_GAP_ALLIN_PCT": f"{round((his_all / ours_all - 1) * 100)}%",
-        "QUOTE_GAP_PP": y(gap),
-        "QUOTE_GAP_PCT": f"{round((his_sell / ours_sell - 1) * 100)}%",
-        "QUOTE_GAP_GROUP": y(gap * PAX),
-        "QUOTE_HIS_SELL": y(his_sell),
-        "QUOTE_OURS_SELL": y(ours_sell),
-        "QUOTE_HIS_ALLIN": y(his_all),
+        "TBL_QUOTE_TOTALS": table(tbl_tot, total_marker=(LUKLA, KTM)),
+        "QUOTE_HIS_SELL": usd(his_sell),
+        "QUOTE_OURS_SELL": usd(ours_sell),
+        "QUOTE_GAP_PP": diff(his_sell, ours_sell),
+        "QUOTE_GAP_GROUP": usd(gap * PAX),
+        "QUOTE_OURS_SELL_KTM": usd(ours_ktm),
+        "QUOTE_GAP_KTM": diff(his_ktm, ours_ktm),
+        "QUOTE_GAP_KTM_GROUP": usd(gap_ktm * PAX),
+        "QUOTE_CREW_FLIGHT": usd(crew_ours),
+        "QUOTE_BASE_HIS": usd(base_his),
+        "QUOTE_BASE_OURS": usd(base_ours),
+        "QUOTE_BASE_GAP": diff(base_his, base_ours),
+        "QUOTE_BASE_OURS_KTM": usd(base_ours + crew_ours),
+        "QUOTE_BASE_GAP_KTM": diff(base_his, base_ours + crew_ours),
+        "QUOTE_HIS_ALLIN": usd(his_allin),
+        "QUOTE_GAP_ALLIN_PCT": f"{round((his_allin / ours_allin - 1) * 100)}%",
+        "QUOTE_MEALS_SHARE": f"{round((meals_his - meals_ours) / gap * 100)}%",
     }

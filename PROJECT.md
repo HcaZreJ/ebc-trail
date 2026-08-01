@@ -13,7 +13,7 @@
 - 徒步方式：轻装 + 背夫背驼包 + 沿途茶屋食宿 + 自带睡袋。
 - 进出山走飞机与直升机，不走陆路。
 - 9.26 进山交通方式待定：加都直飞固定翼、绕道 Ramechhap 固定翼、或直升机，取决于尼泊尔民航局旺季分流的临时决定，订票后仍可能改变（与 Majestic Trails Nepal 向导 Bibek 的直接沟通，见 sources/17）；预算按加都直飞固定翼（USD 208/人）作单点估算，绕道 Ramechhap 与直升机列为应急预备金。
-- 10-06 返程没有缓冲日，固定翼因天气取消时当场改乘直升机，这笔额度（每人 ¥3,400–4,760）提前留出。
+- 10-06 返程没有缓冲日，固定翼因天气取消时当场改乘直升机，这笔额度（每人 USD 500–700）提前留出。
 
 ## 报告结构：三层
 
@@ -31,7 +31,7 @@
 | `sections/faq.html` | 速览：13 个问题（Q1–Q13）各一句话回答 | 各详解块的结论 |
 | `sections/ext-intro.html` | 详解层的标题与阅读指引 | — |
 | `sections/ext-costs.html` | Q1 总价：必要开销明细表与参考表、分摊与取值口径 | `data/cost-breakdown.csv` |
-| `sections/ext-quote.html` | Q2 Majestic Trails 12 天套餐评估：结论、签约前要改的三处、两张比价表、四件书面确认 | `data/quote-comparison.csv`、`data/cost-breakdown.csv`、`sources/16`、`02`、`03`、`04`、`05`、`06`、`07` |
+| `sections/ext-quote.html` | Q2 Majestic Trails 12 天套餐评估：两档口径下的差价结论、签约前要他改的一处、两张比价表、五件书面确认 | `data/quote-comparison.csv`、`data/cost-breakdown.csv`、`sources/16`、`02`、`03`、`04`、`05`、`06`、`07` |
 | `sections/ext-transport.html` | Q3 9.25 当天进山（双直升机包机）+ Q4 10.6 返程与直升机兜底；全局路线图 | `sources/01`、`02`、`03`、`14`；`assets/route-map-overview.png` |
 | `sections/ext-route.html` | Q5 12 天行程：一张合并的逐日表（距离、总爬升/总下降、终点海拔、当天海拔剖面小图，Day 1 加都日与 Day 12 转场日三列写 `—`）、徒步详图（大环线可走支线 + 按天分色计划路线）与全程剖面两张图件 | `data/itinerary.csv`、`data/day-track-stats.csv`、`sources/06`、`13`、`15`、`16`、`17`；`assets/route-map-trek.png`、`elevation-profile.png`、`day-profile-02.png`…`day-profile-11.png` |
 | `sections/ext-health.html` | Q6 高反：适应日实证、Diamox、血氧监控、下撤原则 | `sources/06`、`09`、`14` |
@@ -59,10 +59,10 @@
 - **`day-track-stats.csv`**（脚本产物，`scripts/day_tracks.py` 写出，10 行数据即 Day 2–11，7 列）— 逐日距离、总爬升、总下降、起点/终点海拔、数据来源。`source` 列区分 KMZ 实测 / GPX 实测 / OSM+SRTM30m 及其组合，与 `day_tracks.py` 里 `DAY_SOURCES` 常量一一对应。算法：轨迹按 25 m 重采样、海拔用窗口 5 的滚动中位数平滑压掉 GPS 跳变、再按 8 m 滞回阈值累计爬升/下降，三个参数写在 `day_tracks.py` 顶部，标定依据见 `sources/15`。
 - **`day-tracks.json`**（脚本产物，`scripts/day_tracks.py` 写出）— Day 2–11 逐点轨迹坐标（经度、纬度、海拔），是 `day-track-stats.csv`、10 张逐日剖面小图、全程剖面图、徒步详图共同的上游中间产物。
 - **`gap-legs.json`**（脚本产物 + 缓存，`scripts/gap_legs.py` 写出）— KMZ 大环线与 GPX 都没走到的 4 段（Namche 往返 Everest View、Dingboche 往返 Nangkartshang、Lobuche–Pheriche、Pheriche–Pangboche）按 OSM 步道几何 + SRTM30m 高程补测出的逐点序列；`day_tracks.py` 只装配其中 3 段（行程只在 Dingboche 安排适应日，Namche 往返段缓存着但不参与装配）。文件已含全部 4 段时构建期不再发网络请求。
-- **`cost-breakdown.csv`**（人工整理，22 行数据，10 列）— 必要开销明细与合计。`in_total=yes` 的行进合计，`in_total=no` 的行进参考表（装备按用户口径另算；9.26 进山与 10.6 返程两处的直升机/绕道应急预备金不动用不花）。`shared_by_n` 列声明该项由几个人分摊。`pp_usd` 与 `pp_cny` 是每人单点最佳估算，取值规则见该行 `notes`。`category=合计` 那一行存每人合计的美元与人民币两个值，以人民币列为准，美元列由各行分别取整后求和。
+- **`cost-breakdown.csv`**（人工整理，22 行数据，9 列）— 必要开销明细与合计。`in_total=yes` 的行进合计，`in_total=no` 的行进参考表（装备按用户口径另算；9.26 进山与 10.6 返程两处的直升机/绕道应急预备金不动用不花）。`shared_by_n` 列声明该项由几个人分摊。`unit_price_quote` 列写该项报出时的原始货币（许可证 NPR 3000、向导 USD 32/天），`pp_usd` 是每人单点最佳估算的美元值，取值规则见该行 `notes`。`category=合计` 那一行存每人合计，由各行精确值求和后取整。
 - **`packing-list.csv`**（人工整理，34 行数据，8 列）— 零装备起步的最小装备清单：分类、数量、优先级、放驼包还是随身、购买或租赁渠道、备注、出处。
 - **`route-track-stats.csv`**（脚本产物，`scripts/make_profile.py` 写出，10 行数据，5 列）— Day 2–8 接成 Lukla→EBC 上山走廊，10 个在这条走廊上的村庄各自吸附到轨迹后的累计里程、轨迹实测海拔、文献海拔、吸附偏差。Pheriche 只在 Day 9–10 下撤时经过，不在这条上山走廊上，退出这张表，它的里程与海拔在 `day-track-stats.csv` 的 Day 9/10 行里。
-- **`quote-comparison.csv`**（人工整理，11 行数据，7 列）— 代理报价与自组成本的逐项比对。`block` 列把行分成 `items`（他的套餐内容逐项）与 `totals`（口径合计）。`ours_pp_usd` 列是每人单值，取自 `cost-breakdown.csv`，取值规则写在 `basis` 列。改了 `cost-breakdown.csv` 之后同步复核这张表。
+- **`quote-comparison.csv`**（人工整理，13 行数据，7 列）— 代理报价与自组成本的逐项比对。`block` 列把行分成 `items`（他的套餐内容逐项，9 行）与 `totals`（口径合计，4 行）。`ours_pp_usd` 列是每人单值，取自 `cost-breakdown.csv`，取值规则写在 `basis` 列。自组成本分两档：向导背夫在 Lukla 会合时不承担他们的进山机票，从加德满都同机进山时要付，`totals` 块最后一行是这笔加购。改了 `cost-breakdown.csv` 之后同步复核这张表。
 
 关系链：`scripts/gap_legs.py`（OSM+SRTM30m 补测 4 段）连同 `assets/ebc-loop.kml`（KMZ 大环线）与 `assets/Everest_Base_Camp.gpx`（标准直上直下线）一起喂给 `scripts/day_tracks.py`，装配出 `day-tracks.json` 与 `day-track-stats.csv`；`day-tracks.json` 再喂给 `scripts/make_profile.py`（11 张剖面小图 + 全程剖面图 + `route-track-stats.csv`）与 `scripts/make_map.py`（徒步详图）；`day-track-stats.csv` 与 `itinerary.csv` 按 `day` 对齐拼成 Section 5 的合并表；`cost-breakdown.csv`（明细与合计）→ 供 `quote-comparison.csv` 的 `ours_pp_usd` 取单值。
 
@@ -72,4 +72,4 @@
 
 **待议事项一：是否请向导。** 法规上 Khumbu 地区允许不请（两个独立来源确认，其中一个更新于 2026-01-08）；报告按「请 1 名」计入费用，理由是 World Nomads 承保到 6,000m 的前提是随行有合格向导、旺季逐站订房需要人打电话、高反恶化时需要人协调直升机救援与保险对接。出发前一个月再核实一次豁免政策。这个决定同时决定保险选型。
 
-**待议事项二：是否走 Majestic Trails 套餐。** 本行程与他的日程结构一致（9.25 加都休整、只在 Dingboche 安排一个适应日），报告结论是价格可接受（跟团区间最低端），但要等他按 6 人档重报 USD 1,015/人，并书面确认 9.26 进山航班的起降机场（加都直飞还是绕道 Ramechhap，参见 sources/17 的不确定性）与三件其它书面确认（详见 ext-quote 一节）再定。这个决定与待议事项一联动：走套餐则向导背夫由他配。
+**待议事项二：是否走 Majestic Trails 套餐。** 本行程与他的日程结构一致（9.25 加都休整、只在 Dingboche 安排一个适应日），报告结论是价格可接受（落在跟团公开区间 USD 1,400–2,500 的低端）。他贵多少取决于向导背夫在哪里会合：约在 Lukla 会合时他高出每人约 USD 519，从加德满都同机进山、机票由我们付时只高出约 USD 240；不加购全包餐、只比基础套餐时，加都同机口径下他反而便宜。要等他按 6 人档重报 USD 1,015/人，并完成五件书面确认（9.26 进山航班的起降机场，参见 sources/17 的不确定性；全包餐构成；On request 各项价格；10.6 返程衔接；向导背夫的进山机票由谁承担）再定。这个决定与待议事项一联动：走套餐则向导背夫由他配。

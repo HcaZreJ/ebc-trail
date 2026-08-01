@@ -68,14 +68,14 @@ scripts/
   build_report.py          薄入口，调 reportgen.assemble.build()
   reportgen/
     assemble.py                include 解析与展开 · 闸门 · token 替换 · 写产物
-    config.py                  ROOT 与各目录路径 · RATE 6.8 · PAX 6
+    config.py                  ROOT 与各目录路径 · NPR_PER_USD 129.2 · PAX 6
     csvio.py                   read_csv · blocks · esc · signed
     tables.py                  table 渲染器
-    money.py                   amt · y（美元转人民币）· diff
+    money.py                   amt · usd · npr · diff
     imgio.py                   img_uri，figures.py 与 route.py 共用
     figures.py                 三张图的 base64 data URI token
-    costs.py                   费用明细表 · 参考项表 · 三个合计数字 token
-    quotes.py                  报价评估两张表与七个内联数字 token
+    costs.py                   费用明细表 · 参考项表 · 合计数字 token
+    quotes.py                  报价评估两张表与内联数字 token
     route.py                   一张合并的 12 天行程表 token
     packing.py                 装备全量表 token
     sources.py                 出处层 sources 全文与「被引用于」回链 token

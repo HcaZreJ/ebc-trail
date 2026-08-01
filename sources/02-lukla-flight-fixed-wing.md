@@ -20,9 +20,9 @@
   - https://kathmandutoluklaflight.com/
   - https://pridenepaltravel.com/kathmandu-to-lukla-flight-price-2026/
 - 要点：
-  - 外国人票价：Ramechhap(Manthali) → Lukla 单程 ¥1,190–1,292；加德满都 → Lukla（仅淡季有）单程 ¥1,462–1,632。
-  - 加德满都 → Ramechhap 拼车地面交通约 ¥204。
-  - 旺季走 Ramechhap 的单程综合成本约 ¥1,394–1,496/人，往返约 ¥3,482/人（含地面交通）。
+  - 外国人票价：Ramechhap(Manthali) → Lukla 单程 USD 175–190；加德满都 → Lukla（仅淡季有）单程 USD 215–240。
+  - 加德满都 → Ramechhap 拼车地面交通约 USD 30。
+  - 旺季走 Ramechhap 的单程综合成本约 USD 205–220/人（票价 175–190 加地面交通 30），往返约 USD 410–440/人（含地面交通）。
 
 ## 对本行程的影响
 9.25–10.6 正好落在秋季旺季窗口，固定翼**大概率全部从 Ramechhap 起飞**（按 CAAN 惯例，2026 秋季具体起始日期需在出发前 1–2 个月同航司/代理确认）。9.25 上午 11 点落地加德满都后当天赶固定翼不可行（航班只在上午飞、且要先坐 4–5 小时车）。返程 10.6 上午 Lukla → Manthali + 4–5 小时车程，傍晚可回到加德满都。
