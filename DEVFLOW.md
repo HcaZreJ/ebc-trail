@@ -43,9 +43,13 @@
 4. 改了 `scripts/route_points.py` 之后按依赖顺序重跑 `day_tracks.py` → `make_profile.py` 与 `make_map.py` → `build_report.py`。
 5. 新增的事实在 `sources/` 有对应文件，详解正文括注并链接了 `（sources/NN）`。
 
+## 发布到 GitHub Pages
+
+`.github/workflows/deploy-pages.yml` 在 push 到 `main` 且改动落在 `data/`、`sources/`、`report/`、`scripts/`、`assets/` 任一目录时自动触发（也可以在 Actions 页面手动 `workflow_dispatch`）：用 `uv run --with markdown scripts/build_report.py` 重新构建报告，把 `report/EBC-report.html` 复制成 `index.html` 上传成 Pages artifact 并部署，线上地址固定为 `https://hcazrej.github.io/ebc-trail/`。构建产物自包含（图片 base64 内嵌），部署这一步不需要额外静态资源。
+
 ## 构建产物不进版本库
 
-`report/EBC-report.html` 在 `.gitignore` 里。每个 worktree 自己跑一次构建拿到本地副本，因此并发的多个 worktree 改不同章节时它不产生 merge conflict。要分享报告时先构建，再把 `report/EBC-report.html` 这个文件直接发出去（自包含，图片 base64 内嵌，浏览器打开即可读，`Cmd+P` 打印成 PDF）。`__pycache__/` 与 `*.pyc` 同样在 `.gitignore` 里。
+`report/EBC-report.html` 在 `.gitignore` 里。每个 worktree 自己跑一次构建拿到本地副本，因此并发的多个 worktree 改不同章节时它不产生 merge conflict。日常分享给同行者直接发 `https://hcazrej.github.io/ebc-trail/` 这个链接；需要离线阅读或打印 PDF 时，本地构建后把 `report/EBC-report.html` 这个文件直接发出去（自包含，图片 base64 内嵌，浏览器打开即可读，`Cmd+P` 打印成 PDF）。`__pycache__/` 与 `*.pyc` 同样在 `.gitignore` 里。
 
 `assets/*.png`、`assets/.tile-cache/`、`data/day-tracks.json`、`data/gap-legs.json`、`data/day-track-stats.csv`、`data/route-track-stats.csv` 保持 tracked：它们是脚本产物，但同时也是报告构建（以及彼此之间）的输入，`gap-legs.json` 与瓦片缓存的重新生成还需要网络。
 
