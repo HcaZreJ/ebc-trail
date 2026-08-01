@@ -24,7 +24,7 @@ def day_thumbnail(day, pts, x_max, y_range):
     ys = [p[2] for p in pts]
     color = hex_color(day)
 
-    fig, ax = plt.subplots(figsize=(2.6, 0.95), dpi=200)
+    fig, ax = plt.subplots(figsize=(5.2, 1.9), dpi=200)
     ax.fill_between(xs, ys, y_range[0], color=color, alpha=0.28, linewidth=0)
     ax.plot(xs, ys, color=color, linewidth=1.6)
     ax.set_xlim(0, x_max)
