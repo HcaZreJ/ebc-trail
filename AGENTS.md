@@ -32,7 +32,7 @@
 | 加一张 CSV 驱动的表 | 新建 `data/<名>.csv` + `scripts/reportgen/<领域>.py` 的 `tokens()` + 引用它的详解块（配方见 PATTERNS.md） | `build_report.py` |
 | 加一个 token | `scripts/reportgen/<领域>.py` 的 `tokens()` 返回值加一个键，并在某个 section 里写 `{{该键}}`（供需必须同时改，闸门双向校验） | `build_report.py` |
 | 改样式 | `report/styles/` 下对应那一个：`base.css` 版式与字号、`tables.css` 表格、`components.css` 警示块与图片与代码与链接与回链、`appendix.css` 出处层、`print.css` 打印 | `build_report.py` |
-| 改地图配色 | `scripts/day_colors.py` 顶部的按天色板 `DAY_COLORS` 与可走线路的 `OPTION_GRAY`，海拔剖面图与地形图共用；只调单张图改 `scripts/make_map.py` 的 per-figure 参数 | `make_map.py` 再 `build_report.py` |
+| 改地图配色 | `scripts/day_colors.py` 顶部的按天色板 `DAY_COLORS` 与可走线路的 `OPTION_LINE`，海拔剖面图与地形图共用；只调单张图改 `scripts/make_map.py` 的 per-figure 参数 | `make_map.py` 再 `build_report.py` |
 | 改海拔剖面 | `scripts/make_profile.py`：全程图在 `full_profile()`；表格内嵌的逐日小图在 `scripts/profile_thumbs.py` 的 `day_thumbnail()` | `make_profile.py` 再 `build_report.py` |
 | 换轨迹来源 | `assets/ebc-loop.kml`（KMZ 大环线）或 `assets/Everest_Base_Camp.gpx`，按 DEVFLOW.md 的换轨迹来源流程逐步走 | 见 DEVFLOW.md |
 | 改村庄坐标或文献海拔 | `scripts/route_points.py`（`day_tracks.py`、`make_profile.py`、`make_map.py` 共用） | `day_tracks.py` → `make_profile.py` + `make_map.py` 再 `build_report.py` |
