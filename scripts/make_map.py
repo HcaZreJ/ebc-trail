@@ -13,7 +13,7 @@ from pathlib import Path
 
 from PIL import ImageDraw, ImageFont
 
-from day_colors import ASCENT_DAYS, ACCLIMATIZE_DAYS, DESCENT_DAYS, DAY_COLORS, OPTION_GRAY
+from day_colors import ASCENT_DAYS, ACCLIMATIZE_DAYS, DESCENT_DAYS, DAY_COLORS, OPTION_LINE
 from kmz_loop import load_lines
 from route_points import (TREK_VILLAGES, KALA_PATTHAR, ACCLIMATIZE_POINTS, LOOP_LANDMARKS,
                            KATHMANDU_TIA, RAMECHHAP_AIRPORT)
@@ -25,7 +25,7 @@ DAY_TRACKS = ROOT / "data" / "day-tracks.json"
 TRAIL = (196, 30, 30)     # 全局图：EBC 徒步轨迹 + Namche marker
 HELI = (216, 27, 96)      # 直升机航段 + 进出山交通节点
 FIXED = (74, 58, 167)     # 固定翼航段 + Kala Patthar 支线标记
-GRAY = (90, 90, 86)
+GRAY = (66, 66, 62)
 INK = (31, 31, 30)
 WHITE = (255, 255, 255)
 
@@ -64,15 +64,15 @@ def make_trek_map():
     img = mute(img, 0.45, 0.30)
     draw = ImageDraw.Draw(img)
 
-    f_small = ImageFont.truetype(FONT_LATIN, 18)
-    f_badge = ImageFont.truetype(FONT_LATIN, 15)
-    f_cjk = ImageFont.truetype(FONT_CJK, 19)
-    f_legend = ImageFont.truetype(FONT_CJK, 21)
+    f_small = ImageFont.truetype(FONT_LATIN, 24)
+    f_badge = ImageFont.truetype(FONT_LATIN, 19)
+    f_cjk = ImageFont.truetype(FONT_CJK, 24)
+    f_legend = ImageFont.truetype(FONT_CJK, 24)
 
     for line in load_lines():                                    # 层1：可走的线路
         pts = [to_px(lon, lat) for lon, lat, _ in line]
         if len(pts) >= 2:
-            draw_path(draw, pts, OPTION_GRAY, 7, casing=False)
+            draw_path(draw, pts, OPTION_LINE, 7, casing=False)
 
     tracks = load_tracks()
     for day in range(1, 12):                                      # 层2：计划路线
@@ -89,7 +89,7 @@ def make_trek_map():
     for day in range(1, 12):                                      # 层3：Day N 徽标
         pts_px = [to_px(lon, lat) for lon, lat, _ in tracks[day]]
         bx, by = offset_polyline(pts_px, BADGE_DX.get(day, 22))[len(pts_px) // 2]
-        marker(draw, (bx, by), DAY_COLORS[day], r=16)
+        marker(draw, (bx, by), DAY_COLORS[day], r=21)
         draw.text((bx, by), f"D{day}", font=f_badge, anchor="mm", fill=WHITE)
 
     for name, lat, lon, ele in ACCLIMATIZE_POINTS:                # 层3：海拔适应点
@@ -124,7 +124,7 @@ def make_trek_map():
 
 def _legend_trek(draw, font):
     lx, ly = 26, 26
-    rows = [(OPTION_GRAY, None, "大环线可走线路（KMZ 实测，全程 183.6 km）"),
+    rows = [(OPTION_LINE, None, "大环线可走线路（KMZ 实测，全程 183.6 km）"),
             (None, ASCENT_DAYS, "上山日 Day 1–8"),
             (None, ACCLIMATIZE_DAYS, "海拔适应日 Day 3 / Day 6"),
             (None, DESCENT_DAYS, "下撤日 Day 9–11"),
