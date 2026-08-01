@@ -60,8 +60,8 @@ assets/
 
 report/
   shell.html               骨架 + include 装载清单（装载顺序的唯一事实源）
-  styles/                  base · tables · components · appendix · print 五个 CSS
-  sections/                14 个章节文件
+  styles/                  base · tables · components · appendix（出处层） · print 五个 CSS
+  sections/                章节文件（速览 faq · 详解 ext-* · 出处 sources 等，清单见 PROJECT.md）
   EBC-report.html          构建产物，自包含单文件，不进版本库
 
 scripts/
@@ -77,7 +77,8 @@ scripts/
     costs.py                   费用明细表 · 参考项表 · 三个合计数字 token
     quotes.py                  报价评估两张表与七个内联数字 token
     route.py                   一张合并的 12 天行程表 token
-    appendix.py                附录 A 六张全量表与附录 B sources 全文 token
+    packing.py                 装备全量表 token
+    sources.py                 出处层 sources 全文与「被引用于」回链 token
   geo.py                    轨迹几何共用工具：haversine · 重采样 · 平滑 · 滞回爬升/下降 · 最近点 · 切片
   kmz_loop.py               解析 assets/ebc-loop.kml：20 条导航线 + 命名标注点
   osm_graph.py              从 Overpass way 元素建无向图 · Dijkstra 最短路 · 最近节点
@@ -89,7 +90,6 @@ scripts/
   profile_thumbs.py         表格内嵌用的逐日剖面小图
   route_points.py           全线关键点位坐标与文献海拔，day_tracks/make_profile/make_map 共用
   make_profile.py           读 day-tracks.json → 剖面图 + route-track-stats.csv
-  make_map.py               抓瓦片 → 两张路线地图
 
 tests/
   test_assemble.py         assemble.py 的契约测试，28 个用例
