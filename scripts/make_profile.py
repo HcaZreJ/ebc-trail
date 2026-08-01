@@ -1,9 +1,9 @@
 """读 data/day-tracks.json，渲染剖面图并重算 data/route-track-stats.csv。
 
 产物：
-- assets/day-profile-01.png .. day-profile-11.png  表格内嵌用的逐日小图
-- assets/elevation-profile.png                      11 天首尾相接的全程剖面
-- data/route-track-stats.csv                        Day 1→Day 8（Lukla→EBC 上山
+- assets/day-profile-02.png .. day-profile-11.png  表格内嵌用的逐日小图
+- assets/elevation-profile.png                      10 天首尾相接的全程剖面
+- data/route-track-stats.csv                        Day 2→Day 8（Lukla→EBC 上山
   全程）逐村吸附的累计里程、轨迹实测海拔、文献海拔、吸附偏差
 
 不重新解析 KML/GPX：装配的事实源是 scripts/day_tracks.py 的产物 day-tracks.json。
@@ -38,8 +38,8 @@ plt.rcParams["axes.unicode_minus"] = False
 
 
 def full_profile(day_tracks):
-    """11 天首尾相接画成一条连续曲线，每天一个颜色，交界处画竖线并标 Day N；
-    村庄、Kala Patthar、两个海拔适应点标文献海拔；适应日往返段就地凸起。
+    """10 天首尾相接画成一条连续曲线，每天一个颜色，交界处画竖线并标 Day N；
+    村庄、Kala Patthar、海拔适应点标文献海拔；适应日往返段就地凸起。
     """
     days = sorted(day_tracks)
     offsets, curves = {}, {}
@@ -75,7 +75,7 @@ def full_profile(day_tracks):
         ax.text(x0 + total_km * 0.002, y_top, f"Day {day}", fontsize=8,
                  color=hex_color(day), rotation=90, va="top", ha="left")
 
-    landmarks = list(TREK_VILLAGES) + [ACCLIMATIZE_POINTS[0], ACCLIMATIZE_POINTS[1], KALA_PATTHAR]
+    landmarks = list(TREK_VILLAGES) + [ACCLIMATIZE_POINTS[0], KALA_PATTHAR]
     placed = sorted(
         (nearest_global(lat, lon) + (name, lit_ele) for name, lat, lon, lit_ele in landmarks),
         key=lambda t: t[0],
@@ -89,9 +89,9 @@ def full_profile(day_tracks):
         ax.annotate(f"{name}\n{lit_ele}m", (x, ele), textcoords="offset points",
                      xytext=(0, dy), ha="center", va=va, fontsize=7.5, color="#1f1f1e")
 
-    ax.set_xlabel("累计里程（km，11 天首尾相接）", fontsize=11, color="#1f1f1e")
+    ax.set_xlabel("累计里程（km，10 天首尾相接）", fontsize=11, color="#1f1f1e")
     ax.set_ylabel("海拔（m）", fontsize=11, color="#1f1f1e")
-    ax.set_title("EBC 徒步海拔剖面（Day 1–11，按天分色，往返段就地凸起）",
+    ax.set_title("EBC 徒步海拔剖面（Day 2–11，按天分色，往返段就地凸起）",
                  fontsize=13, color="#1f1f1e", pad=14)
     ax.grid(axis="y", color="#e4e3db", linewidth=0.8)
     ax.set_axisbelow(True)
@@ -118,9 +118,9 @@ OFF_ASCENT_VILLAGES = {"Pheriche"}
 
 
 def _write_route_track_stats(day_tracks):
-    """Day 1→Day 8 接成 Lukla→EBC 上山全程，上山走廊上的村庄各自吸附到这条轨迹上。"""
+    """Day 2→Day 8 接成 Lukla→EBC 上山全程，上山走廊上的村庄各自吸附到这条轨迹上。"""
     full = []
-    for day in range(1, 9):
+    for day in range(2, 9):
         full.extend(day_tracks[day])
     cum = geo.cum_km(full)
 
@@ -147,7 +147,7 @@ def main():
     x_max = math.ceil(max(geo.cum_km(pts)[-1] for pts in day_tracks.values()))
     for day in sorted(day_tracks):
         day_thumbnail(day, day_tracks[day], x_max, Y_RANGE)
-    print(f"wrote 11 day-profile thumbnails (x_max={x_max} km, y_range={Y_RANGE})")
+    print(f"wrote {len(day_tracks)} day-profile thumbnails (x_max={x_max} km, y_range={Y_RANGE})")
 
     full_profile(day_tracks)
     _write_route_track_stats(day_tracks)

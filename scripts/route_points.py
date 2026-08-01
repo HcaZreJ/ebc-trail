@@ -28,9 +28,9 @@ KALA_PATTHAR = ("Kala Patthar", 27.9958, 86.8284, 5545)
 KATHMANDU_TIA = ("Kathmandu (TIA)", 27.6978, 85.3592, 1338)
 RAMECHHAP_AIRPORT = ("Manthali/Ramechhap", 27.3939, 86.0614, 474)
 
-# 两个海拔适应点，供地图标注（sources/15）：往返支线的目标点坐标 + 文献常用海拔
+# 海拔适应点，供地图标注（sources/15）：往返支线的目标点坐标 + 文献常用海拔。
+# 只在 Dingboche 安排一个适应日（见 sources/16、17）。
 ACCLIMATIZE_POINTS = [
-    ("Hotel Everest View", 27.8167, 86.7235, 3880),
     ("Nangkartshang",     27.9055, 86.8355, 5080),
 ]
 

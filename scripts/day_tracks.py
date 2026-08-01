@@ -1,6 +1,7 @@
-"""把 KMZ 导航线、GPX 轨迹与补测段装配成 11 天徒步的逐日轨迹，算里程与爬升/下降。
+"""把 KMZ 导航线、GPX 轨迹与补测段装配成 10 天徒步的逐日轨迹，算里程与爬升/下降。
 
-Day 12 是转场日（Lukla → 加德满都），没有徒步轨迹，不进产物。
+Day 1（加德满都，不进山）与 Day 12（转场日 Lukla → 加德满都）没有徒步轨迹，不进产物。
+只在 Dingboche 安排一个适应日（见 sources/16、17）。
 
 产物：
 - data/day-tracks.json    {"1": [[lon, lat, ele], ...], ...}  给剖面图与地图用
@@ -38,9 +39,8 @@ HYSTERESIS_M = 8.0
 # 每天的数据来源，与 assemble() 的拼接表一一对应。点序列本身推不出来源，
 # stats() 从这里查表填进 day-track-stats.csv 的 source 列。
 DAY_SOURCES = {
-    1: "KMZ 实测",
     2: "KMZ 实测",
-    3: "OSM+SRTM30m",
+    3: "KMZ 实测",
     4: "KMZ 实测",
     5: "KMZ 实测",
     6: "OSM+SRTM30m",
@@ -78,15 +78,15 @@ def load_gap_legs(path=GAP_LEGS):
 
 
 def assemble(lines, gpx, legs):
-    """按下表拼出 {1..11: [(lon, lat, ele)]}，每天都 resample + smooth 过。
+    """按下表拼出 {2..11: [(lon, lat, ele)]}，每天都 resample + smooth 过。
 
     lines 是 kmz_loop.load_lines() 的 20 条线（下标从 0 起），gpx 是 load_gpx() 的点序列，
     legs 是 load_gap_legs() 的补测段。切片一律走 geo.slice_between，端点坐标取
-    route_points 里的村庄坐标。
+    route_points 里的村庄坐标。Day 1（加都）与 Day 12（转场）没有轨迹，不在这张表里；
+    行程只在 Dingboche 安排适应日，不装配 Namche 往返段。
 
-    D1  Lukla→Phakding             lines[5]
-    D2  Phakding→Namche            lines[6]
-    D3  Namche 往返海拔适应点        legs["namche-everest-view"]
+    D2  Lukla→Phakding             lines[5]
+    D3  Phakding→Namche            lines[6]
     D4  Namche→Tengboche           lines[7] 切 Namche→Tengboche
     D5  Tengboche→Dingboche        lines[7] 切 Tengboche→Pangboche + lines[8] 切 Pangboche→Dingboche
     D6  Dingboche 往返海拔适应点     legs["dingboche-nangkartshang"]
@@ -112,9 +112,8 @@ def assemble(lines, gpx, legs):
         return result
 
     raw = {
-        1: list(lines[5]),
-        2: list(lines[6]),
-        3: list(legs["namche-everest-view"]),
+        2: list(lines[5]),
+        3: list(lines[6]),
         4: cut(lines[7], "Namche", "Tengboche"),
         5: join(cut(lines[7], "Tengboche", "Pangboche"), cut(lines[8], "Pangboche", "Dingboche")),
         6: list(legs["dingboche-nangkartshang"]),

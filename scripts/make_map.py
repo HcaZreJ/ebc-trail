@@ -34,10 +34,10 @@ FONT_CJK = "/System/Library/Fonts/Hiragino Sans GB.ttc"
 
 # 上山日与下撤日走同一走廊：线本身平移 ±8px（线宽 9 + 白 casing 13，
 # 中心相距 16px 时两条彩色线之间留出空隙，casing 不啃掉相邻线的颜色），
-# Day N 徽标再多推开一点。适应日（3/6）是侧向支线，线不平移，徽标仍推开
+# Day N 徽标再多推开一点。适应日（6）是侧向支线，线不平移，徽标仍推开
 # 避免压住支线。
 LINE_DX = {**{d: 8 for d in ASCENT_DAYS}, **{d: -8 for d in DESCENT_DAYS}}
-BADGE_DX = {**{d: 30 for d in ASCENT_DAYS}, **{d: -30 for d in DESCENT_DAYS}, 3: 45, 6: 55}
+BADGE_DX = {**{d: 30 for d in ASCENT_DAYS}, **{d: -30 for d in DESCENT_DAYS}, 6: 55}
 
 # 手工排布：村庄密集处（Namche/Pheriche/Dingboche/Gorak Shep/EBC/Lobuche/Tengboche/Pangboche 一带），
 # 避开同一走廊上 Day N 徽标默认落点的一侧
@@ -47,11 +47,9 @@ VILLAGE_LABEL = {
     "EBC": ("lm", 16, 10), "Lobuche": ("rm", -16, -14),
     "Tengboche": ("rm", -16, 0), "Pangboche": ("rm", -16, 0),
 }
-ACCLI_DAY = {"Hotel Everest View": 3, "Nangkartshang": 6}
-# (anchor, dx, 第一行 dy, 第二行 dy)。Everest View 东侧被 Day 4/10 走廊与
-# Tengboche 标签占满，标签放到方块西侧空地，由引线接回方块。
-ACCLI_LABEL = {"Hotel Everest View": ("rm", -26, -14, 14),
-               "Nangkartshang": ("lm", 16, -34, -12)}
+ACCLI_DAY = {"Nangkartshang": 6}
+# (anchor, dx, 第一行 dy, 第二行 dy)。
+ACCLI_LABEL = {"Nangkartshang": ("lm", 16, -34, -12)}
 
 
 def load_tracks():
@@ -75,7 +73,7 @@ def make_trek_map():
             draw_path(draw, pts, OPTION_LINE, 7, casing=False)
 
     tracks = load_tracks()
-    for day in range(1, 12):                                      # 层2：计划路线
+    for day in range(2, 12):                                      # 层2：计划路线
         pts = [to_px(lon, lat) for lon, lat, _ in tracks[day]]
         dx = LINE_DX.get(day, 0)
         draw_path(draw, offset_polyline(pts, dx) if dx else pts, DAY_COLORS[day], 9)
@@ -86,7 +84,7 @@ def make_trek_map():
         anchor, dx, dy = VILLAGE_LABEL.get(name, ("lm", 16, 0))
         label(draw, (xy[0] + dx, xy[1] + dy), f"{name} {ele:,}m", f_small, anchor=anchor)
 
-    for day in range(1, 12):                                      # 层3：Day N 徽标
+    for day in range(2, 12):                                      # 层3：Day N 徽标
         pts_px = [to_px(lon, lat) for lon, lat, _ in tracks[day]]
         bx, by = offset_polyline(pts_px, BADGE_DX.get(day, 22))[len(pts_px) // 2]
         marker(draw, (bx, by), DAY_COLORS[day], r=21)
@@ -125,8 +123,8 @@ def make_trek_map():
 def _legend_trek(draw, font):
     lx, ly = 26, 26
     rows = [(OPTION_LINE, None, "大环线可走线路（KMZ 实测，全程 183.6 km）"),
-            (None, ASCENT_DAYS, "上山日 Day 1–8"),
-            (None, ACCLIMATIZE_DAYS, "海拔适应日 Day 3 / Day 6"),
+            (None, ASCENT_DAYS, "上山日 Day 2–8"),
+            (None, ACCLIMATIZE_DAYS, "海拔适应日 Day 6"),
             (None, DESCENT_DAYS, "下撤日 Day 9–11"),
             ("square", None, "海拔适应点")]
     box_w = 60 + max(draw.textlength(t, font=font) for *_, t in rows)
@@ -151,7 +149,7 @@ def make_overview_map():
     draw = ImageDraw.Draw(img)
 
     tracks = load_tracks()
-    track = [(lon, lat) for day in range(1, 12) for lon, lat, _ in tracks[day]]
+    track = [(lon, lat) for day in range(2, 12) for lon, lat, _ in tracks[day]]
 
     ktm, rhp = KATHMANDU_TIA, RAMECHHAP_AIRPORT
     lukla, ebc = TREK_VILLAGES[0], TREK_VILLAGES[-1]
@@ -178,7 +176,7 @@ def make_overview_map():
 
     fc = ImageFont.truetype(FONT_CJK, 22)
     lx, ly = 24, 24
-    rows = [(HELI, "9.25 直升机包机 KTM→Lukla（示意）"),
+    rows = [(HELI, "9.26 进山 KTM→Lukla（交通方式待定，示意）"),
             (FIXED, "10.6 固定翼 Lukla→Manthali（示意）"),
             (ROAD, "10.6 公路拼车 Manthali→KTM（示意）"),
             (TRAIL, "EBC 徒步轨迹（KMZ 实测）")]

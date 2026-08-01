@@ -97,12 +97,12 @@ def test_daytracks_trek_villages_literature_elevation_unchanged():
     assert elevations["Namche"] == 3440
 
 
-def test_daytracks_acclimatize_points_two_entries_with_expected_elevations():
-    """ACCLIMATIZE_POINTS 含两个海拔适应点：Everest View 观景台 3880m、Nangkartshang 5080m。"""
+def test_daytracks_acclimatize_points_one_entry_with_expected_elevation():
+    """ACCLIMATIZE_POINTS 只含一个海拔适应点：Nangkartshang 5080m（行程只在 Dingboche 安排适应日）。"""
     points = route_points.ACCLIMATIZE_POINTS
-    assert len(points) == 2
+    assert len(points) == 1
     elevations = {p[-1] for p in points}
-    assert elevations == {3880, 5080}
+    assert elevations == {5080}
 
 
 def test_daytracks_loop_landmarks_eight_named_points_with_expected_elevations():
@@ -409,11 +409,11 @@ def _build_fake_inputs():
     return lines, gpx, legs, components
 
 
-def test_daytracks_assemble_returns_days_1_to_11_only():
-    """assemble() 的 key 恰好是 1..11；Day 12（转场日）不进字典。"""
+def test_daytracks_assemble_returns_days_2_to_11_only():
+    """assemble() 的 key 恰好是 2..11；Day 1（加都）与 Day 12（转场日）不进字典。"""
     lines, gpx, legs, _ = _build_fake_inputs()
     tracks = day_tracks.assemble(lines, gpx, legs)
-    assert set(tracks.keys()) == set(range(1, 12))
+    assert set(tracks.keys()) == set(range(2, 12))
 
 
 def test_daytracks_assemble_points_nonempty_and_are_three_tuples():
@@ -442,14 +442,14 @@ def test_daytracks_assemble_multi_segment_days_exceed_each_component(day):
 
 def test_daytracks_assemble_real_kml_gpx_distances_and_elevations():
     """用真实 KML 导航线（kmz_loop.load_lines）与真实 GPX（day_tracks.load_gpx）
-    装配，D1/D2/D11 的里程与 D7 的起终点海拔落在合理容差内。
+    装配，D2/D3/D11 的里程与 D7 的起终点海拔落在合理容差内。
 
-    D1 (Lukla→Phakding, K5 整条) 对应 sources/15 的 L5 = 8.3 km。
-    D2 (Phakding→Namche, K6 整条) 对应 L6 = 11.9 km。
+    D2 (Lukla→Phakding, K5 整条) 对应 sources/15 的 L5 = 8.3 km。
+    D3 (Phakding→Namche, K6 整条) 对应 L6 = 11.9 km。
     D11 (Namche→Lukla, K18 切片) 是 L18(25.5km) 的子段，落在 18-20 km。
     D7 (Dingboche→Lobuche, GPX 切片) 起点海拔约 4300m、终点约 4930m。
     legs 用构造的假段（真实 data/gap-legs.json 尚不存在），
-    D3/D6/D9/D10 不在本用例的断言范围内。
+    D6/D9/D10 不在本用例的断言范围内。
     """
     lines = kmz_loop.load_lines()
     gpx = day_tracks.load_gpx()
@@ -457,8 +457,8 @@ def test_daytracks_assemble_real_kml_gpx_distances_and_elevations():
     tracks = day_tracks.assemble(lines, gpx, legs)
     rows = {r["day"]: r for r in day_tracks.stats(tracks)}
 
-    assert rows[1]["distance_km"] == pytest.approx(8.3, rel=0.15)
-    assert rows[2]["distance_km"] == pytest.approx(11.9, rel=0.15)
+    assert rows[2]["distance_km"] == pytest.approx(8.3, rel=0.15)
+    assert rows[3]["distance_km"] == pytest.approx(11.9, rel=0.15)
 
     d11 = rows[11]["distance_km"]
     assert 18 * 0.85 <= d11 <= 20 * 1.15
