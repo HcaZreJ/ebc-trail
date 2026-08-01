@@ -6,10 +6,10 @@
 
 | 文档 | 内容 |
 |---|---|
-| [PROJECT.md](PROJECT.md) | 报告目的与行程硬约束 · 三层结构与各章节讲什么、事实源 · 六张 CSV 的职责与相互关系 · 当前状态与待议事项 |
+| [PROJECT.md](PROJECT.md) | 报告目的与行程硬约束 · 三层结构与各章节讲什么、事实源 · data 目录八个文件的职责与相互关系 · 当前状态与待议事项 |
 | [PATTERNS.md](PATTERNS.md) | include 指令契约 · token provider 契约 · 三层锚点契约 · 构建期闸门 · 新增一个问题/一个 token/一张 CSV 表的配方 · 文件粒度上限 · 数据引用规则 |
-| [TECHSTACK.md](TECHSTACK.md) | Python 与 uv 用法 · 三个依赖各自服务哪个脚本 · 目录结构 · OpenTopoMap 瓦片与 GPX 数据来源 |
-| [DEVFLOW.md](DEVFLOW.md) | 构建与图件重生成命令 · 测试 · 换 GPX 的完整流程 · 交付前检查 · 并发 worktree 约定 |
+| [TECHSTACK.md](TECHSTACK.md) | Python 与 uv 用法 · 三个依赖各自服务哪个脚本 · 目录结构 · OpenTopoMap 瓦片、Overpass、OpenTopoData 等外部服务 · GPX/KMZ 数据来源 |
+| [DEVFLOW.md](DEVFLOW.md) | 构建与图件重生成命令 · 测试 · 换轨迹来源的完整流程 · 交付前检查 · 并发 worktree 约定 |
 
 ## 本仓库铁律
 
@@ -32,10 +32,10 @@
 | 加一张 CSV 驱动的表 | 新建 `data/<名>.csv` + `scripts/reportgen/<领域>.py` 的 `tokens()` + 引用它的详解块（配方见 PATTERNS.md） | `build_report.py` |
 | 加一个 token | `scripts/reportgen/<领域>.py` 的 `tokens()` 返回值加一个键，并在某个 section 里写 `{{该键}}`（供需必须同时改，闸门双向校验） | `build_report.py` |
 | 改样式 | `report/styles/` 下对应那一个：`base.css` 版式与字号、`tables.css` 表格、`components.css` 警示块与图片与代码与链接与回链、`appendix.css` 出处层、`print.css` 打印 | `build_report.py` |
-| 改地图配色 | `scripts/make_map.py` 顶部的语义色板 `TRAIL` / `HELI` / `FIXED`，两张图共用；只调单张图改 per-figure 的 `TREK_*` 与 `OVERVIEW_*` | `make_map.py` 再 `build_report.py` |
-| 改海拔剖面 | `scripts/make_profile.py`：全程图在 `main()`，逐段小图在 `make_daily_profiles()` 的 `PIECES_BY_ORDER` 与 `SHORT_TITLES` | `make_profile.py` 再 `build_report.py` |
-| 换 GPX 轨迹 | `assets/Everest_Base_Camp.gpx`，按 DEVFLOW.md 的换 GPX 流程逐步走 | 见 DEVFLOW.md |
-| 改村庄坐标或文献海拔 | `scripts/route_points.py`（两个图件脚本共用） | `make_profile.py` + `make_map.py` 再 `build_report.py` |
+| 改地图配色 | `scripts/day_colors.py` 顶部的按天色板 `DAY_COLORS` 与可走线路的 `OPTION_GRAY`，海拔剖面图与地形图共用；只调单张图改 `scripts/make_map.py` 的 per-figure 参数 | `make_map.py` 再 `build_report.py` |
+| 改海拔剖面 | `scripts/make_profile.py`：全程图在 `full_profile()`；表格内嵌的逐日小图在 `scripts/profile_thumbs.py` 的 `day_thumbnail()` | `make_profile.py` 再 `build_report.py` |
+| 换轨迹来源 | `assets/ebc-loop.kml`（KMZ 大环线）或 `assets/Everest_Base_Camp.gpx`，按 DEVFLOW.md 的换轨迹来源流程逐步走 | 见 DEVFLOW.md |
+| 改村庄坐标或文献海拔 | `scripts/route_points.py`（`day_tracks.py`、`make_profile.py`、`make_map.py` 共用） | `day_tracks.py` → `make_profile.py` + `make_map.py` 再 `build_report.py` |
 | 加一份出处 | 新建 `sources/NN-<主题>.md`（出处层按文件名排序自动全文收录，回链自动生成），在引用它的详解块里括注 `（sources/NN）` 并链接 `#NN-<主题>` | `build_report.py` |
 | 增删一个 FAQ 问题 | `sections/faq.html` 加/删一行（`tr id="faq-q-<slug>"`）+ 对应 `sections/ext-*.html` 的详解块（`section id="q-<slug>"`，两边锚点成对）；新开文件时同步 `shell.html`（配方见 PATTERNS.md） | `build_report.py` |
 | 增删一个章节 | `report/sections/` 增删文件 + `report/shell.html` 的 include 清单同步（闸门要求两边恰好一一对应） | `build_report.py` |

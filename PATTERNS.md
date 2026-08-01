@@ -25,12 +25,12 @@
 CSV 表格、图片、合计数字通过 `{{TOKEN}}` 占位进入章节，值由 `scripts/reportgen/` 下的 provider 提供。
 
 - **每个 provider 暴露一个 `tokens()`**，返回 `{裸 token 名: 已渲染的 HTML 或字符串}`。键不带花括号，加花括号与合并由 `assemble.collect_tokens()` 负责。
-- **provider 之间零 import 依赖。** 六个 provider `figures.py` / `costs.py` / `quotes.py` / `route.py` / `packing.py` / `sources.py` 各自只从共用基础设施取东西：`config.py`（`ROOT` 与各目录路径、`RATE`、`PAX`）、`csvio.py`（`read_csv` / `blocks` / `esc` / `signed`）、`tables.py`（`table` 渲染器）、`money.py`（`amt` / `y` / `diff`）。新增 provider 沿用这条边界。
-- **`assemble.py` 只认 `tokens()` 这个接口**，在 `collect_tokens()` 里惰性 import 五个 provider，本身只从 `config.py` 取 `REPORT_DIR`，不知道任何领域细节。
+- **provider 之间零 import 依赖。** 六个 provider `figures.py` / `costs.py` / `quotes.py` / `route.py` / `packing.py` / `sources.py` 各自只从共用基础设施取东西：`config.py`（`ROOT` 与各目录路径、`RATE`、`PAX`）、`csvio.py`（`read_csv` / `blocks` / `esc` / `signed`）、`tables.py`（`table` 渲染器）、`money.py`（`amt` / `y` / `diff`）、`imgio.py`（`img_uri`，从 `assets/*.png` 生成 base64 data URI，`figures.py` 与 `route.py` 共用）。新增 provider 沿用这条边界。
+- **`assemble.py` 只认 `tokens()` 这个接口**，在 `collect_tokens()` 里惰性 import 六个 provider，本身只从 `config.py` 取 `REPORT_DIR`，不知道任何领域细节。
 - **token 名全局唯一。** 两个 provider 返回同一个键时构建停下。
 - **token 供需精确匹配。** 每个 provider 产出的 token 在某个 section 里被引用，每个 section 引用的 token 有 provider 提供。加一个 token 就同时改 provider 与引用它的 section。
 - **token 值原样插入，不做二次替换。** 值里出现的 `{{...}}` 字样会被残留检查报出来。
-- 当前 token 分工，共 22 个：`figures.py` 四张图的 base64 data URI（4）；`costs.py` 费用明细表与参考表加合计的人民币与美元两个数字（4）；`quotes.py` 报价评估的两张表加七个内联数字（9）；`route.py` 路段库表与日期安排表（2）；`packing.py` 装备全量表（1）；`sources.py` 出处层全文含回链（1）；`BUILD_DATE` 由 `assemble.py` 自己给（1）。
+- 当前 token 分工，共 20 个：`figures.py` 三张图的 base64 data URI（3）；`costs.py` 费用明细表与参考表加合计的人民币与美元两个数字（4）；`quotes.py` 报价评估的两张表加七个内联数字（9）；`route.py` 一张合并的 12 天行程表（1）；`packing.py` 装备全量表（1）；`sources.py` 出处层全文含回链（1）；`BUILD_DATE` 由 `assemble.py` 自己给（1）。
 
 ## 构建期闸门
 
@@ -45,7 +45,7 @@ CSV 表格、图片、合计数字通过 `{{TOKEN}}` 占位进入章节，值由
 | 章节引用了没有 provider 提供的 token | `装配后仍有未解析的 token：'NEW_UNDEFINED_TOKEN'` |
 | 两个 provider 返回同一个 token 名 | `token 名冲突：TBL_COSTS_MAIN 同时由 reportgen.route 提供` |
 
-构建成功时输出一行 `wrote <路径>  (12.0 MB)`。
+构建成功时输出一行 `wrote <路径>  (12.7 MB)`。
 
 ## 三层锚点契约
 
@@ -81,8 +81,8 @@ CSV 表格、图片、合计数字通过 `{{TOKEN}}` 占位进入章节，值由
 
 ## 文件粒度上限
 
-- **单个 section 文件 ≤ 60 行**（当前最大 `ext-quote.html` 25 行，其次 `ext-route.html` 24 行）。
-- **单个 Python 模块 ≤ 150 行**（当前最大 `assemble.py` 125 行，其次 `quotes.py` 61 行）。
+- **单个 section 文件 ≤ 60 行**（当前最大 `ext-quote.html` 约 30 行，其次 `ext-route.html` 约 28 行）。
+- **单个 Python 模块 ≤ 200 行**（当前最大 `make_map.py` 200 行，其次 `day_tracks.py` 198 行 —— 这 198 行里有一段 22 行的 docstring 写着 11 天的轨迹拼接表，那张表是 `assemble()` 的核心契约，不是可精简的注释）。
 - **单个 CSS 文件 ≤ 40 行**（当前最大 `base.css` 15 行）。
 
 上限的判据是「一个 sub-agent 用一个 context window 能把这个文件读懂并改对」。写到上限时按主题切成两个文件，section 在 `shell.html` 补一条 include，Python 模块按领域拆成新 provider。
