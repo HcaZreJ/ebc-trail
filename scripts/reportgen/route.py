@@ -36,7 +36,7 @@ def itinerary_table():
         # 而当天终点 Gorak Shep 是 5,164m），与「终点」这一列对不上。
         end_ele = f"{amt(r[it_col['sleep_ele_m']])} m"
 
-        if day == "12":
+        if day in ("1", "12"):
             dist, gain_loss, prof_html = "—", "—", "—"
         else:
             sr = stats_by_day.get(day)

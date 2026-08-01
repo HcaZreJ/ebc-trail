@@ -7,8 +7,8 @@
 | 做什么 | 命令 | 输出 |
 |---|---|---|
 | 补测两份实测轨迹都没走的 4 段 | `uv run scripts/gap_legs.py [--refresh]` | `data/gap-legs.json`；文件已含 4 段时不发网络请求，加 `--refresh` 强制重抓 |
-| 装配 11 天逐日轨迹与统计 | `uv run scripts/day_tracks.py` | `data/day-tracks.json`、`data/day-track-stats.csv` |
-| 重生成海拔剖面图 | `uv run --with matplotlib scripts/make_profile.py` | `assets/day-profile-01.png`…`11.png`、`assets/elevation-profile.png`、`data/route-track-stats.csv` |
+| 装配 10 天逐日轨迹与统计 | `uv run scripts/day_tracks.py` | `data/day-tracks.json`、`data/day-track-stats.csv` |
+| 重生成海拔剖面图 | `uv run --with matplotlib scripts/make_profile.py` | `assets/day-profile-02.png`…`11.png`、`assets/elevation-profile.png`、`data/route-track-stats.csv` |
 | 重生成两张地图 | `uv run --with pillow scripts/make_map.py` | `assets/route-map-trek.png`、`assets/route-map-overview.png`；打印各图抓了多少瓦片 |
 | 构建报告 | `uv run --with markdown scripts/build_report.py` | `report/EBC-report.html`（末行打印 `wrote <路径>  (N MB)`） |
 | 跑测试 | `uv run --with pytest pytest tests/ -q` | `143 passed` |
@@ -17,7 +17,7 @@
 
 ## 换轨迹来源
 
-里程与海拔剖面的事实源是两份实测轨迹加一份补测缓存：`assets/ebc-loop.kml`（KMZ 抽出的大环线，20 条导航线首尾相接，17,377 点）、`assets/Everest_Base_Camp.gpx`（标准直上直下线，3,291 点）、`data/gap-legs.json`（两份实测都没走到的 4 段，OSM 步道几何 + SRTM30m 高程补测）。11 天怎么从这三个来源拼接、切片，写死在 `scripts/day_tracks.py` 的 `assemble()` 函数 docstring 里那张表；这张表与 `DAY_SOURCES` 常量（每天的数据来源说明字符串）是换轨迹时要同步改的核心契约。
+里程与海拔剖面的事实源是两份实测轨迹加一份补测缓存：`assets/ebc-loop.kml`（KMZ 抽出的大环线，20 条导航线首尾相接，17,377 点）、`assets/Everest_Base_Camp.gpx`（标准直上直下线，3,291 点）、`data/gap-legs.json`（两份实测都没走到的 4 段，OSM 步道几何 + SRTM30m 高程补测）。10 天怎么从这三个来源拼接、切片，写死在 `scripts/day_tracks.py` 的 `assemble()` 函数 docstring 里那张表；这张表与 `DAY_SOURCES` 常量（每天的数据来源说明字符串）是换轨迹时要同步改的核心契约。
 
 换一段轨迹来源（换新的 KMZ/GPX，或某一天改接别的数据源）按顺序走：
 
@@ -31,9 +31,9 @@
 
 5. **需要时重新补测缺口段。** 4 段缺口的起止坐标（`scripts/gap_legs.py` 的 `LEGS` 常量）如果因为坐标校正而变了，跑 `uv run scripts/gap_legs.py --refresh` 强制重抓；坐标没变就不用碰这一步。
 
-6. **按依赖顺序重跑四条命令**：`uv run scripts/day_tracks.py` → `uv run --with matplotlib scripts/make_profile.py` 与 `uv run --with pillow scripts/make_map.py` → `uv run --with markdown scripts/build_report.py`。读每一步的终端输出核对轨迹点数、11 天的总里程与每天的 `source` 是否符合预期；`make_map.py` 的 bbox 是写死的常量（见 TECHSTACK.md「外部服务」），新轨迹走到框外时先放宽这两个常量再跑，框变了要抓的瓦片跟着变，把新抓到的 `assets/.tile-cache/*.png` 一起提交。出图后打开两张 PNG 与 11 张剖面小图，看轨迹有没有被边框截断、曲线是否连续。
+6. **按依赖顺序重跑四条命令**：`uv run scripts/day_tracks.py` → `uv run --with matplotlib scripts/make_profile.py` 与 `uv run --with pillow scripts/make_map.py` → `uv run --with markdown scripts/build_report.py`。读每一步的终端输出核对轨迹点数、10 天的总里程与每天的 `source` 是否符合预期；`make_map.py` 的 bbox 是写死的常量（见 TECHSTACK.md「外部服务」），新轨迹走到框外时先放宽这两个常量再跑，框变了要抓的瓦片跟着变，把新抓到的 `assets/.tile-cache/*.png` 一起提交。出图后打开两张 PNG 与 10 张剖面小图，看轨迹有没有被边框截断、曲线是否连续。
 
-7. **检查报告正文。** Section 5 正文里复述的总里程、总爬升/总下降（当前「11 天徒步合计 117.4 km、累计爬升 6,902 m、累计下降 6,824 m」）随新一轮 `day-track-stats.csv` 变化，`grep` 这几个数字把复述它们的地方一起改。
+7. **检查报告正文。** Section 5 正文里复述的总里程、总爬升/总下降（当前「10 天徒步合计 113.2 km、累计爬升 6,502 m、累计下降 6,419 m」）随新一轮 `day-track-stats.csv` 变化，`grep` 这几个数字把复述它们的地方一起改。
 
 ## 交付前检查
 

@@ -20,7 +20,7 @@ uv run --with pytest      pytest tests/ -q
 | 包 | 服务哪个脚本 | 用途 |
 |---|---|---|
 | `markdown` | `scripts/build_report.py` | `scripts/reportgen/appendix.py` 用 `markdown.Markdown(extensions=["tables"])` 把 `sources/*.md` 转成附录 B 的 HTML |
-| `matplotlib` | `scripts/make_profile.py` | 画 `assets/elevation-profile.png`（11 天首尾相接的全程剖面）；逐日小图 `assets/day-profile-01.png`…`11.png` 由 `scripts/profile_thumbs.py` 画，后端固定 `Agg` |
+| `matplotlib` | `scripts/make_profile.py` | 画 `assets/elevation-profile.png`（10 天首尾相接的全程剖面）；逐日小图 `assets/day-profile-02.png`…`11.png` 由 `scripts/profile_thumbs.py` 画，后端固定 `Agg` |
 | `pillow` | `scripts/make_map.py` | 拼接 OpenTopoMap 瓦片、画轨迹与 marker、写标注，输出两张 PNG |
 
 `scripts/` 下的脚本互相之间用裸模块名 import（例如 `make_map.py` 写 `from tiles import ...`、`day_tracks.py` 写 `import geo`），靠脚本自身所在目录进 `sys.path` 生效，因此从仓库任意位置以 `scripts/<名>.py` 的路径调用都能跑；`gap_legs.py` 与 `day_tracks.py` 是纯标准库脚本，不需要 `--with` 任何第三方包。`scripts/build_report.py` 同理 `from reportgen.assemble import build`。`tests/` 下的测试自己把 `scripts/` 插进 `sys.path`。
@@ -40,20 +40,20 @@ trek-packages.md       代理报价单原文（Majestic Trails Nepal）
 
 data/                  表格类数据与轨迹几何的事实源
   itinerary.csv            12 天定点安排（人工整理）
-  day-track-stats.csv      Day 1–11 逐日距离/爬升/下降/起止海拔/来源（day_tracks.py 产物）
-  day-tracks.json          Day 1–11 逐点轨迹坐标，给图件脚本用（day_tracks.py 产物）
+  day-track-stats.csv      Day 2–11 逐日距离/爬升/下降/起止海拔/来源（day_tracks.py 产物）
+  day-tracks.json          Day 2–11 逐点轨迹坐标，给图件脚本用（day_tracks.py 产物）
   gap-legs.json            4 段补测轨迹缓存（gap_legs.py 产物，构建期不打网络）
   cost-breakdown.csv       费用明细与合计（人工整理）
   packing-list.csv         34 项装备清单（人工整理）
   route-track-stats.csv    上山走廊逐村累计里程（make_profile.py 产物）
   quote-comparison.csv     代理报价与自组成本比对（人工整理）
 
-sources/               调研出处，一个主题一份，15 个编号、16 份文件
+sources/               调研出处，一个主题一份，16 个编号、17 份文件
 assets/
   ebc-loop.kml                  KMZ 抽出的大环线轨迹事实源，20 条导航线 + 63 个标注点
   Everest_Base_Camp.gpx         标准直上直下线，3,291 个 trkpt
-  day-profile-01.png…11.png     表格内嵌的逐日剖面小图（make_profile.py 产物）
-  elevation-profile.png         11 天首尾相接的全程海拔剖面（make_profile.py 产物）
+  day-profile-02.png…11.png     表格内嵌的逐日剖面小图（make_profile.py 产物）
+  elevation-profile.png         10 天首尾相接的全程海拔剖面（make_profile.py 产物）
   route-map-trek.png            徒步详图（make_map.py 产物）
   route-map-overview.png        全局路线图（make_map.py 产物）
   .tile-cache/                  OpenTopoMap 瓦片缓存，tracked
@@ -83,8 +83,8 @@ scripts/
   kmz_loop.py               解析 assets/ebc-loop.kml：20 条导航线 + 命名标注点
   osm_graph.py              从 Overpass way 元素建无向图 · Dijkstra 最短路 · 最近节点
   gap_legs.py               补测 4 段缺口路线（OSM 步道 + SRTM30m）→ data/gap-legs.json
-  day_tracks.py             装配 11 天逐日轨迹 → data/day-tracks.json + data/day-track-stats.csv
-  day_colors.py             按天色板与 OPTION_GRAY，剖面图与地形图共用
+  day_tracks.py             装配 10 天逐日轨迹 → data/day-tracks.json + data/day-track-stats.csv
+  day_colors.py             按天色板与 OPTION_LINE，剖面图与地形图共用
   tiles.py                  瓦片抓取与绘图原语，两张地图共用
   http_fetch.py             curl 子进程封装（get_bytes/post_text），瓦片与 OSM/高程抓取共用
   profile_thumbs.py         表格内嵌用的逐日剖面小图
@@ -123,7 +123,7 @@ tests/
 
 `assets/Everest_Base_Camp.gpx`：Real World Adventures 免费轨迹库（页面 `https://realworldadventures.com/ebc-maps-facts/`，直链 `https://realworldadventures.com/wp-content/uploads/2023/03/EBC.gpx_.zip`，下载 2026-07-31）。GPX 1.1，Locus Map 于 2023-02-17 导出，轨迹原始出处 outdooractive `https://www.outdooractive.com/r/240405054`。3,291 个 `<trkpt>` 全部带 `<ele>`，无独立 waypoint，起点 Lukla（27.687, 86.732, 2,855m），单程长度 58.3 km。走的是 KMZ 大环线没有覆盖的标准直上直下线（Dingboche→Lobuche、Lobuche→Gorak Shep 一段、Pheriche→Namche 一段）。完整记录见 `sources/11-gpx-track.md`。
 
-`scripts/day_tracks.py` 把 KMZ 导航线、GPX 与 `data/gap-legs.json` 的补测段装配成 11 天逐日轨迹，拼接表见 DEVFLOW.md。
+`scripts/day_tracks.py` 把 KMZ 导航线、GPX 与 `data/gap-legs.json` 的补测段装配成 10 天逐日轨迹，拼接表见 DEVFLOW.md。
 
 ## 没有的东西
 
