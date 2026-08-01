@@ -14,7 +14,7 @@
 - **Known context**：`data/cost-breakdown.csv`（22 行必要开销与参考项）、`data/quote-comparison.csv`（11 行逐项比价）、`sources/16`（报价单事实）、`sources/02 04 05 07 12 14`（单价出处）、`scripts/reportgen/{money,config,costs,quotes}.py`（折算与表格装配）。
 - **Constraints**：单点最佳估算不给区间（AGENTS.md 铁律 5）；每条结论带出处（铁律 1）；表格数字唯一事实源是 `data/*.csv`（铁律 2）；小红书作者以人民币记录的实付价是原始记录，保留原文数字，另行括注 USD/NPR 折算。
 - **Non-goals**：不改行程结构；不改 Q1 之外章节的非货币正文；不重新调研新的价格来源。
-- **Success criteria**：`build_report.py` 通过；报告与 `sources/` 内不出现人民币计价的结论金额；Q2 的差价按三档前提分别给出，每档在 CSV 里有对应行与出处；本 plan「核对结论」表里每条问题都在 CSV 或 sources 里落地修掉。
+- **Success criteria**：`build_report.py` 通过；报告与 `sources/` 内不出现人民币计价的结论金额；Q2 的差价按向导背夫会合地两档给出，两档在 CSV 里有对应行与出处；本 plan「核对结论」表里每条问题都在 CSV 或 sources 里落地修掉。
 - **Assumptions / Unknowns**：见 Assumption Ledger。
 
 ## 核对结论（已完成，2026-08-01）
@@ -23,7 +23,7 @@
 
 ### 算术本身对的部分
 
-报告 Q2 的加减乘除与百分比全部复算一致：他卖的部分 USD 1,425（套餐 1,015 + 全包餐 410）、自己组 USD 909.69、差额 USD 515.31（+56.6%）、仅基础套餐 +35.7%、餐食占总差额 48%、all-in USD 1,680.15 对 Q1 主计划 USD 1,194.56 高出 40.7%。这些数与报告渲染值一致，没有计算错误。
+按改造前的取值复算，Q2 的加减乘除与百分比全部一致：他卖的部分 USD 1,425（套餐 1,015 + 全包餐 410）、自己组 USD 909.69、差额 USD 515.31（+56.6%）、仅基础套餐 +35.7%、餐食占总差额 48%、all-in USD 1,680.15 对 Q1 主计划 USD 1,194.56 高出 40.7%。这些数与报告渲染值一致，没有计算错误。
 
 ### 问题一：自组成本漏了一项 —— 向导背夫的进山机票
 
@@ -44,17 +44,7 @@
 | 从加都同机进山，按**外国人**票价（4 人 × 往返 USD 210 × 2 ÷ 6） | 280.00 | 票价有出处，但把国民按外国人价算是高估上限 |
 | 从加都同机进山，按**尼泊尔国民**票价 | ~66.67 | 估算值，repo 内无国民票价出处，需补 |
 
-结论对比（他卖的部分固定 USD 1,425）：
-
-| 做法 | 自己组 每人 USD | 他贵出 | 6 人共 |
-|---|---:|---:|---:|
-| 自己组 · 向导背夫 Lukla 会合（当前报告口径） | 909.70 | +515 (+57%) | +3,092 |
-| 自己组 · 加都同机，国民票价估算 | 976.36 | +449 (+46%) | +2,692 |
-| 自己组 · 加都同机，外国人票价（上限） | 1,189.70 | +235 (+20%) | +1,412 |
-
-**只比基础套餐（不买他的全包餐）时结论翻转**：他 USD 1,015 对自己组 Lukla 会合的 USD 747.93 是 +36%；对自己组加都同机按外国人票价的 USD 1,027.93，他反而便宜 USD 13。他的溢价 48% 集中在全包餐一项（USD 410 对自付 USD 161.76）。
-
-用户粗算得出的「和代理差不多」对应「加都同机 + 买全包餐」这条组合。报告只呈现 Lukla 会合口径，且未把这个前提写进正文。
+**只比基础套餐（不买全包餐）时结论翻转**：加都同机口径下自己组反而比他的基础套餐贵。用户粗算得出的「和代理差不多」对应「加都同机 + 买全包餐」这条组合。改造前的报告只呈现 Lukla 会合口径，且未把这个前提写进正文。最终数字见文末「交付结果」。
 
 ### 问题二：`sources/02` 的往返机票成本自相矛盾，并传导出一个错结论
 
@@ -85,7 +75,7 @@
 
 **I will implement**
 - 修问题二至五的每一处，落在对应 CSV / sources / section。
-- `quote-comparison.csv` 增加口径不对等三项，Q2 按乐观/中性/保守三档给差价，主结论用中性档。
+- `quote-comparison.csv` 增加向导背夫进山机票一项，Q2 按「Lukla 会合」与「加都同机」两档给差价，主结论用 Lukla 会合档。按尼泊尔国民票价的那一档要等出处补齐才进表，见 Ledger 第 6 条。
 - 取消人民币展示层：`money.py` 与 `config.py` 改为 USD 基准 + NPR 折算；`cost-breakdown.csv` 的 `pp_cny` 列去掉，`pp_usd` 成为唯一每人金额列，单价列写原生币种。
 - `sources/*.md` 内 repo 自己折出的人民币价格还原为原始 USD/NPR；小红书作者原文以人民币记的实付保留原数字并补 USD/NPR 折算。
 - 同步 `AGENTS.md` 货币口径铁律、`PROJECT.md`、`PATTERNS.md`、`header.html` 导语、`faq.html` 各行金额。
@@ -97,7 +87,7 @@
 
 **Open assumptions**：见 Ledger 第 1、2 条，需用户确认。
 
-**Acceptance**：`uv run --with markdown scripts/build_report.py` 通过；`grep -c '¥' report/EBC-report.html` 只在小红书原文引述处命中；Q2 三档差价在 `quote-comparison.csv` 里各有一行；本 plan 核对结论表内每条问题在 diff 里可追到修改点。
+**Acceptance**：`uv run --with markdown scripts/build_report.py` 通过；`grep -c '¥' report/EBC-report.html` 只在小红书原文引述处命中；Q2 两档差价在 `quote-comparison.csv` 里各有一行；本 plan 核对结论表内每条问题在 diff 里可追到修改点。
 
 ## Assumption Ledger
 
@@ -218,18 +208,20 @@ T8 (独立)
 
 ## 交付结果
 
-九个单元全部完成。全量测试 231 passed（改造前基线 143，本次新增 88 个货币层与 CSV 不变量用例），`build_report.py` 构建通过。
+九个单元全部完成。全量测试 232 passed（改造前基线 143，本次新增 89 个货币层与 CSV 不变量用例），`build_report.py` 构建通过。
 
 Q2 的最终数字（每人，6 人组）：
 
 | 口径 | 他 | 自己组 | 他高出 |
 |---|---:|---:|---:|
-| 套餐 + 全包餐 · 向导背夫在 Lukla 会合 | USD 1,425 | USD 908 | +USD 517（+57%），6 人共 USD 3,104 |
-| 套餐 + 全包餐 · 向导背夫从加都同机进山 | USD 1,425 | USD 1,186 | +USD 239（+20%），6 人共 USD 1,432 |
-| 只比基础套餐 · Lukla 会合 | USD 1,015 | USD 746 | +USD 269（+36%） |
-| 只比基础套餐 · 加都同机 | USD 1,015 | USD 1,025 | 他便宜 USD 10 |
+| 套餐 + 全包餐 · 向导背夫在 Lukla 会合 | USD 1,425 | USD 906 | +USD 519（+57%），6 人共 USD 3,114 |
+| 套餐 + 全包餐 · 向导背夫从加都同机进山 | USD 1,425 | USD 1,185 | +USD 240（+20%），6 人共 USD 1,442 |
+| 只比基础套餐 · Lukla 会合 | USD 1,015 | USD 744 | +USD 271（+36%） |
+| 只比基础套餐 · 加都同机 | USD 1,015 | USD 1,023 | 他便宜 USD 8 |
 
-溢价的 48% 落在全包餐一项（他 USD 410 对自付 USD 162）。Q1 主计划每人合计 USD 1,195。
+溢价的 48% 落在全包餐一项（他 USD 410 对自付 USD 162）。Q1 主计划每人合计 USD 1,193。
+
+`cost-breakdown.csv` 的每人金额现在恒等于「原报价 × qty ÷ shared_by_n」，分摊语义只写在 `shared_by_n` 列里，由 `tests/hidden/money_test.py` 逐行校验。
 
 改造范围超出原 spec 的两处：`data/itinerary.csv`（`food_lodging_cny_pp` 列改名 `food_lodging_usd_pp` 并换算，`lodge_options` 与 `notes` 里的人民币改原生币种）与 `data/packing-list.csv`（五处租赁与消耗品价格），原 spec 只点了两张费用 CSV。`packing-list.csv` 的价格进报告表格，属必改。
 

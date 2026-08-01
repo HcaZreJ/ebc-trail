@@ -42,7 +42,11 @@ def tokens():
         for r in totals:
             if pick(r, "item").startswith(prefix):
                 return num(r, "his_pp_usd"), num(r, "ours_pp_usd")
-        return 0.0, 0.0
+        raise SystemExit(f"quote-comparison.csv 的 totals 块缺少以「{prefix}」开头的行")
+
+    def pct(a, b):
+        """a 比 b 高出的百分比；b 为 0 时写破折号，与 money.diff 的口径一致。"""
+        return f"{round((a / b - 1) * 100)}%" if b else "—"
 
     base_his, _ = block_row(BASE)
     meals_his, meals_ours = block_row(MEALS)
@@ -86,6 +90,6 @@ def tokens():
         "QUOTE_BASE_OURS_KTM": usd(base_ours + crew_ours),
         "QUOTE_BASE_GAP_KTM": diff(base_his, base_ours + crew_ours),
         "QUOTE_HIS_ALLIN": usd(his_allin),
-        "QUOTE_GAP_ALLIN_PCT": f"{round((his_allin / ours_allin - 1) * 100)}%",
-        "QUOTE_MEALS_SHARE": f"{round((meals_his - meals_ours) / gap * 100)}%",
+        "QUOTE_GAP_ALLIN_PCT": pct(his_allin, ours_allin),
+        "QUOTE_MEALS_SHARE": pct(meals_his - meals_ours + gap, gap),
     }

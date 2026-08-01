@@ -32,7 +32,7 @@
 | `sections/ext-intro.html` | 详解层的标题与阅读指引 | — |
 | `sections/ext-costs.html` | Q1 总价：必要开销明细表与参考表、分摊与取值口径 | `data/cost-breakdown.csv` |
 | `sections/ext-quote.html` | Q2 Majestic Trails 12 天套餐评估：两档口径下的差价结论、签约前要他改的一处、两张比价表、五件书面确认 | `data/quote-comparison.csv`、`data/cost-breakdown.csv`、`sources/16`、`02`、`03`、`04`、`05`、`06`、`07` |
-| `sections/ext-transport.html` | Q3 9.25 当天进山（双直升机包机）+ Q4 10.6 返程与直升机兜底；全局路线图 | `sources/01`、`02`、`03`、`14`；`assets/route-map-overview.png` |
+| `sections/ext-transport.html` | Q3 9.26 进山交通选型（加都直飞固定翼 / 绕道 Ramechhap / 直升机）+ Q4 10.6 返程与直升机兜底；全局路线图 | `sources/01`、`02`、`03`、`14`；`assets/route-map-overview.png` |
 | `sections/ext-route.html` | Q5 12 天行程：一张合并的逐日表（距离、总爬升/总下降、终点海拔、当天海拔剖面小图，Day 1 加都日与 Day 12 转场日三列写 `—`）、徒步详图（大环线可走支线 + 按天分色计划路线）与全程剖面两张图件 | `data/itinerary.csv`、`data/day-track-stats.csv`、`sources/06`、`13`、`15`、`16`、`17`；`assets/route-map-trek.png`、`elevation-profile.png`、`day-profile-02.png`…`day-profile-11.png` |
 | `sections/ext-health.html` | Q6 高反：适应日实证、Diamox、血氧监控、下撤原则 | `sources/06`、`09`、`14` |
 | `sections/ext-guide.html` | Q7 向导背夫：豁免现状、请向导的三条理由、配置价格、雇佣方式 | `sources/05`、`07`、`08`、`14` |

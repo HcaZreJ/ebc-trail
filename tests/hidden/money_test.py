@@ -10,6 +10,7 @@
 一次网络请求都不发，CSV 一律走 reportgen.csvio.read_csv 读仓库里的真实数据。
 """
 import pathlib
+import re
 import sys
 
 import pytest
@@ -548,3 +549,53 @@ def test_money_quote_csv_totals_render_through_diff():
 
         assert rendered.startswith(("+USD ", "-USD "))
         assert rendered.endswith("）")
+
+
+# --------------------------------------------------------------------------
+# cost-breakdown.csv：每人金额可由原生单价复现
+# --------------------------------------------------------------------------
+
+# 「原报价」列的可解析形态：USD 208、NPR 3000、USD 32/天、NPR 390/趟、
+# USD 400/人+NPR 500 税。免费 / 全组一次性 / 见备注 / — 由 notes 解释，跳过。
+_QUOTE_RE = re.compile(r"^(USD|NPR) ([\d.]+)(?:/[^+]*)?(?:\+NPR (\d+) 税)?$")
+
+
+def _unit_in_usd(text):
+    """把原报价单元格换算成美元；无法解析时返回 None。"""
+    m = _QUOTE_RE.match(str(text).strip())
+    if not m:
+        return None
+    base = float(m.group(2))
+    if m.group(1) == "NPR":
+        base /= config.NPR_PER_USD
+    if m.group(3):
+        base += float(m.group(3)) / config.NPR_PER_USD
+    return base
+
+
+def test_money_cost_csv_unit_price_reproduces_pp_usd():
+    """每行 pp_usd 等于 原报价 × qty ÷ shared_by_n，换算走 config.NPR_PER_USD。
+
+    分摊语义写在 shared_by_n 列里，不许藏进 pp_usd —— 双人间报的是每间价，
+    ÷2 就得由 shared_by_n 承担，否则这一列的口径对读者失真。
+    """
+    _, rows = _header_and_dicts(COST_CSV)
+
+    checked = 0
+    for row in rows:
+        unit = _unit_in_usd(row["unit_price_quote"])
+        if unit is None or row["category"] == "合计":
+            continue
+        qty = _as_float(row["qty"], f"行 {row['item']!r} 的 qty")
+        shared = _as_float(row["shared_by_n"], f"行 {row['item']!r} 的 shared_by_n")
+        assert shared > 0, f"行 {row['item']!r} 的 shared_by_n 应当为正"
+        expect = unit * qty / shared
+        actual = _as_float(row["pp_usd"], f"行 {row['item']!r} 的 pp_usd")
+
+        assert actual == pytest.approx(expect, abs=0.02), (
+            f"行 {row['item']!r}：原报价 {row['unit_price_quote']!r} × {qty} ÷ {shared} "
+            f"= {expect:.2f}，与 pp_usd {actual} 不符"
+        )
+        checked += 1
+
+    assert checked >= 14, f"只核到 {checked} 行，原报价列的可解析形态可能退化了"
