@@ -18,14 +18,14 @@
 
 <section>
 <h3>A.4 GPX 轨迹统计 route-track-stats.csv</h3>
-<p class="meta">由 <code>scripts/make_profile.py</code> 从 GPX 计算。峡谷段（Phakding–Namche）爬升列受 GPS 噪声影响偏大，正文以文献数据为准。</p>
+<p class="meta">由 <code>scripts/make_profile.py</code> 从 GPX 计算。峡谷段（Phakding–Namche）爬升列受 GPS 噪声影响偏大，正文以文献数据为准。这张表是 Lukla→EBC 上山走廊的逐村累计里程，Pheriche 只在 Day 9–10 下撤时经过、不在这条走廊上，它的数据在 A.5 的 Day 9 / Day 10 行里。</p>
 {{TBL_TRACKSTATS_FULL}}
 </section>
 
 <section>
-<h3>A.5 路段库 route-segments.csv</h3>
-<p class="meta">人工整理，与日期解耦：GPX 覆盖且无噪声标记的路段（note 列标「GPX 实测」）直接用 route-track-stats.csv 的爬升/下降；其余路段按文献起止点净海拔差估算（单调假设，即中途不折返），note 列注明具体算法与出处。</p>
-{{TBL_ROUTE_SEGMENTS_FULL}}
+<h3>A.5 逐日轨迹统计 day-track-stats.csv</h3>
+<p class="meta">逐日里程与爬升/下降由 <code>scripts/day_tracks.py</code> 从实测轨迹算出（脚本产物，不手改），算法是 25 m 重采样 + 窗口 5 滚动中位数平滑 + 8 m 滞回累计（sources/15）。<code>source</code> 列记每天的数据来源。</p>
+{{TBL_DAY_TRACK_STATS_FULL}}
 </section>
 
 <section>

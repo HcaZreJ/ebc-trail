@@ -27,34 +27,36 @@
 | `sections/s2-transport.html` | 旺季固定翼改从 Ramechhap 起降的 CAAN 规定、直升机拼机与包机价格；9.25 包机进山、10.6 固定翼出山、天气取消时的直升机兜底；全局路线图 | `sources/02`、`sources/03`；`assets/route-map-overview.png` |
 | `sections/s3-permits.html` | 两个许可证（Khumbu 市政证、Sagarmatha 国家公园门票）各自的价格、办理地点、所需材料，以及本行程在哪天顺路办 | `sources/04` |
 | `sections/s4-guide-porter.html` | Khumbu 地区向导豁免的现状与核实建议；请一名向导的三条理由（保险条款、旺季订房、突发处置）；1 向导 + 3 背夫的配置、价格与雇佣方式 | `sources/05`、`sources/07`、`sources/08` |
-| `sections/s5-route.html` | 路段库表（11 段固定点对点路线）与 12 天定点安排表；逐段海拔小图、全程海拔剖面、徒步详图三张图件；适应日与三餐形态的说明 | `data/route-segments.csv`、`data/itinerary.csv`、`sources/06`、`sources/07`；`assets/elevation-profile-daily.png`、`assets/elevation-profile.png`、`assets/route-map-trek.png` |
+| `sections/s5-route.html` | 一张合并的 12 天行程表：天、日期、起点、终点、距离、总爬升/总下降、终点海拔、当天海拔剖面小图（Day 12 转场日三列写 `—`）；徒步详图（大环线全部可走支线 + 按天分色的计划路线）与全程海拔剖面图两张图件；适应日与三餐形态的说明 | `data/itinerary.csv`、`data/day-track-stats.csv`、`sources/06`、`sources/07`、`sources/15`；`assets/route-map-trek.png`、`assets/elevation-profile.png`、`assets/day-profile-01.png`…`day-profile-11.png` |
 | `sections/s6-packing.html` | 零装备起步的八条决策要点（睡袋、羽绒服、徒步靴、穿衣体系、头灯、净水、药品、重量约束），租与买的取舍 | `data/packing-list.csv`、`sources/05`、`sources/07`、`sources/09` |
 | `sections/s7-insurance.html` | 五个保险产品逐条对比与选购三条核对项、一个实际理赔案例；现金、通讯、高反监控、天气窗口、订房五件其它事项；返程无缓冲日的警示 | `sources/02`、`sources/03`、`sources/05`、`sources/06`、`sources/07`、`sources/08`、`sources/10` |
 | `sections/s8-costs.html` | 必要开销明细表与参考项表，每人合计与分摊口径 | `data/cost-breakdown.csv` |
 | `sections/s9-action-plan.html` | 从现在到 9.24 登机前按时间倒排的行动清单 | `sources/05`；`data/packing-list.csv` |
 | `sections/appendix-a-data.html` | 六张 CSV 的全量表，每张附一段取数说明 | `data/` 全部六张 CSV |
-| `sections/appendix-b-sources.html` | `sources/*.md` 全文收录（14 份，按文件名排序，每份一个 `<section class="src">`） | `sources/*.md` |
+| `sections/appendix-b-sources.html` | `sources/*.md` 全文收录（16 份，按文件名排序，每份一个 `<section class="src">`） | `sources/*.md` |
 
 ## 出处文件
 
-`sources/` 一个主题一份文件，含来源 URL、抓取日期和提取出的具体数字。真人走完全程的完整攻略（trip report）是最高优先级来源。当前 14 份：
+`sources/` 一个主题一份文件，含来源 URL、抓取日期和提取出的具体数字。真人走完全程的完整攻略（trip report）是最高优先级来源。当前 15 个编号（`14` 号下两份：代理报价单与小红书实地情报）：
 
-`01` 签证（中国公民）· `02` 加德满都↔Lukla 固定翼（旺季改飞 Ramechhap）· `03` 加德满都↔Lukla 直升机 · `04` 两个许可证 · `05` 向导与背夫 · `06` 路线与逐日行程（Earth Trekkers 完整攻略）· `07` 沿途食宿与杂项价格 · `08` 保险（高海拔 + 直升机救援，中国公民视角）· `09` 装备清单与加德满都租赁 · `10` 中文完整攻略 · `11` GPX 轨迹文件 · `12` 加德满都市内 · `13` 带地形静态地图的选型 · `14` 代理报价单 Majestic Trails Nepal
+`01` 签证（中国公民）· `02` 加德满都↔Lukla 固定翼（旺季改飞 Ramechhap）· `03` 加德满都↔Lukla 直升机 · `04` 两个许可证 · `05` 向导与背夫 · `06` 路线与逐日行程（Earth Trekkers 完整攻略）· `07` 沿途食宿与杂项价格 · `08` 保险（高海拔 + 直升机救援，中国公民视角）· `09` 装备清单与加德满都租赁 · `10` 中文完整攻略 · `11` GPX 轨迹文件 · `12` 加德满都市内 · `13` 带地形静态地图的选型 · `14` 代理报价单 Majestic Trails Nepal + 小红书中文徒步者实地情报 · `15` KMZ 实测大环线轨迹（里程、爬升、海拔剖面、地形图的共同输入，含 OpenTopoData SRTM30m 与 Overpass API 的用法）
 
 `trek-packages.md` 存代理报价单原文，从它提取出的事实写在 `sources/14`。
 
-## 六张 CSV 的职责与相互关系
+## data 目录八个文件的职责与相互关系
 
-`data/` 是表格类数据的唯一事实源，报告只引用，不另立数字。
+`data/` 是表格类数据与轨迹几何的事实源。六张 CSV 是报告表格唯一的数字来源，改数字就改 CSV；两个 JSON 是图件脚本之间传递逐日轨迹点的中间产物，不直接进报告。
 
-- **`itinerary.csv`**（12 行数据，20 列）— 12 天定点安排：日期、`day_type`（徒步/适应日/转场）、`start_point`/`end_point`、`route`、茶屋与海拔、三餐、单日食宿花费、注意事项、出处。里程与爬升强度查 `route-segments.csv`，`route` 列负责把日期接到路段上。
-- **`route-segments.csv`**（11 行数据，10 列）— 路段库，与日期解耦：EBC 徒步涉及的 11 段固定点对点路线（含 2 段适应日往返），每段的距离、起止海拔、海拔差、总爬升、总下降。人工整理：GPX 覆盖且无噪声标记的路段直接取 `route-track-stats.csv` 的爬升/下降（`note` 列写「GPX 实测」）；无 GPX 覆盖的路段按 `sources/06` 的文献净海拔差估算（单调假设，即中途不折返），算法与出处写在 `note` 列。哪天走哪段由 `itinerary.csv` 的 `route` 列对应。
-- **`cost-breakdown.csv`**（21 行数据，10 列）— 必要开销明细与合计。`in_total=yes` 的行进合计，`in_total=no` 的行进参考表（装备按用户口径另算；兜底预备金不动用不花；放弃当天进山的备选方案供对照）。`shared_by_n` 列声明该项由几个人分摊。`pp_usd` 与 `pp_cny` 是每人单点最佳估算，取值规则见该行 `notes`。`category=合计` 那一行存每人合计的美元与人民币两个值，以人民币列为准，美元列由各行分别取整后求和。
-- **`packing-list.csv`**（33 行数据，8 列）— 零装备起步的最小装备清单：分类、数量、优先级、放驼包还是随身、购买或租赁渠道、备注、出处。
-- **`route-track-stats.csv`**（脚本产物，两个表块）— 由 `scripts/make_profile.py` 从 GPX 计算：第一块是 11 个村庄的累计里程、GPX 海拔、文献海拔、吸附偏差；第二块是相邻在轨村庄之间的 8 段距离与爬升/下降。峡谷段（Phakding–Monjo、Monjo–Namche）的爬升列受 GPS 噪声影响偏大，`note` 列标注，正文与 `route-segments.csv` 以文献数据为准。这张表由脚本重写，手工改动会在下次重跑时被覆盖。
-- **`quote-comparison.csv`**（11 行数据，7 列）— 代理报价与自组成本的逐项比对。`block` 列把行分成 `items`（他的套餐内容逐项）与 `totals`（口径合计）。`ours_pp_usd` 列是每人单值，取自 `cost-breakdown.csv`，取值规则写在 `basis` 列。改了 `cost-breakdown.csv` 之后同步复核这张表。
+- **`itinerary.csv`**（人工整理，12 行数据，18 列）— 12 天定点安排：日期、`day_type`（徒步/适应日/转场）、`start_point`/`end_point`、`route`、茶屋与海拔、三餐、单日食宿花费、注意事项、出处。距离与爬升/下降查 `day-track-stats.csv`，两张表按 `day` 列对齐拼成 Section 5 的合并表。
+- **`day-track-stats.csv`**（脚本产物，`scripts/day_tracks.py` 写出，11 行数据即 Day 1–11，7 列）— 逐日距离、总爬升、总下降、起点/终点海拔、数据来源。`source` 列区分 KMZ 实测 / GPX 实测 / OSM+SRTM30m 及其组合，与 `day_tracks.py` 里 `DAY_SOURCES` 常量一一对应。算法：轨迹按 25 m 重采样、海拔用窗口 5 的滚动中位数平滑压掉 GPS 跳变、再按 8 m 滞回阈值累计爬升/下降，三个参数写在 `day_tracks.py` 顶部，标定依据见 `sources/15`。
+- **`day-tracks.json`**（脚本产物，`scripts/day_tracks.py` 写出）— Day 1–11 逐点轨迹坐标（经度、纬度、海拔），是 `day-track-stats.csv`、11 张逐日剖面小图、全程剖面图、徒步详图共同的上游中间产物。
+- **`gap-legs.json`**（脚本产物 + 缓存，`scripts/gap_legs.py` 写出）— KMZ 大环线与 GPX 都没走到的 4 段（两个海拔适应点往返、Lobuche–Pheriche、Pheriche–Pangboche）按 OSM 步道几何 + SRTM30m 高程补测出的逐点序列，供 `day_tracks.py` 装配进对应天数。文件已含全部 4 段时构建期不再发网络请求。
+- **`cost-breakdown.csv`**（人工整理，21 行数据，10 列）— 必要开销明细与合计。`in_total=yes` 的行进合计，`in_total=no` 的行进参考表（装备按用户口径另算；兜底预备金不动用不花；放弃当天进山的备选方案供对照）。`shared_by_n` 列声明该项由几个人分摊。`pp_usd` 与 `pp_cny` 是每人单点最佳估算，取值规则见该行 `notes`。`category=合计` 那一行存每人合计的美元与人民币两个值，以人民币列为准，美元列由各行分别取整后求和。
+- **`packing-list.csv`**（人工整理，34 行数据，8 列）— 零装备起步的最小装备清单：分类、数量、优先级、放驼包还是随身、购买或租赁渠道、备注、出处。
+- **`route-track-stats.csv`**（脚本产物，`scripts/make_profile.py` 写出，10 行数据，5 列）— Day 1–8 接成 Lukla→EBC 上山走廊，10 个在这条走廊上的村庄各自吸附到轨迹后的累计里程、轨迹实测海拔、文献海拔、吸附偏差。Pheriche 只在 Day 9–10 下撤时经过，不在这条上山走廊上，退出这张表，它的里程与海拔在 `day-track-stats.csv` 的 Day 9/10 行里。
+- **`quote-comparison.csv`**（人工整理，11 行数据，7 列）— 代理报价与自组成本的逐项比对。`block` 列把行分成 `items`（他的套餐内容逐项）与 `totals`（口径合计）。`ours_pp_usd` 列是每人单值，取自 `cost-breakdown.csv`，取值规则写在 `basis` 列。改了 `cost-breakdown.csv` 之后同步复核这张表。
 
-关系链：`route-track-stats.csv`（GPX 实测）→ 供 `route-segments.csv` 取爬升/下降 → 经 `itinerary.csv` 的 `route` 列接到日期；`cost-breakdown.csv`（明细与合计）→ 供 `quote-comparison.csv` 的 `ours_pp_usd` 取单值。
+关系链：`scripts/gap_legs.py`（OSM+SRTM30m 补测 4 段）连同 `assets/ebc-loop.kml`（KMZ 大环线）与 `assets/Everest_Base_Camp.gpx`（标准直上直下线）一起喂给 `scripts/day_tracks.py`，装配出 `day-tracks.json` 与 `day-track-stats.csv`；`day-tracks.json` 再喂给 `scripts/make_profile.py`（11 张剖面小图 + 全程剖面图 + `route-track-stats.csv`）与 `scripts/make_map.py`（徒步详图）；`day-track-stats.csv` 与 `itinerary.csv` 按 `day` 对齐拼成 Section 5 的合并表；`cost-breakdown.csv`（明细与合计）→ 供 `quote-comparison.csv` 的 `ours_pp_usd` 取单值。
 
 ## 当前状态
 
