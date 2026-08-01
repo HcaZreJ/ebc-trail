@@ -81,8 +81,8 @@ CSV 表格、图片、合计数字通过 `{{TOKEN}}` 占位进入章节，值由
 
 ## 文件粒度上限
 
-- **单个 section 文件 ≤ 60 行**（当前最大 `ext-quote.html` 约 30 行，其次 `ext-route.html` 约 28 行）。
-- **单个 Python 模块 ≤ 200 行**（当前最大 `make_map.py` 200 行，其次 `day_tracks.py` 198 行 —— 这 198 行里有一段 22 行的 docstring 写着 11 天的轨迹拼接表，那张表是 `assemble()` 的核心契约，不是可精简的注释）。
+- **单个 section 文件 ≤ 60 行**（当前最大 `ext-transport.html` 约 20 行，其次 `ext-quote.html`/`ext-route.html` 约 18 行）。
+- **单个 Python 模块 ≤ 200 行**（当前最大 `make_map.py` 198 行，其次 `day_tracks.py` 197 行 —— 这份文件里有一段 20 行的 docstring 写着 10 天的轨迹拼接表，那张表是 `assemble()` 的核心契约，不是可精简的注释）。
 - **单个 CSS 文件 ≤ 40 行**（当前最大 `base.css` 15 行）。
 
 上限的判据是「一个 sub-agent 用一个 context window 能把这个文件读懂并改对」。写到上限时按主题切成两个文件，section 在 `shell.html` 补一条 include，Python 模块按领域拆成新 provider。
