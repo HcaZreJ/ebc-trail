@@ -84,7 +84,7 @@ scripts/
   osm_graph.py              从 Overpass way 元素建无向图 · Dijkstra 最短路 · 最近节点
   gap_legs.py               补测 4 段缺口路线（OSM 步道 + SRTM30m）→ data/gap-legs.json
   day_tracks.py             装配 10 天逐日轨迹 → data/day-tracks.json + data/day-track-stats.csv
-  day_colors.py             按天色板与 OPTION_GRAY，剖面图与地形图共用
+  day_colors.py             按天色板与 OPTION_LINE，剖面图与地形图共用
   tiles.py                  瓦片抓取与绘图原语，两张地图共用
   http_fetch.py             curl 子进程封装（get_bytes/post_text），瓦片与 OSM/高程抓取共用
   profile_thumbs.py         表格内嵌用的逐日剖面小图

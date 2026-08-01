@@ -136,7 +136,7 @@ def _legend_trek(draw, font):
             for j, d in enumerate(days):
                 draw.line([(lx + 4 + j * seg, y), (lx + 4 + (j + 1) * seg, y)], fill=DAY_COLORS[d], width=7)
         elif color == "square":
-            draw.rectangle([lx + 14, y - 8, lx + 30, y + 8], fill=DAY_COLORS[3], outline=WHITE, width=2)
+            draw.rectangle([lx + 14, y - 8, lx + 30, y + 8], fill=DAY_COLORS[6], outline=WHITE, width=2)
         else:
             draw.line([(lx + 4, y), (lx + 48, y)], fill=color, width=7)
         draw.text((lx + 60, y), text, font=font, anchor="lm", fill=INK)
