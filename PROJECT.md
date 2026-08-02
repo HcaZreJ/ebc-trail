@@ -15,37 +15,40 @@
 - 9.26 进山交通方式待定：加都直飞固定翼、绕道 Ramechhap 固定翼、或直升机，取决于尼泊尔民航局旺季分流的临时决定，订票后仍可能改变（与 Majestic Trails Nepal 向导 Bibek 的直接沟通，见 sources/17）；预算按加都直飞固定翼（USD 208/人）作单点估算，绕道 Ramechhap 与直升机列为应急预备金。
 - 10-06 返程没有缓冲日，固定翼因天气取消时当场改乘直升机，这笔额度（每人 USD 500–700）提前留出。
 
-## 报告结构：三层
+## 报告结构：四层
 
-- **速览**（`sections/faq.html`）：14 个问题各配一句话回答，问题链接到对应详解块。
-- **详解**（`sections/ext-*.html`）：每个问题一个 `<section class="ext">` 块，讲答案的依据、关键数字与必要表格，标题带跳回速览的回链，句末括注链接到出处层。
-- **出处**（`sections/sources.html`）：`sources/*.md` 全文收录，每份开头由构建脚本自动列出「被引用于」的问题回链。
+信息按「读者要拿它做什么」排序：先给要拍板的两个决定，再给行程强度，支持信息压在后面，出处全部收到最末。
+
+- **摘要**（`sections/summary.html`）：六行结论，每行链到对应节。
+- **核心**（`sections/core-*.html`）：§1–§4，同行者最需要读完的四节。
+- **支持信息**（`sections/sup-*.html`）：§5–§8，结论与关键数字都在，篇幅压到能查阅的密度。
+- **References**（`sections/references.html`）：`{{REFERENCES}}` 由 `scripts/reportgen/citations.py` 渲染成编号条目，给标题、来源方、抓取日期、按域名去重的链接，带「引用于 §N」回链与折叠的原始记录全文；没被正文引用过的出处归到第二组「数据与方法来源」。
+
+每节是一个 `<section class="sec" id="s<N>-<slug>">` 块，标题带跳回摘要的回链，事实处用 `[[NN]]` 角标（契约见 PATTERNS.md）。
 
 ## 报告章节清单
 
-`report/shell.html` 的 include 顺序即章节顺序。速览行、详解块与问题的对应关系如下（锚点契约见 PATTERNS.md）。
+`report/shell.html` 的 include 顺序即章节顺序，也是节号顺序。
 
 | 章节文件 | 讲什么 | 事实源 |
 |---|---|---|
-| `sections/header.html` | 大标题、行程窗口、汇率与取值口径导语 | 行程硬约束；`{{BUILD_DATE}}` |
-| `sections/faq.html` | 速览：14 个问题（Q1–Q14）各一句话回答 | 各详解块的结论 |
-| `sections/ext-intro.html` | 详解层的标题与阅读指引 | — |
-| `sections/ext-costs.html` | Q1 总价：必要开销明细表与参考表、分摊与取值口径 | `data/cost-breakdown.csv` |
-| `sections/ext-quote.html` | Q2 Majestic Trails 12 天套餐评估：两档口径下的差价结论、签约前要他改的一处、两张比价表、五件书面确认 | `data/quote-comparison.csv`、`data/cost-breakdown.csv`、`sources/16`、`02`、`03`、`04`、`05`、`06`、`07` |
-| `sections/ext-transport.html` | Q3 9.26 进山交通选型（加都直飞固定翼 / 绕道 Ramechhap / 直升机）+ Q4 10.6 返程与直升机兜底；全局路线图 | `sources/01`、`02`、`03`、`14`；`assets/route-map-overview.png` |
-| `sections/ext-route.html` | Q5 12 天行程：一张合并的逐日表（距离、总爬升/总下降、终点海拔、当天海拔剖面小图，Day 1 加都日与 Day 12 转场日三列写 `—`）、徒步详图（大环线可走支线 + 按天分色计划路线）与全程剖面两张图件 | `data/itinerary.csv`、`data/day-track-stats.csv`、`sources/06`、`13`、`15`、`16`、`17`；`assets/route-map-trek.png`、`elevation-profile.png`、`day-profile-02.png`…`day-profile-11.png` |
-| `sections/ext-health.html` | Q6 高反：适应日实证、Diamox、血氧监控、下撤原则 | `sources/06`、`09`、`14` |
-| `sections/ext-guide.html` | Q7 向导背夫：豁免现状、请向导的三条理由、配置价格、雇佣方式 | `sources/05`、`07`、`08`、`14` |
-| `sections/ext-paperwork.html` | Q8 签证 + Q9 许可证 | `sources/01`、`04`、`14` |
-| `sections/ext-insurance.html` | Q10 保险：产品核实表、选购三条核对项、买后动作 + Q11 两步路平台 208 个在售计划的逐条款核查表、京东安联那款的能与不能、下单前四问 | `sources/08`、`14`、`18` |
-| `sections/ext-packing.html` | Q12 装备：决策要点表 + 全量清单 | `data/packing-list.csv`、`sources/07`、`09`、`14` |
-| `sections/ext-cash.html` | Q13 现金、通讯、市内安全与天气窗口 | `sources/07`、`10`、`12`、`14` |
-| `sections/ext-todo.html` | Q14 从现在到 9.24 登机前按时间倒排的行动清单 | `sources/05`；各详解块 |
-| `sections/sources.html` | 出处层：`sources/*.md` 全文（按文件名排序，回链由 `scripts/reportgen/sources.py` 自动生成） | `sources/*.md` |
+| `sections/header.html` | 大标题、行程窗口、行程硬约束与计价口径导语 | 行程硬约束；`{{BUILD_DATE}}` |
+| `sections/summary.html` | 摘要：六行结论（套餐、行前准备、保险、行程强度、总价、返程风险） | 各节结论；`{{TOTAL_USD}}` |
+| `sections/core-intro.html` | 核心层标题与一句阅读指引 | — |
+| `sections/core-deal.html` | §1 Majestic Trails 12 天套餐值不值：两档口径下的差价、按 6 人档重报 USD 1,015、两张比价表、五件书面确认 | `data/quote-comparison.csv`、`data/cost-breakdown.csv`、`sources/02`、`04`、`05`、`07`、`14`、`16`、`17` |
+| `sections/core-prep.html` | §2 行前准备：按时间倒排的行动清单 + 装备决策表 + 全量装备清单 | `data/packing-list.csv`、`sources/01`、`04`、`05`、`07`、`09`、`14` |
+| `sections/core-insurance.html` | §3 保险：已核实产品表、选购三条核对项、两步路平台核查结论（唯一可用那款的尼泊尔直升机封顶）、下单前四件书面口径 | `sources/08`、`14`、`18` |
+| `sections/core-route.html` | §4 12 天行程与强度：开篇直给强度结论、一张合并的逐日表（距离、总爬升/总下降、终点海拔、当天剖面小图，Day 1 与 Day 12 三列写 `—`）、徒步详图与全程剖面 | `data/itinerary.csv`、`data/day-track-stats.csv`、`sources/06`、`13`、`15`；`assets/route-map-trek.png`、`elevation-profile.png`、`day-profile-02.png`…`day-profile-11.png` |
+| `sections/sup-intro.html` | 支持层标题与一句阅读指引 | — |
+| `sections/sup-cost.html` | §5 花多少钱：必要开销明细表与参考表、分摊与取值口径 | `data/cost-breakdown.csv` |
+| `sections/sup-transport.html` | §6 进出山交通与返程风险：9.26 三个进山选项、起降机场待定、10.6 返程无缓冲与直升机兜底；全局路线图 | `sources/02`、`03`、`14`、`17`；`assets/route-map-overview.png` |
+| `sections/sup-crew.html` | §7 高反与向导背夫：一个适应日的代价、Diamox、血氧仪、下撤原则、请向导的三条理由与配置价格 | `sources/05`、`06`、`07`、`08`、`09`、`14`、`16` |
+| `sections/sup-onsite.html` | §8 签证、许可证、现金与通讯：落地签流程、两个证在哪办、现金额度、Ncell 与 Everest Link、市内安全与天气窗口 | `sources/01`、`04`、`07`、`10`、`12`、`14` |
+| `sections/references.html` | References 层标题与 `{{REFERENCES}}` | `sources/*.md` |
 
 ## 出处文件
 
-`sources/` 一个主题一份文件，含来源 URL、抓取日期和提取出的具体数字。真人走完全程的完整攻略（trip report）是最高优先级来源。当前 18 份：
+`sources/` 一个主题一份文件，含来源 URL、抓取日期和提取出的具体数字。真人走完全程的完整攻略（trip report）是最高优先级来源。文件名前两位是编号，它同时是正文角标显示的数字与 References 条目的 `#ref-NN` 锚点，所以编号一经使用就不重排。当前 18 份：
 
 `01` 签证（中国公民）· `02` 加德满都↔Lukla 固定翼（旺季改飞 Ramechhap）· `03` 加德满都↔Lukla 直升机 · `04` 两个许可证 · `05` 向导与背夫 · `06` 路线与逐日行程（Earth Trekkers 完整攻略）· `07` 沿途食宿与杂项价格 · `08` 保险（高海拔 + 直升机救援，中国公民视角）· `09` 装备清单与加德满都租赁 · `10` 中文完整攻略 · `11` GPX 轨迹文件 · `12` 加德满都市内 · `13` 带地形静态地图的选型 · `14` 小红书中文徒步者实地情报 · `15` KMZ 实测大环线轨迹（里程、爬升、海拔剖面、地形图的共同输入，含 OpenTopoData SRTM30m 与 Overpass API 的用法）· `16` 代理报价单 Majestic Trails Nepal · `17` 与 Majestic Trails Nepal 向导 Bibek 的直接沟通（加都↔Lukla 旺季起降机场的不确定性）· `18` 两步路（携保）平台 208 个在售计划的逐条款核查，含承保国家名单原文、京东安联那款的 ¥8,000 尼泊尔直升机子限额与费率表，以及平台外三条替代路径的对照
 
@@ -68,7 +71,7 @@
 
 ## 当前状态
 
-报告为三层结构（速览 14 问 + 详解 12 个文件 + 出处 18 份），构建通过，层间锚点成对。逐日里程与海拔剖面来自 KMZ 大环线实测轨迹，缺口 4 段由 OSM 步道 + SRTM30m 补测。push 到 main 后 GitHub Actions 自动重新构建并发布到 `https://hcazrej.github.io/ebc-trail/`（流程见 DEVFLOW.md「发布到 GitHub Pages」）。
+报告为四层结构（摘要 6 行 + 核心 §1–§4 + 支持 §5–§8 + References 18 条），正文 18,540 字符，构建通过，层间锚点成对、无悬空角标。逐日里程与海拔剖面来自 KMZ 大环线实测轨迹，缺口 4 段由 OSM 步道 + SRTM30m 补测。push 到 main 后 GitHub Actions 自动重新构建并发布到 `https://hcazrej.github.io/ebc-trail/`（流程见 DEVFLOW.md「发布到 GitHub Pages」）。
 
 **待议事项一：是否请向导。** 法规上 Khumbu 地区允许不请（两个独立来源确认，其中一个更新于 2026-01-08）；报告按「请 1 名」计入费用，理由是 World Nomads 承保到 6,000m 的前提是随行有合格向导、旺季逐站订房需要人打电话、高反恶化时需要人协调直升机救援与保险对接。出发前一个月再核实一次豁免政策。这个决定同时决定保险选型。
 

@@ -6,9 +6,9 @@ items,两个许可证,含,,46.44,"NPR 3,000 ×2 固定价 没有区间",sources/
 items,机场接送 2 趟,含,,2.01,Pathao 或 inDrive NPR 390/趟 一车坐 3 人 共 2 趟,sources/12 sources/16
 items,持证向导 ×1 · 11 天,含,,58.67,向导单值 USD 32/天 ×11 天 ÷6 人,sources/05 sources/16
 items,背夫 ×3 · 11 天,含 1 名背夫背 2 人,,107.47,背夫单值 USD 19.54/天 ×11 天 每名背夫由 2 人分摊,sources/05 sources/16
-items,70L 驼包 + 急救包血氧仪 + 完成证书,含,,0,驼包旅行社通常提供（见 data/packing-list.csv）血氧仪属个人装备按用户口径另算,data/packing-list.csv
+items,70L 驼包 + 急救包血氧仪 + 完成证书,含,,0,驼包旅行社通常提供 血氧仪属个人装备按用户口径另算,sources/09
 items,1 向导 + 3 背夫的进山机票,含,,0,按向导背夫在 Lukla 会合计 这一项为零；从加都同机进山则要付他们的往返机票 见下面 totals 的第二档,sources/05 sources/14
-totals,套餐基础价（不含餐食）,,1015,744.32,他按 4-6 pax 档；我们这一列是上表 9 项按调研单值加总,data/quote-comparison.csv
+totals,套餐基础价（不含餐食）,,1015,744.32,他按 4-6 pax 档；我们这一列是上表 9 项按调研单值加总,—
 totals,全包餐 11 天,,410,161.70,他 USD 37.3/天；我们按三餐单值 USD 14.7/人/天 ×11 天,sources/07 sources/14 sources/16
 totals,加购：向导背夫从加都同机进山,,0,278.67,4 人（1 向导 3 背夫）× 往返 USD 418 ÷ 6 人 按外国人票价算是上限；尼泊尔国民票价更低 调研里没有这个价,sources/05 sources/14
 totals,两边都不含 我们都要另付,,255.26,255.26,保险 115 + 小费 33.90 + 饮水充电热水澡上网 97.85 + SIM 8.51,sources/07 08 14 16

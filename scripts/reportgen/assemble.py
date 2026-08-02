@@ -90,10 +90,14 @@ def check_token_usage(text, tokens):
     return None
 
 
-def substitute(text, tokens):
-    """把 {{NAME}} 替换为 tokens[NAME]；替换后仍有 {{...}} 残留 → SystemExit。"""
+def substitute(text, tokens, strict=True):
+    """把 {{NAME}} 替换为 tokens[NAME]；strict 时替换后仍有 {{...}} 残留 → SystemExit。
+
+    strict=False 供装配第一阶段用：那时 {{REFERENCES}} 还没有值，
+    要等 citations 拿着已替换其余 token 的文本建完引用图才能渲染它。
+    """
     out = TOKEN_RE.sub(lambda m: tokens[m.group(1)] if m.group(1) in tokens else m.group(0), text)
-    if "{{" in out:
+    if strict and "{{" in out:
         left = TOKEN_RE.search(out)
         where = left.group(1) if left else out[out.find("{{"):out.find("{{") + 40]
         raise SystemExit(f"装配后仍有未解析的 token：{where!r}")
@@ -101,11 +105,14 @@ def substitute(text, tokens):
 
 
 def collect_tokens():
-    """合并全部 provider 的 tokens()，键为不带花括号的裸 token 名。"""
-    from . import costs, figures, packing, quotes, route, sources
+    """合并全部 provider 的 tokens()，键为不带花括号的裸 token 名。
+
+    REFERENCES 不在这里：它要等其余 token 都替换完、拿到整份正文才能建引用图，由 build() 第二阶段填。
+    """
+    from . import costs, figures, packing, quotes, route
 
     merged = {"BUILD_DATE": date.today().isoformat()}
-    for provider in (figures, costs, quotes, route, packing, sources):
+    for provider in (figures, costs, quotes, route, packing):
         for name, value in provider.tokens().items():
             if name in merged:
                 raise SystemExit(f"token 名冲突：{name} 同时由 {provider.__name__} 提供")
@@ -114,12 +121,21 @@ def collect_tokens():
 
 
 def build():
-    """跑完整链路并写出 OUT，返回 OUT 路径。"""
+    """跑完整链路并写出 OUT，返回 OUT 路径。
+
+    token 替换分两阶段：第一阶段填六个 provider 的值，此时表格里的 citation 标记
+    才随 CSV 一起进入正文；第二阶段拿这份完整正文建引用图、渲染 references、填 {{REFERENCES}}。
+    最后一步把全文的 [[NN]] 展开成上标角标，所以散文与表格里的出处走同一条路径。
+    """
+    from . import citations
+
     shell_text = SHELL.read_text(encoding="utf-8")
     text = resolve_includes(shell_text, REPORT_DIR)
     check_orphans(shell_text, REPORT_DIR)
     tokens = collect_tokens()
-    check_token_usage(text, tokens)
-    text = substitute(text, tokens)
+    check_token_usage(text, {**tokens, "REFERENCES": ""})
+    body = substitute(text, tokens, strict=False)
+    text = substitute(body, {"REFERENCES": citations.references_layer(body)})
+    text = citations.expand(text)
     OUT.write_text(text, encoding="utf-8")
     return OUT

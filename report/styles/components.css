@@ -7,5 +7,9 @@
   code { font-family: "SF Mono", Menlo, monospace; font-size: 0.92em; background: #f4f3ee; padding: 1px 5px; border-radius: 3px; }
   a { color: #1c5cab; }
   a.back { margin-left: 10px; font-size: 13px; font-weight: 400; color: #6b6a62; text-decoration: none; }
-  table.faq td:first-child a { font-weight: 600; text-decoration: none; }
-  .ext { margin: 30px 0; }
+  table.summary td:first-child { width: 8.5em; white-space: nowrap; }
+  table.summary td:first-child a { font-weight: 600; text-decoration: none; }
+  .sec { margin: 30px 0; }
+  sup.cite { font-size: 10.5px; line-height: 0; white-space: nowrap; }
+  sup.cite a { color: #1c5cab; text-decoration: none; padding: 0 1px; }
+  sup.cite a:hover { text-decoration: underline; }
