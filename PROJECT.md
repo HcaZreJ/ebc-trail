@@ -22,7 +22,7 @@
 - **摘要**（`sections/summary.html`）：六行结论，每行链到对应节。
 - **核心**（`sections/core-*.html`）：§1–§4，同行者最需要读完的四节。
 - **支持信息**（`sections/sup-*.html`）：§5–§8，结论与关键数字都在，篇幅压到能查阅的密度。
-- **References**（`sections/references.html`）：`{{REFERENCES}}` 由 `scripts/reportgen/citations.py` 渲染成编号条目，给标题、来源方、抓取日期、按域名去重的链接，带「引用于 §N」回链与折叠的原始记录全文；没被正文引用过的出处归到第二组「数据与方法来源」。
+- **References**（`sections/references.html`）：`{{REFERENCES}}` 由 `scripts/reportgen/citations.py` 渲染成编号条目，给标题、来源方、抓取日期、按域名去重的链接，带「引用于 §N」回链与折叠的要点摘录；没被正文引用过的出处归到第二组「数据与方法来源」。
 
 每节是一个 `<section class="sec" id="s<N>-<slug>">` 块，标题带跳回摘要的回链，事实处用 `[[NN]]` 角标（契约见 PATTERNS.md）。
 

@@ -1,5 +1,14 @@
 # 装备清单与加德满都租赁
 
+## 要点
+
+- 徒步靴是最重要的一件装备，要防水高帮、在国内买好并提前磨合，靴子袜子底层衣物这类贴身装备必须自备。
+- 睡袋选四季款、舒适温标至少 -10°C，9 月底到 10 月初这个级别够用，茶屋的毯子在高海拔不够暖。
+- 睡袋在 Thamel 租 USD 1–2/天、羽绒服 USD 1–3/天，12 天两件合计每人约 USD 42，比在国内买这类用完即闲置的大件划算。
+- 穿衣按三层配：速干底层、抓绒或羽绒中层、防风防水硬壳外层；头灯必备，用在 Kala Patthar 凌晨出发、茶屋停电和夜间上厕所。
+- Lukla 固定翼的行李限额是托运 10kg 加手提 5kg/人，驼包按每人不超过 10kg 打包，日常行走另背 20–30L 小包。
+- Diamox 是预防急性高山病的标准用药，行前请医生开并试敏，加德满都药房也能买到。
+
 ## 来源 1：Follow Alice《Your complete Everest Base Camp packing list》+ Kandoo Adventures + Ian Taylor Trekking
 - 参考 URL：
   - https://followalice.com/knowledge/everest-base-camp-packing-list

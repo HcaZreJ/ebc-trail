@@ -1,5 +1,14 @@
 # 沿途食宿与杂项价格
 
+## 要点
+
+- 独立徒步者的全程总预算（不含国际机票）是 USD 1,000–1,400，跟团是 USD 1,400–2,500。
+- 茶屋房费基础房 USD 5–10/晚、标准房 USD 10–20/晚；餐费低海拔单餐 USD 5–8、Gorak Shep 单餐 USD 10–15，每日餐费按 USD 20–35 预算。
+- 12 天行程建议在加德满都换好 NPR 50,000–80,000/人（约 USD 390–620）带上山，日均开销按 USD 40/人/天准备，换钱时要 100、500、1000 的小面额。
+- Namche 的两台 ATM 缺钞、断网、吞卡都常见，Namche 以上到 EBC 全程没有 ATM。
+- SIM 卡本身 NPR 100–200，Everest Link WiFi 卡参考价 10GB / NPR 2,000；Namche 以上充电 NPR 200–500/台次，热水澡 USD 3–6/次。
+- 向导加背夫的小费合计约 USD 100/徒步者/全程；Gorak Shep 是全线条件最差、旺季最紧张的一站，热门茶屋最好让向导或代理提前打电话预订。
+
 ## 来源 1：Himalayan Hero《Everest Base Camp Trek Cost 2026 (Full Breakdown)》
 - URL: https://himalayanhero.com/everest/blog/everest-base-camp-trek-cost-guide/
 - 抓取日期: 2026-07-31

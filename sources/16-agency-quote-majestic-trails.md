@@ -1,5 +1,14 @@
 # 代理报价单：Majestic Trails Nepal 12 天 EBC 套餐
 
+## 要点
+
+- 报价单按 8 人制作并主推 USD 960/人，本行程 6 人落在 4-6 pax 档的 USD 1,015/人，6 人合计多 USD 330，签约前要他按 6 人档重报。
+- 基础价含两个许可证、机场接送、加都↔Lukla 往返机票（报价单标注价值 USD 520）、茶屋双人间 10 晚加加都酒店 2 晚，以及向导背夫的工资、食宿与保险。
+- 徒步餐食不含在基础价内，全包餐是可选加购 USD 410/人（11 天，合 USD 37.3/天）。
+- 报价单的 9 个徒步区段与本报告的路线一致，适应日同样只在 Dingboche 安排一天，Day 3 抵达 Namche 后 Day 4 直接前往 Tengboche。
+- 报价单建议 7 人以上加配第二名向导（USD 25/天/团），这条对 6 人团不适用，不要让它进合同。
+- 报价单写的是 "Kathmandu ↔ Lukla roundtrip flights"，绕道 Ramechhap 时那段 4–5 小时地面交通是否已含在这 USD 520 里，需要向他核实。
+
 ## 来源：代理方直接提供的报价单
 
 - 出处：majestictrailsnepal.com，报价单原文见 repo 根目录 `trek-packages.md`

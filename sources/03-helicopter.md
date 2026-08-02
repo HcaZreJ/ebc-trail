@@ -1,5 +1,14 @@
 # 加德满都 ↔ Lukla 直升机
 
+## 要点
+
+- 旺季固定翼改飞 Ramechhap 期间，直升机仍从加德满都国内机场直飞 Lukla，飞行时间约 45 分钟。
+- 拼机旺季现实报价是 USD 500–700/人单程，包机是 USD 2,500–3,500/架单程，一架最多载 5 名乘客，具体看总重量。
+- Lukla 方向的飞行窗口是 6:00–11:00，常规拼机班次都排在早上 7 点前后，下午没有定期班次。
+- 下午包机在天气允许时可以飞，但云量午后升高，取消概率显著大于上午。
+- 预订时要提供乘客体重，旺季要尽早订；多个来源强调不要把国际段返程机票订在 Lukla 飞出的同一天，建议留 1–2 天缓冲。
+- 返程 10.6 固定翼因天气取消时，直升机拼机是保住 10.7 国际段的兜底手段。
+
 ## 来源 1：Nepal Chopper《Kathmandu to Lukla Helicopter Flight Ultimate Booking Guide》
 - URL: https://www.nepalchopper.com/articles/blog/kathmandu-to-lukla-helicopter-flight-ultimate-booking-guide
 - 抓取日期: 2026-07-31

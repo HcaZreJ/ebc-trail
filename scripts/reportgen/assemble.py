@@ -135,6 +135,7 @@ def build():
     tokens = collect_tokens()
     check_token_usage(text, {**tokens, "REFERENCES": ""})
     body = substitute(text, tokens, strict=False)
+    citations.check_excerpts(citations.source_index())
     text = substitute(body, {"REFERENCES": citations.references_layer(body)})
     text = citations.expand(text)
     OUT.write_text(text, encoding="utf-8")
