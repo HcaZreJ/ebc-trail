@@ -3,7 +3,7 @@
 两档口径：Lukla 会合档不含向导背夫的进山机票，加都同机档在它之上加这笔机票。
 """
 from .config import PAX
-from .csvio import read_csv
+from .csvio import cite, read_csv
 from .money import diff, usd
 from .tables import table
 
@@ -34,7 +34,7 @@ def tokens():
     tbl_items = [["报价单的套餐内容", "报价单口径", "我们的单值 每人", "取值依据", "出处"]]
     for r in items:
         tbl_items.append([pick(r, "item"), pick(r, "his_scope"), usd(num(r, "ours_pp_usd")),
-                          pick(r, "basis"), pick(r, "source")])
+                          pick(r, "basis"), cite(pick(r, "source"))])
     base_ours = sum(num(r, "ours_pp_usd") for r in items)
     tbl_items.append(["小计", "—", usd(base_ours), "—", "—"])
 

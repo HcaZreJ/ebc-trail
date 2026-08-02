@@ -11,7 +11,7 @@
 | 重生成海拔剖面图 | `uv run --with matplotlib scripts/make_profile.py` | `assets/day-profile-02.png`…`11.png`、`assets/elevation-profile.png`、`data/route-track-stats.csv` |
 | 重生成两张地图 | `uv run --with pillow scripts/make_map.py` | `assets/route-map-trek.png`、`assets/route-map-overview.png`；打印各图抓了多少瓦片 |
 | 构建报告 | `uv run --with markdown scripts/build_report.py` | `report/EBC-report.html`（末行打印 `wrote <路径>  (N MB)`） |
-| 跑测试 | `uv run --with pytest pytest tests/ -q` | `143 passed` |
+| 跑测试 | `uv run --with pytest --with markdown pytest tests/ -q` | `267 passed` |
 
 前四条命令按依赖顺序跑：`gap_legs.py` → `day_tracks.py` → `make_profile.py` / `make_map.py`（这两条互不依赖，谁先谁后都行）→ `build_report.py`。`gap_legs.py` 在 `data/gap-legs.json` 已含全部 4 段时不发网络请求，`make_map.py` 在 `assets/.tile-cache/` 齐备时不发网络请求，因此输入齐备时全程可以离线重跑。
 
@@ -33,15 +33,15 @@
 
 6. **按依赖顺序重跑四条命令**：`uv run scripts/day_tracks.py` → `uv run --with matplotlib scripts/make_profile.py` 与 `uv run --with pillow scripts/make_map.py` → `uv run --with markdown scripts/build_report.py`。读每一步的终端输出核对轨迹点数、10 天的总里程与每天的 `source` 是否符合预期；`make_map.py` 的 bbox 是写死的常量（见 TECHSTACK.md「外部服务」），新轨迹走到框外时先放宽这两个常量再跑，框变了要抓的瓦片跟着变，把新抓到的 `assets/.tile-cache/*.png` 一起提交。出图后打开两张 PNG 与 10 张剖面小图，看轨迹有没有被边框截断、曲线是否连续。
 
-7. **检查报告正文。** Section 5 正文里复述的总里程、总爬升/总下降（当前「10 天徒步合计 113.2 km、累计爬升 6,502 m、累计下降 6,419 m」）随新一轮 `day-track-stats.csv` 变化，`grep` 这几个数字把复述它们的地方一起改。
+7. **检查报告正文。** §4 正文里复述的总里程、总爬升/总下降（当前「10 个徒步日合计 113.2 km，累计爬升 6,502 m、累计下降 6,419 m」）随新一轮 `day-track-stats.csv` 变化，`grep` 这几个数字把复述它们的地方一起改——`sections/core-route.html` 与 `sections/summary.html` 都有。
 
 ## 交付前检查
 
 1. 改了任何 `data/*.csv`、`sources/*.md`、`report/sections/*.html`、`report/styles/*.css`、`report/shell.html` 或 `assets/*.png` 之后跑 `uv run --with markdown scripts/build_report.py`，看到 `wrote ...` 那一行才算通过。
-2. 改了 `scripts/reportgen/assemble.py`、`scripts/geo.py`、`scripts/kmz_loop.py`、`scripts/gap_legs.py`、`scripts/osm_graph.py` 或 `scripts/day_tracks.py` 之后跑 `uv run --with pytest pytest tests/ -q`，看到 `143 passed` 才算通过。
+2. 改了 `scripts/reportgen/assemble.py`、`scripts/reportgen/citations.py`、`scripts/geo.py`、`scripts/kmz_loop.py`、`scripts/gap_legs.py`、`scripts/osm_graph.py` 或 `scripts/day_tracks.py` 之后跑 `uv run --with pytest --with markdown pytest tests/ -q`，看到 `267 passed` 才算通过。
 3. 改了 `data/cost-breakdown.csv` 之后复核 `data/quote-comparison.csv` 的 `ours_pp_usd` 列（它从费用表取单值），并 `grep` 变动的金额，把散文与手写表里复述它的地方一起改。
 4. 改了 `scripts/route_points.py` 之后按依赖顺序重跑 `day_tracks.py` → `make_profile.py` 与 `make_map.py` → `build_report.py`。
-5. 新增的事实在 `sources/` 有对应文件，详解正文括注并链接了 `（sources/NN）`。
+5. 新增的事实在 `sources/` 有对应文件，正文在该事实处写了 `[[NN]]` 角标；新增一份出处时它的编号进 References 是自动的，但要确认正文真的引用了它，否则它只会出现在末尾的「数据与方法来源」组里。
 
 ## 发布到 GitHub Pages
 
@@ -59,7 +59,7 @@
 
 - **一个 agent 一个 section 文件 + 它对应的 CSV 与 sources 文件。** 章节文件与事实源的对照表在 PROJECT.md 的章节清单里，认领前先查它，确认自己要动的文件没有被别人认领。
 - **`report/shell.html` 只在增删章节时才动。** 改正文、改数字、改样式都不触碰它。要增删章节时在报告里说明这一处改动。
-- **`scripts/reportgen/` 的共用基础设施（`config.py` `csvio.py` `tables.py` `money.py` `imgio.py` `assemble.py`）由一个 agent 独占改。** 领域 provider（`figures.py` `costs.py` `quotes.py` `route.py` `packing.py` `sources.py`）之间零 import 依赖，可以并行改。
+- **`scripts/reportgen/` 的共用基础设施（`config.py` `csvio.py` `tables.py` `money.py` `imgio.py` `assemble.py` `citations.py`）由一个 agent 独占改。** 领域 provider（`figures.py` `costs.py` `quotes.py` `route.py` `packing.py`）之间零 import 依赖，可以并行改。
 - **`report/styles/` 下五个 CSS 各自独立**，改不同文件可以并行；层叠顺序由 `shell.html` 决定，改顺序算增删章节那一类改动。
 - **轨迹与图件脚本（`geo.py` `kmz_loop.py` `osm_graph.py` `gap_legs.py` `day_tracks.py` `day_colors.py` `tiles.py` `http_fetch.py` `profile_thumbs.py` `route_points.py` `make_profile.py` `make_map.py`）与它们的产物（`data/day-tracks.json` `data/gap-legs.json` `data/day-track-stats.csv` `data/route-track-stats.csv` `assets/*.png`）由一个 agent 独占改**，这条流水线前后相接（`gap_legs.py` → `day_tracks.py` → `make_profile.py`/`make_map.py`），PNG 与部分 JSON/CSV 是脚本产物或二进制文件，并发重写无法合并。
 - 合并回 main 用 merge。合并后跑一次 `uv run --with markdown scripts/build_report.py`，据输出确认闸门全过。

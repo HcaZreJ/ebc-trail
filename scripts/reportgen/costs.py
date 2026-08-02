@@ -4,7 +4,7 @@
 """
 import re
 
-from .csvio import read_csv
+from .csvio import cite, read_csv
 from .money import npr, usd
 from .tables import table
 
@@ -26,19 +26,21 @@ def cost_tables():
     def pick(r, name):
         return r[col[name]]
 
-    main = [["类别", "项目", "原报价", "每人 USD", "备注"]]
+    main = [["类别", "项目", "原报价", "每人 USD", "备注", "出处"]]
     total_usd = None
     for r in body:
         if pick(r, "category") == "合计":
             total_usd = pick(r, "pp_usd")
-            main.append(["合计", pick(r, "item"), "—", usd(total_usd), pick(r, "notes")])
+            main.append(["合计", pick(r, "item"), "—", usd(total_usd), pick(r, "notes"),
+                         cite(pick(r, "source"))])
         elif pick(r, "in_total") == "yes":
             main.append([pick(r, "category"), pick(r, "item"), _quote(pick(r, "unit_price_quote")),
-                         usd(pick(r, "pp_usd")), pick(r, "notes")])
-    ref = [["项目", "每人 USD", "说明"]]
+                         usd(pick(r, "pp_usd")), pick(r, "notes"), cite(pick(r, "source"))])
+    ref = [["项目", "每人 USD", "说明", "出处"]]
     for r in body:
         if pick(r, "in_total") == "no":
-            ref.append([pick(r, "item"), usd(pick(r, "pp_usd")), pick(r, "notes")])
+            ref.append([pick(r, "item"), usd(pick(r, "pp_usd")), pick(r, "notes"),
+                        cite(pick(r, "source"))])
     return table(main, total_marker="合计"), table(ref), usd(total_usd)
 
 

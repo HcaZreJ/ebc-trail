@@ -284,6 +284,19 @@ def test_assemble_substitute_unresolved_token_exits():
     assert "MISSING_FIRST" in str(excinfo.value)
 
 
+def test_assemble_substitute_non_strict_leaves_unresolved_tokens_in_place():
+    """strict=False 时未解析的 {{...}} 原样留在结果里、不报错。
+
+    装配分两阶段：先替换六个 provider 的 token，此时 {{REFERENCES}} 还没有值，
+    要等 citations 拿着这份文本建完引用图才能渲染，所以第一阶段必须容忍它残留。
+    """
+    text = "head {{KNOWN}} mid {{REFERENCES}} tail"
+
+    out = assemble.substitute(text, {"KNOWN": "k"}, strict=False)
+
+    assert out == "head k mid {{REFERENCES}} tail"
+
+
 @pytest.mark.parametrize(
     "tokens",
     [
