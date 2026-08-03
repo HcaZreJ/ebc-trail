@@ -72,6 +72,10 @@ def test_citations_references_layer_happy_path(tmp_path):
             "\n"
             "抓取日期：2026-07-31\n"
             "\n"
+            "## 要点\n"
+            "\n"
+            "- 茶屋双人间旺季 NPR 800 一间。\n"
+            "\n"
             "## 来源 1：Himalayan Hero《徒步尼泊尔全指南》\n"
             "\n"
             "正文内容。\n"
@@ -90,4 +94,62 @@ def test_citations_references_layer_happy_path(tmp_path):
     assert '<span class="refnum">[7]</span>' in refs
     assert "沿途食宿与杂项价格" in refs
     assert '<a href="#s1-deal">§1</a>' in refs
-    assert "<summary>原始记录</summary>" in refs
+    assert "<summary>要点</summary>" in refs
+
+
+# --------------------------------------------------------------------------
+# `## 要点` 摘录
+# --------------------------------------------------------------------------
+
+
+_EXCERPT_SOURCE = (
+    "# 保险与高山救援\n"
+    "\n"
+    "抓取日期：2026-07-31\n"
+    "\n"
+    "## 要点\n"
+    "\n"
+    "- 保游尊享覆盖 6000 m 以下徒步，含直升机搜救。\n"
+    "- ÖAV 会籍年费 EUR 96，山地救援不限海拔。\n"
+    "\n"
+    "## 来源 1：保游官网\n"
+    "\n"
+    "这一整段一手记录只留在仓库里供核对。\n"
+)
+
+_EXCERPT_EXPECTED = (
+    "- 保游尊享覆盖 6000 m 以下徒步，含直升机搜救。\n"
+    "- ÖAV 会籍年费 EUR 96，山地救援不限海拔。"
+)
+
+
+def test_excerpt_extract_happy_path():
+    """`## 要点` 到下一个二级标题之间的正文原样返回，首尾空行去掉。"""
+    assert citations._extract_excerpt(_EXCERPT_SOURCE) == _EXCERPT_EXPECTED
+
+
+def test_excerpt_source_index_exposes_excerpt_key(tmp_path):
+    """每个条目新增 excerpt 键取 `## 要点` 段，body_md 仍是整份文件全文。"""
+    sources_dir = _write_source(tmp_path, "19-insurance-rescue.md", _EXCERPT_SOURCE)
+
+    entry = citations.source_index(sources_dir)["19"]
+
+    assert entry["excerpt"] == _EXCERPT_EXPECTED
+    assert entry["body_md"] == _EXCERPT_SOURCE
+
+
+def test_excerpt_references_layer_details_shows_excerpt(tmp_path):
+    """References 条目折叠的是要点摘录，不是一手记录全文。"""
+    sources_dir = _write_source(tmp_path, "19-insurance-rescue.md", _EXCERPT_SOURCE)
+    text = (
+        '<section class="sec" id="s3-insurance">\n'
+        '<h3>3 · 保险买哪个<a class="back" href="#summary">↑ 摘要</a></h3>\n'
+        "<p>结论句[[19]]。</p>\n"
+        "</section>\n"
+    )
+
+    refs = citations.references_layer(text, sources_dir)
+
+    assert "<summary>要点</summary>" in refs
+    assert "ÖAV 会籍年费 EUR 96，山地救援不限海拔。" in refs
+    assert "这一整段一手记录只留在仓库里供核对" not in refs

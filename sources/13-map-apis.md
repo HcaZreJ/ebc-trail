@@ -2,6 +2,14 @@
 
 需求：为纯静态 HTML 报告生成带地形（等高线/山体阴影）的路线图 PNG，叠加 GPX 轨迹与地点标记，覆盖尼泊尔 Khumbu 地区，离线嵌入、可打印。
 
+## 要点
+
+- 报告的地形底图采用 OpenTopoMap 瓦片离线拼合，它免费、无需 API key，渲染自带等高线与山体阴影，出图尺寸不受接口上限约束。
+- OpenTopoMap 的许可是 CC-BY-SA 3.0，图上必须保留署名「© OpenStreetMap contributors, SRTM | map style © OpenTopoMap CC-BY-SA」。
+- 实测珠峰地区 z10–z13 的瓦片可正常获取，约 100 张量级的一次性抓取符合它的公平使用要求，偶发的 SSL 中断用 HTTP/1.1 加重试解决。
+- Google Static Maps 支持 `maptype=terrain`，但要求 Google Cloud 账号绑卡开 billing，单图上限 1280×1280，只作备选。
+- 高德静态地图没有任何切换地形底图的参数，单图上限 1024×1024、折线最多 4 条，只能作无地形的 fallback。
+
 ## 来源 1：高德静态地图 API 官方文档
 - URL: https://lbs.amap.com/api/webservice/guide/api/staticmaps
 - 抓取日期: 2026-07-31

@@ -1,6 +1,6 @@
 # EBC Trail 调研 Repo
 
-2026-09-25 → 2026-10-06 尼泊尔 EBC（Everest Base Camp）徒步的行前调研与规划，6 人同行。仓库把三类素材装配成一份自包含的 HTML 报告：正文按章节存成 `report/sections/*.html`，表格数字存在 `data/*.csv`，出处存在 `sources/*.md`；`scripts/build_report.py` 产出 `report/EBC-report.html`，浏览器打开即可阅读或打印成 PDF 分享。报告分四层，层间以锚点互跳：摘要（六行结论）→ 核心（§1 代理套餐值不值 · §2 行前准备 · §3 保险 · §4 12 天行程与强度）→ 支持信息（§5 费用 · §6 进出山交通 · §7 高反与向导背夫 · §8 签证许可证现金通讯）→ References（编号条目，给来源方、链接、抓取日期与折叠的原始记录全文，带跳回正文的「引用于 §N」）。正文的事实处写 `[[NN]]` 标记，构建时展开成上标角标，点一下跳到 References 对应条目。
+2026-09-25 → 2026-10-06 尼泊尔 EBC（Everest Base Camp）徒步的行前调研与规划，6 人同行。仓库把三类素材装配成一份自包含的 HTML 报告：正文按章节存成 `report/sections/*.html`，表格数字存在 `data/*.csv`，出处存在 `sources/*.md`；`scripts/build_report.py` 产出 `report/EBC-report.html`，浏览器打开即可阅读或打印成 PDF 分享。报告分四层，层间以锚点互跳：摘要（六行结论）→ 核心（§1 代理套餐值不值 · §2 行前准备 · §3 保险 · §4 12 天行程与强度）→ 支持信息（§5 费用 · §6 进出山交通 · §7 高反与向导背夫 · §8 签证许可证现金通讯）→ References（编号条目，给来源方、链接、抓取日期与折叠的要点摘录，带跳回正文的「引用于 §N」）。正文的事实处写 `[[NN]]` 标记，构建时展开成上标角标，点一下跳到 References 对应条目。
 
 ## 文档地图
 
@@ -36,7 +36,7 @@
 | 改海拔剖面 | `scripts/make_profile.py`：全程图在 `full_profile()`；表格内嵌的逐日小图在 `scripts/profile_thumbs.py` 的 `day_thumbnail()` | `make_profile.py` 再 `build_report.py` |
 | 换轨迹来源 | `assets/ebc-loop.kml`（KMZ 大环线）或 `assets/Everest_Base_Camp.gpx`，按 DEVFLOW.md 的换轨迹来源流程逐步走 | 见 DEVFLOW.md |
 | 改村庄坐标或文献海拔 | `scripts/route_points.py`（`day_tracks.py`、`make_profile.py`、`make_map.py` 共用） | `day_tracks.py` → `make_profile.py` + `make_map.py` 再 `build_report.py` |
-| 加一份出处 | 新建 `sources/NN-<主题>.md`（References 按编号自动收录，回链与折叠原文自动生成），在引用它的正文处写 `[[NN]]` | `build_report.py` |
+| 加一份出处 | 新建 `sources/NN-<主题>.md`，文件里写一个 `## 要点` 小节（3–6 条 bullet，构建期闸门要求每份出处都有）；References 按编号自动收录，回链与折叠的要点自动生成，在引用它的正文处写 `[[NN]]` | `build_report.py` |
 | 增删一节 | `report/sections/` 增删 `core-*.html` 或 `sup-*.html` + `report/shell.html` 的 include 清单同步（闸门要求两边恰好一一对应）+ `sections/summary.html` 的摘要行同步；节号插在中间时后面各节的编号、`id` 与跨节引用一起改（配方见 PATTERNS.md） | `build_report.py` |
 | 改摘要里的某条结论 | `report/sections/summary.html`（六行，每行链到对应节；结论性数字用 token 不写死） | `build_report.py` |
 | 改报告标题或页头页脚 | `report/shell.html`（`<title>`、`<main>` 骨架、页脚 meta 行）或 `report/sections/header.html`（大标题、行程窗口、导语） | `build_report.py` |

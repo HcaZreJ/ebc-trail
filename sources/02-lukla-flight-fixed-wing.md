@@ -1,5 +1,14 @@
 # 加德满都 ↔ Lukla 固定翼航班（旺季改飞 Ramechhap 问题）
 
+## 要点
+
+- 尼泊尔民航局规定春季 3–5 月与秋季 9–11 月旺季的 Lukla 固定翼航班从 Ramechhap 的 Manthali 机场起降，上一个秋季从 2025 年 9 月 25 日起全部改道，规则适用于所有航司。
+- 走 Ramechhap 要凌晨 1:00–2:00 从加德满都出发，坐 4–5 小时车到 Manthali，再飞 15–20 分钟到 Lukla。
+- 外国人票价是 Manthali → Lukla 单程 USD 175–190，加德满都直飞 Lukla 单程 USD 215–240，加德满都到 Ramechhap 的拼车地面交通约 USD 30。
+- 旺季走 Ramechhap 的单程综合成本约 USD 205–220/人，往返约 USD 410–440/人。
+- 固定翼按目视飞行规则只在上午飞，一般 11 点前全部飞完；行李限额是托运 10kg 加手提 5kg。
+- 9.25 上午 11 点落地加德满都后当天赶固定翼进山不可行，返程 10.6 一早从 Lukla 起飞加上车程可以在傍晚回到加德满都。
+
 ## 来源 1：MountainKick《Lukla Flight via Ramechhap 2026: The Complete Guide》
 - URL: https://mountainkick.com/lukla-flight-ramechhap-2026/
 - 抓取日期: 2026-07-31

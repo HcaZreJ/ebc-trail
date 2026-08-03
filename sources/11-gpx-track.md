@@ -1,5 +1,13 @@
 # GPX 轨迹文件
 
+## 要点
+
+- 轨迹取自 Real World Adventures 的免费 GPS 轨迹库，2026-07-31 下载，落盘在 `assets/Everest_Base_Camp.gpx`。
+- 文件是 GPX 1.1，由 Locus Map 在 2023-02-17 从 outdooractive 的一条公开路线导出。
+- 轨迹含 3,291 个点，每个点都带海拔，没有独立 waypoint，起点在 Lukla（27.687, 86.732，2,855m）。
+- 报告的逐村累计里程与海拔剖面图由这条轨迹算出，产物是 `assets/elevation-profile.png` 与 `data/route-track-stats.csv`。
+- 村庄点位是把公开坐标吸附到最近轨迹点得到的，吸附点海拔与文献海拔的偏差可以在脚本输出里核对。
+
 ## 来源：Real World Adventures 免费 GPS 轨迹库
 - 页面 URL: https://realworldadventures.com/ebc-maps-facts/
 - 文件直链: https://realworldadventures.com/wp-content/uploads/2023/03/EBC.gpx_.zip

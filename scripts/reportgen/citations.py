@@ -15,6 +15,9 @@ OUTLET_HEADING_RE = re.compile(r"^#{2,3} 来源.*?[:：]\s*(.+)$", re.M)
 DATE_RE = re.compile(r"(?:抓取|记录|收到|下载)日期[:：]\s*(\d{4}-\d{2}-\d{2})")
 URL_RE = re.compile(r"https?://[^\s，。、；：！？（）\"'`」』》】]+")
 
+EXCERPT_HEADING_RE = re.compile(r"^## 要点[^\S\n]*$", re.M)
+NEXT_HEADING_RE = re.compile(r"^#{1,2} ", re.M)
+
 MARKER_RE = re.compile(r"\[\[(\d{2}(?:\s*,\s*\d{2})*)\]\]")
 LEFTOVER_RE = re.compile(r"\[\[[^\]]*\]\]")
 
@@ -32,6 +35,37 @@ def _split_numbers(group):
         if num not in seen:
             seen.append(num)
     return seen
+
+
+def _extract_excerpt(text):
+    """取首个整行为 `## 要点` 的小节正文，到下一个 `^#{1,2} ` 标题或文件末尾为止。
+
+    标题行整行必须是 `## 要点`（行尾空白可以有）；找不到时返回空字符串。
+    小节内的 bullet、粗体、行内链接原样返回，交给 markdown 渲染。
+    """
+    m = EXCERPT_HEADING_RE.search(text)
+    if not m:
+        return ""
+    nxt = NEXT_HEADING_RE.search(text, m.end())
+    body = text[m.end() : nxt.start()] if nxt else text[m.end() :]
+    lines = body.split("\n")
+    while lines and not lines[0].strip():
+        lines.pop(0)
+    while lines and not lines[-1].strip():
+        lines.pop()
+    return "\n".join(lines)
+
+
+def check_excerpts(index):
+    """任一条目缺 `## 要点` 摘录 → SystemExit，消息点名是哪几份文件。"""
+    missing = [
+        f"sources/{key}"
+        for key, entry in index.items()
+        if not (entry.get("excerpt") or "").strip()
+    ]
+    if missing:
+        raise SystemExit("以下出处缺少 ## 要点 小节：" + "、".join(missing))
+    return None
 
 
 def source_index(sources_dir=None):
@@ -60,6 +94,7 @@ def source_index(sources_dir=None):
             "urls": urls,
             "date": date,
             "body_md": text,
+            "excerpt": _extract_excerpt(text),
         }
     return dict(sorted(entries.items(), key=lambda kv: kv[1]["num"]))
 
@@ -161,11 +196,14 @@ def _render_entry(key, entry, sites, md):
             for sec_id, _ in cited
         )
         citedby = f'<p class="citedby">引用于 {links}</p>'
-    details = (
-        "<details><summary>原始记录</summary>"
-        + md.reset().convert(entry["body_md"])
-        + "</details>"
-    )
+    excerpt = entry.get("excerpt") or ""
+    details = ""
+    if excerpt:
+        details = (
+            "<details><summary>要点</summary>"
+            + md.reset().convert(excerpt)
+            + "</details>"
+        )
     return head + citedby + details + "</li>"
 
 

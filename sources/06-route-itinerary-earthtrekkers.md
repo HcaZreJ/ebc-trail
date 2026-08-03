@@ -1,5 +1,14 @@
 # 路线与逐日行程（完整攻略类来源，最高优先级）
 
+## 要点
+
+- Earth Trekkers 的 12 天逐日记录出自 9 月底到 10 月初的真人走线，与本行程同季，是行程结构的主要依据。
+- 标准 12 天结构含两个适应日（Namche 第 3 天、Dingboche 第 6 天），设计原则是「触及高点、睡低处」。
+- 第 8 天从 Lobuche 经 Gorak Shep 走到 EBC（5,364m）再回 Gorak Shep 过夜，第 9 天凌晨登 Kala Patthar（5,545m）看日出，当天下撤到 Pangboche 或 Pheriche。
+- 全程往返约 130 km，日行 5–7 小时；第 2 天 Phakding → Namche 爬升 830m，是全程最难的日子之一。
+- 关键点位的文献海拔是 Lukla 2,840m、Namche 3,440m、Tengboche 3,860m、Dingboche 4,410m、Lobuche 4,910m、Gorak Shep 5,140m、EBC 5,364m。
+- 作者同伴在 Kala Patthar 顶附近发生急性高反，出现极度疲劳、眩晕和呕吐，快速下撤后缓解，这是适应日不可省的实证。
+
 ## 来源 1：Earth Trekkers《Everest Base Camp Trek Itinerary: A Day-By-Day Guide》（真人完整走线记录）
 - URL: https://www.earthtrekkers.com/trekking-everest-base-camp-nepal/
 - 抓取日期: 2026-07-31

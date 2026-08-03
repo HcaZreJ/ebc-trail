@@ -1,5 +1,14 @@
 # 两个许可证（Sagarmatha National Park + Khumbu Pasang Lhamu）
 
+## 要点
+
+- EBC 需要且只需要两个证：Sagarmatha 国家公园门票 NPR 3,000/人，Khumbu Pasang Lhamu 市政证 NPR 3,000/人，合计 NPR 6,000/人（约 USD 46）。
+- Khumbu 市政证 2025 年从 NPR 2,000 上调到 NPR 3,000，预算按较新的 NPR 3,000 取值。
+- Khumbu 市政证只能在 Lukla 镇尾的市政检查站或 Monjo 购买，加德满都的旅游局和旅行社都办不了。
+- Sagarmatha 国家公园门票可以在加德满都的 Nepal Tourism Board 办，也可以在 Monjo 公园门口或 Lukla 办。
+- TIMS 卡在 Khumbu 地区不需要。
+- 办证要带护照和 2 张证件照，飞 Lukla 进山的人两个证都能在进山路上顺路办完。
+
 ## 来源 1：Travel Himalaya Nepal《Everest Base Camp Permit Cost 2026》
 - URL: https://travelhimalayanepal.com/permits/everest-base-camp
 - 抓取日期: 2026-07-31

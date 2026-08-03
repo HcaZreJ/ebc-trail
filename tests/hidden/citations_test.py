@@ -595,13 +595,13 @@ def test_citations_references_layer_omits_cited_group_when_nothing_referenced(tm
 
 
 def test_citations_references_layer_details_contains_rendered_markdown_body(tmp_path):
-    """`<details><summary>原始记录</summary>` 包裹 body_md 转换后的 HTML，
-    markdown 语法（如行首 `# `）被转换掉，正文内容仍可读到。
+    """`<details><summary>要点</summary>` 包裹要点段转换后的 HTML，
+    markdown 语法（如行首 `- `）被转换掉，要点内容仍可读到。
     """
     _write_source(
         tmp_path,
         "07-x.md",
-        "# 出处标题\n\n抓取日期：2026-07-31\n\n正文一段说明。\n",
+        "# 出处标题\n\n抓取日期：2026-07-31\n\n## 要点\n\n- 正文一段说明。\n\n## 来源 1：某处\n\n一手记录。\n",
     )
     sources_dir = tmp_path / "sources"
     text = (
@@ -614,6 +614,492 @@ def test_citations_references_layer_details_contains_rendered_markdown_body(tmp_
     refs = citations.references_layer(text, sources_dir)
 
     assert "<details>" in refs
-    assert "<summary>原始记录</summary>" in refs
-    assert "# 出处标题" not in refs
+    assert "<summary>要点</summary>" in refs
+    assert "- 正文一段说明" not in refs
     assert "正文一段说明" in refs
+    assert "一手记录" not in refs
+
+
+# --------------------------------------------------------------------------
+# _extract_excerpt
+# --------------------------------------------------------------------------
+
+
+_EXCERPT_SOURCE = (
+    "# 保险与高山救援\n"
+    "\n"
+    "抓取日期：2026-07-31\n"
+    "\n"
+    "## 要点\n"
+    "\n"
+    "- 保游尊享覆盖 6000 m 以下徒步，含直升机搜救。\n"
+    "- ÖAV 会籍年费 EUR 96，山地救援不限海拔。\n"
+    "\n"
+    "## 来源 1：保游官网\n"
+    "\n"
+    "这一整段一手记录只留在仓库里供核对。\n"
+)
+
+_EXCERPT_EXPECTED = (
+    "- 保游尊享覆盖 6000 m 以下徒步，含直升机搜救。\n"
+    "- ÖAV 会籍年费 EUR 96，山地救援不限海拔。"
+)
+
+_EXCERPT_TEXT = (
+    '<section class="sec" id="s3-insurance">\n'
+    '<h3>3 · 保险买哪个<a class="back" href="#summary">↑ 摘要</a></h3>\n'
+    "<p>结论句[[19]]。</p>\n"
+    "</section>\n"
+)
+
+
+def test_excerpt_extract_happy_path_between_headings():
+    """`## 要点` 与下一个二级标题之间的正文原样返回，首尾空行去掉。"""
+    assert citations._extract_excerpt(_EXCERPT_SOURCE) == _EXCERPT_EXPECTED
+
+
+@pytest.mark.parametrize(
+    "next_heading",
+    ["# 另起的一级标题", "## 来源 1：某处"],
+    ids=["level-one", "level-two"],
+)
+def test_excerpt_extract_terminates_at_same_or_higher_heading(next_heading):
+    """同级（`## `）与更高级（`# `）的标题都收尾，标题之后的内容不进摘录。"""
+    text = (
+        "# 出处标题\n"
+        "\n"
+        "## 要点\n"
+        "\n"
+        "- 唯一一条要点。\n"
+        "\n"
+        f"{next_heading}\n"
+        "\n"
+        "标题之后的内容不进摘录。\n"
+    )
+
+    assert citations._extract_excerpt(text) == "- 唯一一条要点。"
+
+
+def test_excerpt_extract_runs_to_end_of_file():
+    """`## 要点` 是文件最后一节时取到文件末尾，末尾的空行去掉（error_case）。"""
+    text = (
+        "# 出处标题\n"
+        "\n"
+        "抓取日期：2026-07-31\n"
+        "\n"
+        "## 要点\n"
+        "\n"
+        "- 全文最后一节就是要点。\n"
+        "- 第二条要点。\n"
+        "\n"
+        "\n"
+    )
+
+    assert citations._extract_excerpt(text) == (
+        "- 全文最后一节就是要点。\n- 第二条要点。"
+    )
+
+
+def test_excerpt_extract_preserves_bullets_bold_and_inline_links():
+    """小节里的 bullet、粗体、行内链接原样返回，交给 markdown 渲染。"""
+    body = (
+        "- **必买**：[保游尊享](https://example.com/baoyou) 覆盖 6000 m 以下。\n"
+        "- 直升机救援赔付上限 USD 100,000，**先垫付后理赔**。\n"
+        "- 普通旅游险把徒步列为除外责任，见 [条款页](https://example.com/terms)。\n"
+    )
+    text = f"# 保险\n\n## 要点\n\n{body}\n## 来源 1：某处\n\n一手记录全文。\n"
+
+    assert citations._extract_excerpt(text) == body.rstrip("\n")
+
+
+@pytest.mark.parametrize(
+    "text",
+    [
+        "",
+        "# 只有正文的文件\n\n抓取日期：2026-07-31\n\n## 来源 1：某处\n\n正文。\n",
+        "# 出处标题\n\n正文里写到 ## 要点 三个字但不在行首。\n\n## 来源 1：某处\n\n正文。\n",
+    ],
+    ids=["empty-text", "no-section", "inline-mention-only"],
+)
+def test_excerpt_extract_returns_empty_when_section_absent(text):
+    """文本没有 `## 要点` 行时返回空字符串，由调用方决定是否报错（error_case）。"""
+    assert citations._extract_excerpt(text) == ""
+
+
+def test_excerpt_extract_empty_when_next_heading_follows_immediately():
+    """`## 要点` 后面紧跟另一个二级标题时小节为空，返回空字符串。"""
+    text = "# 出处标题\n## 要点\n## 来源 1：某处\n\n正文。\n"
+
+    assert citations._extract_excerpt(text) == ""
+
+
+def test_excerpt_extract_section_above_top_level_title():
+    """`## 要点` 出现在一级标题之前也能取到，取到那个一级标题为止。"""
+    text = "## 要点\n\n- 要点写在一级标题之前也能取到。\n\n# 出处标题\n\n正文。\n"
+
+    assert citations._extract_excerpt(text) == "- 要点写在一级标题之前也能取到。"
+
+
+def test_excerpt_extract_keeps_inner_blank_lines_and_drops_outer():
+    """小节内部的空行保留，标题之后与下一个标题之前的空行去掉。"""
+    text = (
+        "# 出处标题\n"
+        "\n"
+        "## 要点\n"
+        "\n"
+        "\n"
+        "- 第一条要点。\n"
+        "\n"
+        "- 第二条要点。\n"
+        "\n"
+        "\n"
+        "## 来源 1：某处\n"
+        "\n"
+        "正文。\n"
+    )
+
+    assert citations._extract_excerpt(text) == "- 第一条要点。\n\n- 第二条要点。"
+
+
+def test_excerpt_extract_keeps_level_three_subheading_inside():
+    """三级标题比 `## 要点` 低一级，不收尾，连同其后内容一起留在小节里。"""
+    text = (
+        "# 出处标题\n"
+        "\n"
+        "## 要点\n"
+        "\n"
+        "- 第一条要点。\n"
+        "\n"
+        "### 细分\n"
+        "\n"
+        "- 第二条要点。\n"
+        "\n"
+        "## 来源 1：某处\n"
+        "\n"
+        "正文。\n"
+    )
+
+    assert citations._extract_excerpt(text) == (
+        "- 第一条要点。\n\n### 细分\n\n- 第二条要点。"
+    )
+
+
+def test_excerpt_extract_uses_first_section_when_repeated():
+    """文件里出现多个 `## 要点` 时取首个小节。"""
+    text = (
+        "# 出处标题\n"
+        "\n"
+        "## 要点\n"
+        "\n"
+        "- 首个小节的要点。\n"
+        "\n"
+        "## 来源 1：某处\n"
+        "\n"
+        "正文。\n"
+        "\n"
+        "## 要点\n"
+        "\n"
+        "- 后面重复出现的小节。\n"
+    )
+
+    assert citations._extract_excerpt(text) == "- 首个小节的要点。"
+
+
+@pytest.mark.parametrize(
+    "heading",
+    ["## 对话要点（原文摘录，中文概括）", "## 三、要点", "## 要点摘录", "## 要点与结论"],
+    ids=["prefixed", "numbered", "suffixed", "extended"],
+)
+def test_excerpt_extract_requires_exact_heading(heading):
+    """标题必须整行就是 `## 要点`。前后带别的字的二级标题都不算，返回空字符串。
+
+    sources/17 里真实存在一个 `## 对话要点（原文摘录，中文概括）`，
+    子串匹配会把那一整节当成摘录取走。
+    """
+    text = f"# 出处标题\n\n{heading}\n\n- 这一节不是要点摘录。\n\n## 来源 1：某处\n\n正文。\n"
+
+    assert citations._extract_excerpt(text) == ""
+
+
+def test_excerpt_extract_tolerates_trailing_whitespace_on_heading():
+    """`## 要点` 行尾的空白不影响识别。"""
+    text = "# 出处标题\n\n## 要点   \n\n- 行尾有空格也认。\n\n## 来源 1：某处\n\n正文。\n"
+
+    assert citations._extract_excerpt(text) == "- 行尾有空格也认。"
+
+
+# --------------------------------------------------------------------------
+# source_index 的 excerpt 键与构建期闸门
+# --------------------------------------------------------------------------
+
+
+def test_excerpt_source_index_adds_excerpt_and_keeps_body_md(tmp_path):
+    """条目新增 excerpt 键；body_md 仍是整份文件全文，其余字段照旧。"""
+    sources_dir = _write_source(tmp_path, "19-insurance-rescue.md", _EXCERPT_SOURCE)
+
+    entry = citations.source_index(sources_dir)["19"]
+
+    assert entry["excerpt"] == _EXCERPT_EXPECTED
+    assert entry["body_md"] == _EXCERPT_SOURCE
+    assert entry["title"] == "保险与高山救援"
+    assert entry["outlets"] == ["保游官网"]
+    assert entry["date"] == "2026-07-31"
+
+
+def test_excerpt_source_index_excerpt_equals_extract_helper(tmp_path):
+    """excerpt 的值等于对该文件全文调用 _extract_excerpt 的结果。"""
+    sources_dir = _write_source(tmp_path, "19-insurance-rescue.md", _EXCERPT_SOURCE)
+
+    entry = citations.source_index(sources_dir)["19"]
+
+    assert entry["excerpt"] == citations._extract_excerpt(entry["body_md"])
+
+
+def test_excerpt_source_index_each_file_gets_its_own_excerpt(tmp_path):
+    """多份出处各取各的要点段，互不串味。"""
+    _write_source(
+        tmp_path,
+        "02-lukla-flight-fixed-wing.md",
+        "# 卢卡拉定翼机\n\n## 要点\n\n- 加都直飞单程 USD 220。\n\n## 来源 1：某处\n\n正文。\n",
+    )
+    _write_source(
+        tmp_path,
+        "07-costs-lodging-food.md",
+        "# 沿途食宿与杂项价格\n\n## 要点\n\n- 茶屋双人间 NPR 800 一间。\n",
+    )
+    sources_dir = tmp_path / "sources"
+
+    index = citations.source_index(sources_dir)
+
+    assert index["02"]["excerpt"] == "- 加都直飞单程 USD 220。"
+    assert index["07"]["excerpt"] == "- 茶屋双人间 NPR 800 一间。"
+
+
+def test_excerpt_source_index_missing_section_yields_empty_excerpt(tmp_path):
+    """source_index 只做提取：缺 `## 要点` 的文件拿到空字符串，不在这里报错。"""
+    sources_dir = _write_source(
+        tmp_path,
+        "07-costs-lodging-food.md",
+        "# 沿途食宿与杂项价格\n\n抓取日期：2026-07-31\n\n## 来源 1：某处\n\n正文没有要点小节。\n",
+    )
+
+    assert citations.source_index(sources_dir)["07"]["excerpt"] == ""
+
+
+def test_excerpt_check_excerpts_missing_section_exits(tmp_path):
+    """某份 sources 缺 `## 要点` → check_excerpts SystemExit，消息点名是哪一份（error_case）。"""
+    sources_dir = _write_source(
+        tmp_path,
+        "07-costs-lodging-food.md",
+        "# 沿途食宿与杂项价格\n\n抓取日期：2026-07-31\n\n## 来源 1：某处\n\n正文没有要点小节。\n",
+    )
+
+    with pytest.raises(SystemExit) as excinfo:
+        citations.check_excerpts(citations.source_index(sources_dir))
+
+    message = str(excinfo.value)
+    assert "sources/07" in message
+    assert "## 要点" in message
+
+
+def test_excerpt_check_excerpts_exits_when_any_one_of_many_lacks_section(tmp_path):
+    """目录里只要有一份缺 `## 要点`，闸门就报错退出并点名那一份。"""
+    _write_source(tmp_path, "02-a.md", "# A\n\n## 要点\n\n- 有要点。\n")
+    _write_source(tmp_path, "07-b.md", "# B\n\n## 要点\n\n- 也有要点。\n")
+    _write_source(tmp_path, "16-c.md", "# C\n\n## 来源 1：某处\n\n这一份没有要点小节。\n")
+    sources_dir = tmp_path / "sources"
+
+    with pytest.raises(SystemExit) as excinfo:
+        citations.check_excerpts(citations.source_index(sources_dir))
+
+    message = str(excinfo.value)
+    assert "sources/16" in message
+    assert "sources/02" not in message
+    assert "sources/07" not in message
+
+
+def test_excerpt_check_excerpts_empty_section_counts_as_missing(tmp_path):
+    """`## 要点` 存在但小节为空，与完全没有该小节同等对待，闸门照样拦。"""
+    sources_dir = _write_source(
+        tmp_path,
+        "07-costs-lodging-food.md",
+        "# 沿途食宿与杂项价格\n\n## 要点\n\n## 来源 1：某处\n\n正文。\n",
+    )
+
+    with pytest.raises(SystemExit) as excinfo:
+        citations.check_excerpts(citations.source_index(sources_dir))
+
+    assert "sources/07" in str(excinfo.value)
+
+
+def test_excerpt_check_excerpts_names_every_offending_file(tmp_path):
+    """多份都缺要点时，消息把它们全部点名，一次跑完就能改齐。"""
+    _write_source(tmp_path, "02-a.md", "# A\n\n## 要点\n\n- 有要点。\n")
+    _write_source(tmp_path, "07-b.md", "# B\n\n## 来源 1：某处\n\n没有要点。\n")
+    _write_source(tmp_path, "16-c.md", "# C\n\n## 来源 1：某处\n\n也没有要点。\n")
+    sources_dir = tmp_path / "sources"
+
+    with pytest.raises(SystemExit) as excinfo:
+        citations.check_excerpts(citations.source_index(sources_dir))
+
+    message = str(excinfo.value)
+    assert "sources/07" in message
+    assert "sources/16" in message
+
+
+def test_excerpt_check_excerpts_passes_when_all_present(tmp_path):
+    """全部条目都有非空要点时返回 None，不抛异常。"""
+    _write_source(tmp_path, "02-a.md", "# A\n\n## 要点\n\n- 有要点。\n")
+    _write_source(tmp_path, "07-b.md", "# B\n\n## 要点\n\n- 也有要点。\n")
+    sources_dir = tmp_path / "sources"
+
+    assert citations.check_excerpts(citations.source_index(sources_dir)) is None
+
+
+def test_excerpt_check_excerpts_empty_index_passes(tmp_path):
+    """空 index 没有可校验的条目，返回 None。"""
+    assert citations.check_excerpts({}) is None
+
+
+def test_excerpt_source_index_ignores_files_with_invalid_prefix(tmp_path):
+    """文件名不带两位编号前缀的文件被跳过，它没有要点小节也不触发闸门。"""
+    _write_source(tmp_path, "readme.md", "# 说明文件\n\n不带编号前缀，也没有要点小节。\n")
+    _write_source(
+        tmp_path,
+        "07-costs-lodging-food.md",
+        "# 沿途食宿与杂项价格\n\n## 要点\n\n- 茶屋双人间 NPR 800 一间。\n",
+    )
+    sources_dir = tmp_path / "sources"
+
+    index = citations.source_index(sources_dir)
+
+    assert list(index.keys()) == ["07"]
+    assert index["07"]["excerpt"] == "- 茶屋双人间 NPR 800 一间。"
+
+
+def test_excerpt_source_index_empty_dir_returns_empty_dict(tmp_path):
+    """空的 sources 目录没有可校验的文件，返回空 dict 而不是报错。"""
+    sources_dir = tmp_path / "sources"
+    sources_dir.mkdir()
+
+    assert citations.source_index(sources_dir) == {}
+
+
+# --------------------------------------------------------------------------
+# _render_entry 渲染要点摘录
+# --------------------------------------------------------------------------
+
+
+def test_excerpt_render_entry_details_summary_is_excerpt_label(tmp_path):
+    """折叠块的 summary 文案是「要点」。"""
+    sources_dir = _write_source(tmp_path, "19-insurance-rescue.md", _EXCERPT_SOURCE)
+
+    refs = citations.references_layer(_EXCERPT_TEXT, sources_dir)
+
+    assert "<details>" in refs
+    assert "<summary>要点</summary>" in refs
+
+
+def test_excerpt_render_entry_renders_excerpt_markdown(tmp_path):
+    """要点段经 markdown 渲染进 details：bullet 成 li、粗体成 strong、行内链接成 a。"""
+    content = (
+        "# 保险与高山救援\n"
+        "\n"
+        "抓取日期：2026-07-31\n"
+        "\n"
+        "## 要点\n"
+        "\n"
+        "- **必买**：[保游尊享](https://example.com/baoyou) 覆盖 6000 m 以下。\n"
+        "- 直升机救援赔付上限 USD 100,000。\n"
+        "\n"
+        "## 来源 1：保游官网\n"
+        "\n"
+        "要点之外的这段一手记录不进 details。\n"
+    )
+    sources_dir = _write_source(tmp_path, "19-insurance-rescue.md", content)
+
+    entry = _entry_slice(citations.references_layer(_EXCERPT_TEXT, sources_dir), "19")
+
+    assert "<li><strong>必买</strong>" in entry
+    assert '<a href="https://example.com/baoyou">保游尊享</a>' in entry
+    assert "直升机救援赔付上限 USD 100,000。" in entry
+    assert "- **必买**" not in entry
+    assert "要点之外的这段一手记录不进 details。" not in entry
+
+
+def test_excerpt_render_entry_omits_raw_body_outside_excerpt(tmp_path):
+    """要点之外的一手记录正文不进报告。"""
+    sources_dir = _write_source(tmp_path, "19-insurance-rescue.md", _EXCERPT_SOURCE)
+
+    refs = citations.references_layer(_EXCERPT_TEXT, sources_dir)
+
+    assert "ÖAV 会籍年费 EUR 96，山地救援不限海拔。" in refs
+    assert "这一整段一手记录只留在仓库里供核对" not in refs
+
+
+def test_excerpt_render_entry_keeps_header_and_citedby(tmp_path):
+    """头部信息（编号、标题、来源方、日期）与「引用于 §N」回链保持现状不变。"""
+    sources_dir = _write_source(tmp_path, "19-insurance-rescue.md", _EXCERPT_SOURCE)
+
+    refs = citations.references_layer(_EXCERPT_TEXT, sources_dir)
+
+    assert (
+        '<li id="ref-19"><span class="refnum">[19]</span> '
+        "<b>保险与高山救援</b> · 保游官网 · 2026-07-31"
+    ) in refs
+    assert "citedby" in refs
+    assert '<a href="#s3-insurance">§3</a>' in refs
+
+
+def test_excerpt_render_entry_uncited_entry_also_shows_excerpt(tmp_path):
+    """零引用的条目同样折叠要点摘录，只是不带 citedby 回链。"""
+    _write_source(tmp_path, "19-insurance-rescue.md", _EXCERPT_SOURCE)
+    _write_source(
+        tmp_path,
+        "11-gpx-track.md",
+        (
+            "# GPX 轨迹文件\n"
+            "\n"
+            "- 下载日期: 2026-07-31\n"
+            "\n"
+            "## 要点\n"
+            "\n"
+            "- 轨迹 3,291 个点，单程 58.3 km。\n"
+            "\n"
+            "## 来源 1：Real World Adventures\n"
+            "\n"
+            "一手记录全文。\n"
+        ),
+    )
+    sources_dir = tmp_path / "sources"
+
+    refs = citations.references_layer(_EXCERPT_TEXT, sources_dir)
+    slice11 = _entry_slice(refs, "11")
+
+    assert "citedby" not in slice11
+    assert "<summary>要点</summary>" in slice11
+    assert "轨迹 3,291 个点，单程 58.3 km。" in slice11
+
+
+def test_excerpt_render_entry_omits_details_when_excerpt_empty(tmp_path):
+    """excerpt 为空的条目不输出折叠块，头部信息照常渲染。
+
+    闸门在 build() 拦住这种文件，渲染层遇到时给出干净的降级：没有内容就不给折叠块。
+    """
+    sources_dir = _write_source(
+        tmp_path,
+        "07-costs-lodging-food.md",
+        "# 沿途食宿与杂项价格\n\n抓取日期：2026-07-31\n\n## 来源 1：某处\n\n没有要点小节。\n",
+    )
+    text = (
+        '<section class="sec" id="s1-deal">\n'
+        '<h3>1 · 标题<a class="back" href="#summary">↑ 摘要</a></h3>\n'
+        "<p>结论[[07]]。</p>\n"
+        "</section>\n"
+    )
+
+    entry = _entry_slice(citations.references_layer(text, sources_dir), "07")
+
+    assert "<details>" not in entry
+    assert "沿途食宿与杂项价格" in entry
+    assert '<a href="#s1-deal">§1</a>' in entry

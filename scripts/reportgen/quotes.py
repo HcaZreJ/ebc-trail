@@ -50,13 +50,11 @@ def tokens():
 
     base_his, _ = block_row(BASE)
     meals_his, meals_ours = block_row(MEALS)
-    shared_his, shared_ours = block_row(SHARED)
     crew_his, crew_ours = block_row(CREW)
 
     his_sell = base_his + meals_his
     ours_sell = base_ours + meals_ours
     his_ktm, ours_ktm = his_sell + crew_his, ours_sell + crew_ours
-    his_allin, ours_allin = his_sell + shared_his, ours_sell + shared_ours
     gap, gap_ktm = his_sell - ours_sell, his_ktm - ours_ktm
 
     tbl_tot = [["口径", "他的报价 每人", "自己组 每人", "差额", "说明"]]
@@ -84,12 +82,5 @@ def tokens():
         "QUOTE_GAP_KTM": diff(his_ktm, ours_ktm),
         "QUOTE_GAP_KTM_GROUP": usd(gap_ktm * PAX),
         "QUOTE_CREW_FLIGHT": usd(crew_ours),
-        "QUOTE_BASE_HIS": usd(base_his),
-        "QUOTE_BASE_OURS": usd(base_ours),
-        "QUOTE_BASE_GAP": diff(base_his, base_ours),
-        "QUOTE_BASE_OURS_KTM": usd(base_ours + crew_ours),
-        "QUOTE_BASE_GAP_KTM": diff(base_his, base_ours + crew_ours),
-        "QUOTE_HIS_ALLIN": usd(his_allin),
-        "QUOTE_GAP_ALLIN_PCT": pct(his_allin, ours_allin),
         "QUOTE_MEALS_SHARE": pct(meals_his - meals_ours + gap, gap),
     }
