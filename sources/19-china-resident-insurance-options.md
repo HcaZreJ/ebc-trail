@@ -10,8 +10,9 @@
 - 国内主选是保游尊享全球旅行保险（中国平安承保），医疗运送和送返额度 ¥300,000（约 USD 44,000），保单样本全文没有出现「尼泊尔」三个字，也没有任何按地区打折的子限额。
 - 平安这套条款不把高原反应列为责任免除，十八份条款的免除汇编检索「高原」「海拔」「尼泊尔」命中数都是零，保游网另有一笔尼泊尔高反直升机转运加治疗共 29,740.34 元的全额赔付记录。
 - 这款产品唯一需要书面澄清的是救援方安盛援助自己那份免责清单的第 20 项「被保险人位于海拔 5500 米高处活动或作业时」，EBC 全线只有 Kala Patthar 5,545m 越过这条线。
-- 奥地利登山协会（ÖAV）会员险年费 EUR 75，救援额度 EUR 25,000 含直升机与搜寻费用，条款明文对非奥地利居民全额受保，海拔判据是计划登顶山峰的峰顶低于 6,000m 而不是所处海拔。
-- 想把「不用自己垫钱」也买进来，就把 ÖAV 换成 Global Rescue 的 14 天 Medical and High Altitude Evacuation（USD 688/人），它自己调度并与运营商直接结算，代价是它不报销医疗费用。
+- 奥地利登山协会（ÖAV）会员险年费 EUR 75，救援额度 EUR 25,000 含直升机与搜寻费用，条款明文对非奥地利居民全额受保。它看的是计划登顶山峰的峰顶高度，低于 6,000m 就受保，所处海拔多高都不设线。
+- ÖAV 的救援保障是次位赔付，与带医疗运送责任的国内产品叠买时它只补差额；它也没有直付或担保机制，要自己先付钱再向 KNOX 提交理赔。
+- 唯一能做到全程不垫钱的是 Global Rescue 的 14 天 Medical and High Altitude Evacuation（USD 688/人），它自己调度并与运营商直接结算，代价是它不报销医疗费用。
 
 ## 一、World Nomads 对中国大陆居民关闭投保
 
@@ -287,7 +288,7 @@ Lobuche 4,940m 起全线越线，且「actively ascending to」把 Dingboche 4,4
 
 出处 `https://www.alpenverein.at/portal_wAssets/docs/service/versicherung/AWS-Folder_A4_EN_2023_blaetter_final.pdf`（有效期至 2027-12-31）。入会表单 `https://www.alpenverein.at/portal/mitgliedwerden/mw.php` 的国家下拉 253 项含 China，页面写「会员可以不受居住地限制自由选择分会」。付款：SEPA 直扣或信用卡，信用卡仅首年可用——本行程只需一年，够用。
 
-海拔判据是「计划登顶山峰的峰顶高度」而非所处海拔，比绝对海拔线宽松：
+海拔看的是「计划登顶山峰的峰顶高度」，所处海拔不设线，比绝对海拔线宽松：
 
 > Clarification: In accordance with the exceptions stated above, all mountaineering activities and trips that are undertaken with the aim of climbing a mountain featuring a summit height below 6,000 m … are nevertheless insured even if these are designated as expeditions by an organiser. However, journeys with any kind of commercial background (professional activity) are excluded from the insurance cover for the participant.
 

@@ -138,7 +138,7 @@ Gorak Shep / EBC 一带撤离到加德满都的报价（运营商与徒步机构
 |---|---|---|---|---|
 | World Nomads Explorer | 升级后覆盖，有尼泊尔专属条款 | 医疗转运 USD 500,000，医疗额度不限；尼泊尔直升机专属免赔 USD 725 | 博客口径 12 天 USD 150–180 | 买不到：2026-08-02 实测投保流程拒绝中国大陆居民，见 `sources/19` |
 | Global Rescue 会籍 | 行程任一点超过 4,600m 时标准会籍的 field rescue 失效，须加买 High Altitude Evacuation（USD 495） | Field Rescue USD 15,000，调度自有资源、会员不垫付无免赔 | 14 天会籍 USD 159–374 加 HAE 495，人均约 ¥4,700 起 | 可以 |
-| 奥地利登山协会（OeAV）会员险 | 判据是计划登顶山峰低于 6,000m | 救援 EUR 25,000 含直升机，送返不限额；医疗仅 EUR 10,000 | 年费 EUR 75 | 可以（保单明文） |
+| 奥地利登山协会（OeAV）会员险 | 看计划登顶山峰的峰顶高度，低于 6,000m | 救援 EUR 25,000 含直升机，送返不限额；医疗仅 EUR 10,000 | 年费 EUR 75 | 可以（保单明文） |
 
 三条各有硬伤：World Nomads 是唯一在官方页面白纸黑字承诺「可以事先向直升机公司出具付款担保」的商业保险（`https://www.worldnomads.com/usa/help/insurance/buying-travel-insurance/trekking-in-nepal-and-helicopter-evacuation`，2024-10-22），但要求撤离安排前先联系其紧急支援团队；Global Rescue 不是保险、不报销医疗费；OeAV 条款写明「本合同提供的保险保障相对于其他保险保障是次位的」，设计上叠加在普通旅行险之上，且未查到直付机制，已确证的是事后提交 claim form 报销。
 
