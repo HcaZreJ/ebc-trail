@@ -37,7 +37,7 @@
 | `sections/core-intro.html` | 核心层标题与一句阅读指引 | — |
 | `sections/core-deal.html` | §1 Majestic Trails 12 天套餐值不值：两档口径下的差价、按 6 人档重报 USD 1,015、两张比价表、五件书面确认 | `data/quote-comparison.csv`、`data/cost-breakdown.csv`、`sources/02`、`04`、`05`、`07`、`14`、`16`、`17` |
 | `sections/core-prep.html` | §2 行前准备：按时间倒排的行动清单 + 装备决策表 + 全量装备清单 | `data/packing-list.csv`、`sources/01`、`04`、`05`、`07`、`09`、`14` |
-| `sections/core-insurance.html` | §3 保险：单份主选与人均金额、选它的三条理由、安盛援助 5,500m 服务免责这个唯一问题与它为何不构成大问题（越线垂直区间只有 45m、适应日提前暴露高反、下撤到 Gorak Shep 再呼叫）、这条免责的确切性质（赔付责任与救援服务各管什么、影响范围、合同效力层级）、海外方案都不是它的超集、四档里选 20 万计划的依据（急性病身故是唯一值得升档的一项）、下单五条注意 | `sources/08`、`14`、`18`、`19` |
+| `sections/core-insurance.html` | §3 保险：单份单档主选与人均金额、四条选它的理由（必须买、唯一同时满足三条、有实赔记录、20 万计划额度过剩）、5,500m 服务免责这个唯一问题与它为何不构成大问题（越线垂直区间只有 45m、下撤到 Gorak Shep 再呼叫）、下单三件事 | `sources/08`、`14`、`18`、`19` |
 | `sections/core-route.html` | §4 12 天行程与强度：开篇直给强度结论、一张合并的逐日表（距离、总爬升/总下降、终点海拔、当天剖面小图，Day 1 与 Day 12 三列写 `—`）、徒步详图与全程剖面 | `data/itinerary.csv`、`data/day-track-stats.csv`、`sources/06`、`13`、`15`；`assets/route-map-trek.png`、`elevation-profile.png`、`day-profile-02.png`…`day-profile-11.png` |
 | `sections/sup-intro.html` | 支持层标题与一句阅读指引 | — |
 | `sections/sup-cost.html` | §5 花多少钱：必要开销明细表与参考表、分摊与取值口径 | `data/cost-breakdown.csv` |
