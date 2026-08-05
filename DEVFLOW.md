@@ -11,7 +11,7 @@
 | 重生成海拔剖面图 | `uv run --with matplotlib scripts/make_profile.py` | `assets/day-profile-02.png`…`11.png`、`assets/elevation-profile.png`、`data/route-track-stats.csv` |
 | 重生成两张地图 | `uv run --with pillow scripts/make_map.py` | `assets/route-map-trek.png`、`assets/route-map-overview.png`；打印各图抓了多少瓦片 |
 | 构建报告 | `uv run --with markdown scripts/build_report.py` | `report/EBC-report.html`（末行打印 `wrote <路径>  (N MB)`） |
-| 跑测试 | `uv run --with pytest --with markdown pytest tests/ -q` | `267 passed` |
+| 跑测试 | `uv run --with pytest --with markdown pytest tests/ -q` | `306 passed` |
 
 前四条命令按依赖顺序跑：`gap_legs.py` → `day_tracks.py` → `make_profile.py` / `make_map.py`（这两条互不依赖，谁先谁后都行）→ `build_report.py`。`gap_legs.py` 在 `data/gap-legs.json` 已含全部 4 段时不发网络请求，`make_map.py` 在 `assets/.tile-cache/` 齐备时不发网络请求，因此输入齐备时全程可以离线重跑。
 
@@ -38,7 +38,7 @@
 ## 交付前检查
 
 1. 改了任何 `data/*.csv`、`sources/*.md`、`report/sections/*.html`、`report/styles/*.css`、`report/shell.html` 或 `assets/*.png` 之后跑 `uv run --with markdown scripts/build_report.py`，看到 `wrote ...` 那一行才算通过。
-2. 改了 `scripts/reportgen/assemble.py`、`scripts/reportgen/citations.py`、`scripts/geo.py`、`scripts/kmz_loop.py`、`scripts/gap_legs.py`、`scripts/osm_graph.py` 或 `scripts/day_tracks.py` 之后跑 `uv run --with pytest --with markdown pytest tests/ -q`，看到 `267 passed` 才算通过。
+2. 改了 `scripts/reportgen/assemble.py`、`scripts/reportgen/citations.py`、`scripts/geo.py`、`scripts/kmz_loop.py`、`scripts/gap_legs.py`、`scripts/osm_graph.py` 或 `scripts/day_tracks.py` 之后跑 `uv run --with pytest --with markdown pytest tests/ -q`，看到 `306 passed` 才算通过。
 3. 改了 `data/cost-breakdown.csv` 之后复核 `data/quote-comparison.csv` 的 `ours_pp_usd` 列（它从费用表取单值），并 `grep` 变动的金额，把散文与手写表里复述它的地方一起改。
 4. 改了 `scripts/route_points.py` 之后按依赖顺序重跑 `day_tracks.py` → `make_profile.py` 与 `make_map.py` → `build_report.py`。
 5. 新增的事实在 `sources/` 有对应文件，正文在该事实处写了 `[[NN]]` 角标；新增一份出处时它的编号进 References 是自动的，但要确认正文真的引用了它，否则它只会出现在末尾的「数据与方法来源」组里。
