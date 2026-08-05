@@ -1,6 +1,6 @@
 """代理报价评估：把报价单的套餐内容按 data/cost-breakdown.csv 的单值定价再比对。
 
-两档口径：Lukla 会合档不含向导背夫的进山机票，加都同机档在它之上加这笔机票。
+两档口径：Lukla 会合档不含向导背夫的进山交通，加都随行档在它之上加他们的固定翼往返。
 """
 from .config import PAX
 from .csvio import cite, read_csv
@@ -13,7 +13,7 @@ SHARED = "两边都不含"
 CREW = "加购"
 
 LUKLA = "小计 · 向导背夫在 Lukla 会合"
-KTM = "小计 · 向导背夫从加都同机进山"
+KTM = "小计 · 向导背夫从加都随行进山"
 
 
 def tokens():
@@ -74,7 +74,6 @@ def tokens():
     return {
         "TBL_QUOTE_ITEMS": table(tbl_items, total_marker="小计"),
         "TBL_QUOTE_TOTALS": table(tbl_tot, total_marker=(LUKLA, KTM)),
-        "QUOTE_HIS_SELL": usd(his_sell),
         "QUOTE_OURS_SELL": usd(ours_sell),
         "QUOTE_GAP_PP": diff(his_sell, ours_sell),
         "QUOTE_GAP_GROUP": usd(gap * PAX),

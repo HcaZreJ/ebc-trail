@@ -16,7 +16,7 @@ from PIL import ImageDraw, ImageFont
 from day_colors import ASCENT_DAYS, ACCLIMATIZE_DAYS, DESCENT_DAYS, DAY_COLORS, OPTION_LINE
 from kmz_loop import load_lines
 from route_points import (TREK_VILLAGES, KALA_PATTHAR, ACCLIMATIZE_POINTS, LOOP_LANDMARKS,
-                           KATHMANDU_TIA, RAMECHHAP_AIRPORT)
+                           KATHMANDU_TIA)
 from tiles import build_basemap, mute, draw_path, draw_dashed, marker, label, attribution, offset_polyline
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -151,18 +151,16 @@ def make_overview_map():
     tracks = load_tracks()
     track = [(lon, lat) for day in range(2, 12) for lon, lat, _ in tracks[day]]
 
-    ktm, rhp = KATHMANDU_TIA, RAMECHHAP_AIRPORT
+    ktm = KATHMANDU_TIA
     lukla, ebc = TREK_VILLAGES[0], TREK_VILLAGES[-1]
-    p_ktm, p_rhp, p_lukla = to_px(ktm[2], ktm[1]), to_px(rhp[2], rhp[1]), to_px(lukla[2], lukla[1])
+    p_ktm, p_lukla = to_px(ktm[2], ktm[1]), to_px(lukla[2], lukla[1])
 
-    ROAD, w = (72, 72, 68), 7
+    w = 7
     draw_path(draw, [to_px(lon, lat) for lon, lat in track], TRAIL, w)
     draw_dashed(draw, p_ktm, p_lukla, HELI, width=w, casing=WHITE)
-    draw_dashed(draw, p_lukla, p_rhp, FIXED, width=w, casing=WHITE)
-    draw_dashed(draw, p_rhp, p_ktm, ROAD, width=w - 1, dash=10, gap=9, casing=WHITE)
 
     f = ImageFont.truetype(FONT_LATIN, 24)
-    for pt, anchor, dx, dy in ((ktm, "lm", 14, -34), (rhp, "lm", 14, 18), (lukla, "lm", 14, 14)):
+    for pt, anchor, dx, dy in ((ktm, "lm", 14, -34), (lukla, "lm", 14, 14)):
         xy = to_px(pt[2], pt[1])
         marker(draw, xy, HELI)
         label(draw, (xy[0] + dx, xy[1] + dy), pt[0], f, anchor=anchor)
@@ -176,12 +174,10 @@ def make_overview_map():
 
     fc = ImageFont.truetype(FONT_CJK, 22)
     lx, ly = 24, 24
-    rows = [(HELI, "9.26 进山 KTM→Lukla（交通方式待定，示意）"),
-            (FIXED, "10.6 固定翼 Lukla→Manthali（示意）"),
-            (ROAD, "10.6 公路拼车 Manthali→KTM（示意）"),
+    rows = [(HELI, "9.26 / 10.6 直升机往返 KTM–Lukla（拼机，示意）"),
             (TRAIL, "EBC 徒步轨迹（KMZ 实测）")]
     box_w = 52 + 14 + max(draw.textlength(t, font=fc) for _, t in rows)
-    draw.rectangle([lx - 10, ly - 10, lx + box_w, ly + 130], fill=WHITE, outline=GRAY)
+    draw.rectangle([lx - 10, ly - 10, lx + box_w, ly + 12 + len(rows) * 30], fill=WHITE, outline=GRAY)
     for i, (color, text) in enumerate(rows):
         y = ly + 12 + i * 30
         draw.line([(lx + 4, y), (lx + 40, y)], fill=color, width=7)
