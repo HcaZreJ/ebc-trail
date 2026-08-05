@@ -37,7 +37,7 @@
 | `sections/core-intro.html` | 核心层标题与一句阅读指引 | — |
 | `sections/core-deal.html` | §1 Majestic Trails 12 天套餐值不值：直升机版 USD 1,400（不含餐）与自组的两档口径差价、拼机实报下沿与 2026 挂牌两种敏感度、全包餐不买、两张比价表、四件书面确认 | `data/quote-comparison.csv`、`data/cost-breakdown.csv`、`sources/02`、`03`、`04`、`05`、`07`、`14`、`16` |
 | `sections/core-prep.html` | §2 行前准备：按时间倒排的行动清单 + 装备决策表 + 全量装备清单 | `data/packing-list.csv`、`sources/01`、`04`、`05`、`07`、`09`、`14` |
-| `sections/core-insurance.html` | §3 保险：九行方案表（主选、叠买、升级、国内外备选、三类排除）、推荐组合与人均金额、安盛援助 5,500m 服务免责这个未决项、下单前五件书面口径、平安 B 款与 C 款的区别 | `sources/08`、`14`、`18`、`19` |
+| `sections/core-insurance.html` | §3 保险：单份单档主选与人均金额、四条选它的理由（必须买、唯一同时满足三条、有实赔记录、20 万计划额度过剩）、5,500m 服务免责这个唯一问题与它为何不构成大问题（越线垂直区间只有 45m、下撤到 Gorak Shep 再呼叫）、下单三件事 | `sources/08`、`14`、`18`、`19` |
 | `sections/core-route.html` | §4 12 天行程与强度：开篇直给强度结论、一张合并的逐日表（距离、总爬升/总下降、终点海拔、当天剖面小图，Day 1 与 Day 12 三列写 `—`）、徒步详图与全程剖面 | `data/itinerary.csv`、`data/day-track-stats.csv`、`sources/06`、`13`、`15`；`assets/route-map-trek.png`、`elevation-profile.png`、`day-profile-02.png`…`day-profile-11.png` |
 | `sections/sup-intro.html` | 支持层标题与一句阅读指引 | — |
 | `sections/sup-cost.html` | §5 花多少钱：必要开销明细表与参考表、分摊与取值口径 | `data/cost-breakdown.csv` |
@@ -50,7 +50,7 @@
 
 `sources/` 一个主题一份文件，含来源 URL、抓取日期和提取出的具体数字。真人走完全程的完整攻略（trip report）是最高优先级来源。文件名前两位是编号，它同时是正文角标显示的数字与 References 条目的 `#ref-NN` 锚点，所以编号一经使用就不重排。当前 18 份：
 
-`01` 签证（中国公民）· `02` 加德满都↔Lukla 固定翼（旺季改飞 Ramechhap）· `03` 加德满都↔Lukla 直升机 · `04` 两个许可证 · `05` 向导与背夫 · `06` 路线与逐日行程（Earth Trekkers 完整攻略）· `07` 沿途食宿与杂项价格 · `08` 保险（高海拔 + 直升机救援，中国公民视角）· `09` 装备清单与加德满都租赁 · `10` 中文完整攻略 · `11` GPX 轨迹文件 · `12` 加德满都市内 · `13` 带地形静态地图的选型 · `14` 小红书中文徒步者实地情报 · `15` KMZ 实测大环线轨迹（里程、爬升、海拔剖面、地形图的共同输入，含 OpenTopoData SRTM30m 与 Overpass API 的用法）· `16` 代理报价单 Majestic Trails Nepal · `17` 与 Majestic Trails Nepal 向导 Bibek 的直接沟通（加都↔Lukla 旺季起降机场的不确定性）· `18` 两步路（携保）平台 208 个在售计划的逐条款核查，含承保国家名单原文、京东安联那款的 ¥8,000 尼泊尔直升机子限额与费率表，以及平台外三条替代路径的对照 · `19` 中国大陆居民可投保方案的逐条款核查（World Nomads 拒中国居民的实测、保游尊享/平安臻享的保单样本与十八份条款、华泰畅意玩 2 号与大地畅行全球两个国内备选、SafetyWing 等国际产品的居住国限制、Global Rescue 与 ÖAV/DAV/AAC 等会籍型救援方案、6 人同时撤离的赔付口径）
+`01` 签证（中国公民）· `02` 加德满都↔Lukla 固定翼（旺季改飞 Ramechhap）· `03` 加德满都↔Lukla 直升机 · `04` 两个许可证 · `05` 向导与背夫 · `06` 路线与逐日行程（Earth Trekkers 完整攻略）· `07` 沿途食宿与杂项价格 · `08` 保险（高海拔 + 直升机救援，中国公民视角）· `09` 装备清单与加德满都租赁 · `10` 中文完整攻略 · `11` GPX 轨迹文件 · `12` 加德满都市内 · `13` 带地形静态地图的选型 · `14` 小红书中文徒步者实地情报 · `15` KMZ 实测大环线轨迹（里程、爬升、海拔剖面、地形图的共同输入，含 OpenTopoData SRTM30m 与 Overpass API 的用法）· `16` 代理报价单 Majestic Trails Nepal · `17` 与 Majestic Trails Nepal 向导 Bibek 的直接沟通（加都↔Lukla 旺季起降机场的不确定性）· `18` 两步路（携保）平台 208 个在售计划的逐条款核查，含承保国家名单原文、京东安联那款的 ¥8,000 尼泊尔直升机子限额与费率表，以及平台外三条替代路径的对照 · `19` 中国大陆居民可投保方案的逐条款核查（World Nomads 拒中国居民的实测、保游尊享/平安臻享的保单样本与十八份条款、四个档位的保障额度对照表与 20 万计划 11–14 天保费、华泰畅意玩 2 号与大地畅行全球两个国内备选、SafetyWing 等国际产品的居住国限制、Global Rescue 与 ÖAV/DAV/AAC 等会籍型救援方案、6 人同时撤离的赔付口径）
 
 `trek-packages.md` 存代理报价单原文，从它提取出的事实写在 `sources/16`。
 
