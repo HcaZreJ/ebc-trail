@@ -37,7 +37,7 @@
 | `sections/core-intro.html` | 核心层标题与一句阅读指引 | — |
 | `sections/core-deal.html` | §1 Majestic Trails 12 天套餐值不值：直升机版 USD 1,400（不含餐）与自组的两档口径差价、拼机实报下沿与 2026 挂牌两种敏感度、全包餐不买、两张比价表、四件书面确认 | `data/quote-comparison.csv`、`data/cost-breakdown.csv`、`sources/02`、`03`、`04`、`05`、`07`、`14`、`16` |
 | `sections/core-prep.html` | §2 行前准备：按时间倒排的行动清单 + 装备决策表 + 全量装备清单 | `data/packing-list.csv`、`sources/01`、`04`、`05`、`07`、`09`、`14` |
-| `sections/core-insurance.html` | §3 保险：单份单档主选与人均金额、三家候选（保游尊享、Himalayan Guardian CTG、京东安联乐游全球）在高反责任上各自怎么写、一张按六项核对清单展开的十一行条款比对表、三家共有的「自行安排救援一分不赔」限制、加买 CTG 的边际成本与它买到的窗口、下单动作 | `sources/08`、`14`、`18`、`19`、`20`、`21` |
+| `sections/core-insurance.html` | §3 保险：单份单档主选与人均金额、保游赔高反的三笔钱各走哪一项责任（每条按「条款原文 → 意思 → 所以」展开）、一张与六项核对清单逐行对应的三家比对表、14 天保费一行、三家共有的「自行安排救援一分不赔」限制、加买 CTG 的边际成本与它补上的场景、三件待书面确认的事、购买流程 | `sources/08`、`14`、`18`、`19`、`20`、`21` |
 | `sections/core-route.html` | §4 12 天行程与强度：开篇直给强度结论、一张合并的逐日表（距离、总爬升/总下降、终点海拔、当天剖面小图，Day 1 与 Day 12 三列写 `—`）、徒步详图与全程剖面 | `data/itinerary.csv`、`data/day-track-stats.csv`、`sources/06`、`13`、`15`；`assets/route-map-trek.png`、`elevation-profile.png`、`day-profile-02.png`…`day-profile-11.png` |
 | `sections/sup-intro.html` | 支持层标题与一句阅读指引 | — |
 | `sections/sup-cost.html` | §5 花多少钱：必要开销明细表与参考表、分摊与取值口径 | `data/cost-breakdown.csv` |
