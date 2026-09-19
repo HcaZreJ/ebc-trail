@@ -8,6 +8,10 @@
 宿营地 4,410m，Day 9 凌晨登 Kala Patthar 5,545m 却记终点 Pheriche 4,280m。白天
 穿多厚由当天最高点定，不由终点定，所以这一列单独存，并由 _check_high() 校验它
 不低于 itinerary 里该天的任何一个海拔，防两张表漂移。
+
+每天渲染成两行：主行是当天的搭配，紧跟一条通栏的说明子行，写这身搭配是怎么从
+当天温度与地形推出来的。说明缺失时构建停下——读者要的是推算过程，不是十二行
+孤立结论。
 """
 from .csvio import cite, esc, read_csv
 from .money import amt
@@ -29,7 +33,7 @@ def _check_high(day, high_m, it_row, it_col):
 
 def _ele_cell(high_m, sleep_m):
     if high_m == sleep_m:
-        return f"{amt(sleep_m)} m"
+        return f"{amt(sleep_m)} m（最高点就是宿营地）"
     return f"{amt(high_m)} / {amt(sleep_m)} m"
 
 
@@ -48,17 +52,20 @@ def clothing_table():
         it = it_by_day.get(day)
         if it is None:
             raise SystemExit(f"clothing-by-day.csv 的 Day {day} 在 itinerary.csv 里没有对应行")
+        why = r[cl_col["why"]].strip()
+        if not why:
+            raise SystemExit(f"clothing-by-day.csv 的 Day {day} 缺 why：读者要看到这身搭配的依据")
         high_m = int(r[cl_col["high_ele_m"]])
         _check_high(day, high_m, it, it_col)
-        sleep_m = int(it[it_col["sleep_ele_m"]])
         cells = [
             f"D{day}", f"{it[it_col['start_point']]} → {it[it_col['end_point']]}",
-            _ele_cell(high_m, sleep_m),
+            _ele_cell(high_m, int(it[it_col["sleep_ele_m"]])),
             r[cl_col["temp_day_c"]], r[cl_col["temp_night_c"]],
             r[cl_col["upper"]], r[cl_col["lower"]], r[cl_col["daypack"]],
             cite(r[cl_col["source"]]),
         ]
         out.append("<tr>" + "".join(f"<td>{esc(c)}</td>" for c in cells) + "</tr>\n")
+        out.append(f'<tr class="why"><td colspan="{len(HEAD)}">{esc(why)}</td></tr>\n')
     out.append("</table>\n</div>\n")
     return "".join(out)
 

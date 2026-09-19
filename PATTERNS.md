@@ -46,6 +46,7 @@ CSV 表格、图片、合计数字通过 `{{TOKEN}}` 占位进入章节，值由
 | 章节引用了没有 provider 提供的 token | `装配后仍有未解析的 token：'NEW_UNDEFINED_TOKEN'` |
 | 两个 provider 返回同一个 token 名 | `token 名冲突：TBL_COSTS_MAIN 同时由 reportgen.route 提供` |
 | `clothing-by-day.csv` 有 `itinerary.csv` 里没有的天 | `clothing-by-day.csv 的 Day 13 在 itinerary.csv 里没有对应行` |
+| 穿衣表某一天缺推算依据 | `clothing-by-day.csv 的 Day 5 缺 why：读者要看到这身搭配的依据` |
 | 穿衣表的当天最高点低于行程表同一天的海拔 | `clothing-by-day.csv 的 Day 9 最高点 4000m 低于 itinerary.csv 里该天的 5164m` |
 | 正文的 citation 标记指向不存在的出处 | `正文引用了不存在的出处：sources/99` |
 | citation 标记语法不合法 | `citation 标记语法不合法：[[7]]` |
