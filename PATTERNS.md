@@ -25,12 +25,12 @@
 CSV 表格、图片、合计数字通过 `{{TOKEN}}` 占位进入章节，值由 `scripts/reportgen/` 下的 provider 提供。
 
 - **每个 provider 暴露一个 `tokens()`**，返回 `{裸 token 名: 已渲染的 HTML 或字符串}`。键不带花括号，加花括号与合并由 `assemble.collect_tokens()` 负责。
-- **provider 之间零 import 依赖。** 五个 provider `figures.py` / `costs.py` / `quotes.py` / `route.py` / `packing.py` 各自只从共用基础设施取东西：`config.py`（`ROOT` 与各目录路径、`NPR_PER_USD`、`PAX`）、`csvio.py`（`read_csv` / `blocks` / `esc` / `signed` / `cite`）、`tables.py`（`table` 渲染器）、`money.py`（`amt` / `usd` / `npr` / `diff`）、`imgio.py`（`img_uri`，从 `assets/*.png` 生成 base64 data URI，`figures.py` 与 `route.py` 共用）。新增 provider 沿用这条边界。
-- **`assemble.py` 只认 `tokens()` 这个接口**，在 `collect_tokens()` 里惰性 import 五个 provider，本身只从 `config.py` 取 `REPORT_DIR`，不知道任何领域细节。
+- **provider 之间零 import 依赖。** 六个 provider `figures.py` / `costs.py` / `quotes.py` / `route.py` / `packing.py` / `clothing.py` 各自只从共用基础设施取东西：`config.py`（`ROOT` 与各目录路径、`NPR_PER_USD`、`PAX`）、`csvio.py`（`read_csv` / `blocks` / `esc` / `signed` / `cite`）、`tables.py`（`table` 渲染器）、`money.py`（`amt` / `usd` / `npr` / `diff`）、`imgio.py`（`img_uri`，从 `assets/*.png` 生成 base64 data URI，`figures.py` 与 `route.py` 共用）。新增 provider 沿用这条边界。
+- **`assemble.py` 只认 `tokens()` 这个接口**，在 `collect_tokens()` 里惰性 import 六个 provider，本身只从 `config.py` 取 `REPORT_DIR`，不知道任何领域细节。
 - **token 名全局唯一。** 两个 provider 返回同一个键时构建停下。
 - **token 供需精确匹配。** 每个 provider 产出的 token 在某个 section 里被引用，每个 section 引用的 token 有 provider 提供。加一个 token 就同时改 provider 与引用它的 section。
 - **token 值原样插入，不做二次替换。** 值里出现的 `{{...}}` 字样会被残留检查报出来。
-- 当前 token 分工，共 27 个：`figures.py` 三张图的 base64 data URI（3）；`costs.py` 费用明细表与参考表加合计的美元数字（3）；`quotes.py` 报价评估的两张表加十六个内联数字（18）；`route.py` 一张合并的 12 天行程表（1）；`packing.py` 装备全量表（1）；`BUILD_DATE` 由 `assemble.py` 自己给（1）。
+- 当前 token 分工，共 19 个：`figures.py` 三张图的 base64 data URI（3）；`costs.py` 费用明细表、参考表与合计的美元数字（3）；`quotes.py` 报价评估的两张表加七个内联数字（9）；`route.py` 一张合并的 12 天行程表（1）；`packing.py` 装备全量表（1）；`clothing.py` 逐日穿衣表（1）；`BUILD_DATE` 由 `assemble.py` 自己给（1）。
 - **`REFERENCES` 走单独一条路。** 它的值是 references 层，要等其余 token 都替换完、拿到整份正文才能建引用图，因此不由 provider 提供，而由 `build()` 第二阶段调 `citations.references_layer()` 填。`substitute()` 的 `strict=False` 让第一阶段容忍它残留。
 
 ## 构建期闸门
@@ -45,6 +45,8 @@ CSV 表格、图片、合计数字通过 `{{TOKEN}}` 占位进入章节，值由
 | provider 产出的 token 在所有章节里都没被引用 | `以下 token 没有被任何章节引用：TBL_COSTS_REF` |
 | 章节引用了没有 provider 提供的 token | `装配后仍有未解析的 token：'NEW_UNDEFINED_TOKEN'` |
 | 两个 provider 返回同一个 token 名 | `token 名冲突：TBL_COSTS_MAIN 同时由 reportgen.route 提供` |
+| `clothing-by-day.csv` 有 `itinerary.csv` 里没有的天 | `clothing-by-day.csv 的 Day 13 在 itinerary.csv 里没有对应行` |
+| 穿衣表的当天最高点低于行程表同一天的海拔 | `clothing-by-day.csv 的 Day 9 最高点 4000m 低于 itinerary.csv 里该天的 5164m` |
 | 正文的 citation 标记指向不存在的出处 | `正文引用了不存在的出处：sources/99` |
 | citation 标记语法不合法 | `citation 标记语法不合法：[[7]]` |
 
@@ -52,7 +54,7 @@ CSV 表格、图片、合计数字通过 `{{TOKEN}}` 占位进入章节，值由
 
 ## 四层结构与锚点契约
 
-报告四层：摘要 → 核心 §1–§4 → 支持 §5–§8 → References。层间互跳全部走文档内锚点，id 与 href 成对出现：
+报告四层：摘要 → 核心 §1–§5 → 支持 §6–§9 → References。层间互跳全部走文档内锚点，id 与 href 成对出现：
 
 - **摘要行**：`sections/summary.html` 里一行一节 `<tr>`，首格是指向 `#s<N>-<slug>` 的链接，结论控制在一句话、结论性数字可用 token。
 - **节块**：`<section class="sec" id="s<N>-<slug>">`，首行 `<h3>N · 标题<a class="back" href="#summary">↑ 摘要</a></h3>`。一个 section 文件装一个节块。

@@ -1,12 +1,12 @@
 # EBC Trail 调研 Repo
 
-2026-09-25 → 2026-10-06 尼泊尔 EBC（Everest Base Camp）徒步的行前调研与规划，6 人同行。仓库把三类素材装配成一份自包含的 HTML 报告：正文按章节存成 `report/sections/*.html`，表格数字存在 `data/*.csv`，出处存在 `sources/*.md`；`scripts/build_report.py` 产出 `report/EBC-report.html`，浏览器打开即可阅读或打印成 PDF 分享。报告分四层，层间以锚点互跳：摘要（六行结论）→ 核心（§1 代理套餐值不值 · §2 行前准备 · §3 保险 · §4 12 天行程与强度）→ 支持信息（§5 费用 · §6 进出山交通 · §7 高反与向导背夫 · §8 签证许可证现金通讯）→ References（编号条目，给来源方、链接、抓取日期与折叠的要点摘录，带跳回正文的「引用于 §N」）。正文的事实处写 `[[NN]]` 标记，构建时展开成上标角标，点一下跳到 References 对应条目。
+2026-09-25 → 2026-10-06 尼泊尔 EBC（Everest Base Camp）徒步的行前调研与规划，6 人同行。仓库把三类素材装配成一份自包含的 HTML 报告：正文按章节存成 `report/sections/*.html`，表格数字存在 `data/*.csv`，出处存在 `sources/*.md`；`scripts/build_report.py` 产出 `report/EBC-report.html`，浏览器打开即可阅读或打印成 PDF 分享。报告分四层，层间以锚点互跳：摘要（七行结论）→ 核心（§1 每天穿什么 · §2 代理套餐值不值 · §3 行前准备 · §4 保险 · §5 12 天行程与强度）→ 支持信息（§6 费用 · §7 进出山交通 · §8 高反与向导背夫 · §9 签证许可证现金通讯）→ References（编号条目，给来源方、链接、抓取日期与折叠的要点摘录，带跳回正文的「引用于 §N」）。正文的事实处写 `[[NN]]` 标记，构建时展开成上标角标，点一下跳到 References 对应条目。
 
 ## 文档地图
 
 | 文档 | 内容 |
 |---|---|
-| [PROJECT.md](PROJECT.md) | 报告目的与行程硬约束 · 三层结构与各章节讲什么、事实源 · data 目录八个文件的职责与相互关系 · 当前状态与待议事项 |
+| [PROJECT.md](PROJECT.md) | 报告目的与行程硬约束 · 三层结构与各章节讲什么、事实源 · data 目录九个文件的职责与相互关系 · 当前状态与待议事项 |
 | [PATTERNS.md](PATTERNS.md) | include 指令契约 · token provider 契约 · 三层锚点契约 · 构建期闸门 · 新增一个问题/一个 token/一张 CSV 表的配方 · 文件粒度上限 · 数据引用规则 |
 | [TECHSTACK.md](TECHSTACK.md) | Python 与 uv 用法 · 三个依赖各自服务哪个脚本 · 目录结构 · OpenTopoMap 瓦片、Overpass、OpenTopoData 等外部服务 · GPX/KMZ 数据来源 |
 | [DEVFLOW.md](DEVFLOW.md) | 构建与图件重生成命令 · 测试 · 换轨迹来源的完整流程 · 交付前检查 · 并发 worktree 约定 |
@@ -27,6 +27,7 @@
 | 要做的改动 | 动这些文件 | 之后跑 |
 |---|---|---|
 | 改某一节的正文文字 | `report/sections/<该节>.html`（对照表见 PROJECT.md 章节清单） | `build_report.py` |
+| 改某天的穿衣建议或温度区间 | `data/clothing-by-day.csv` 里对应那一天的行，温度改了就同时改 `sources/22-khumbu-temperatures.md` | `build_report.py` |
 | 改某个数字 | 该数字所属的 `data/*.csv`，同时更新它引用的 `sources/NN-*.md` | `build_report.py` |
 | 给某节加一张手写小表 | 该节的 `report/sections/*.html`，直接写 `<table>`（样式由 `styles/tables.css` 统一提供） | `build_report.py` |
 | 加一张 CSV 驱动的表 | 新建 `data/<名>.csv` + `scripts/reportgen/<领域>.py` 的 `tokens()` + 引用它的那一节（配方见 PATTERNS.md） | `build_report.py` |
@@ -38,5 +39,5 @@
 | 改村庄坐标或文献海拔 | `scripts/route_points.py`（`day_tracks.py`、`make_profile.py`、`make_map.py` 共用） | `day_tracks.py` → `make_profile.py` + `make_map.py` 再 `build_report.py` |
 | 加一份出处 | 新建 `sources/NN-<主题>.md`，文件里写一个 `## 要点` 小节（3–6 条 bullet，构建期闸门要求每份出处都有）；References 按编号自动收录，回链与折叠的要点自动生成，在引用它的正文处写 `[[NN]]` | `build_report.py` |
 | 增删一节 | `report/sections/` 增删 `core-*.html` 或 `sup-*.html` + `report/shell.html` 的 include 清单同步（闸门要求两边恰好一一对应）+ `sections/summary.html` 的摘要行同步；节号插在中间时后面各节的编号、`id` 与跨节引用一起改（配方见 PATTERNS.md） | `build_report.py` |
-| 改摘要里的某条结论 | `report/sections/summary.html`（六行，每行链到对应节；结论性数字用 token 不写死） | `build_report.py` |
+| 改摘要里的某条结论 | `report/sections/summary.html`（七行，每行链到对应节；结论性数字用 token 不写死） | `build_report.py` |
 | 改报告标题或页头页脚 | `report/shell.html`（`<title>`、`<main>` 骨架、页脚 meta 行）或 `report/sections/header.html`（大标题、行程窗口、导语） | `build_report.py` |

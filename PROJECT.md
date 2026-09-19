@@ -19,9 +19,9 @@
 
 信息按「读者要拿它做什么」排序：先给要拍板的两个决定，再给行程强度，支持信息压在后面，出处全部收到最末。
 
-- **摘要**（`sections/summary.html`）：六行结论，每行链到对应节。
-- **核心**（`sections/core-*.html`）：§1–§4，同行者最需要读完的四节。
-- **支持信息**（`sections/sup-*.html`）：§5–§8，结论与关键数字都在，篇幅压到能查阅的密度。
+- **摘要**（`sections/summary.html`）：七行结论，每行链到对应节。
+- **核心**（`sections/core-*.html`）：§1–§5，同行者最需要读完的五节。
+- **支持信息**（`sections/sup-*.html`）：§6–§9，结论与关键数字都在，篇幅压到能查阅的密度。
 - **References**（`sections/references.html`）：`{{REFERENCES}}` 由 `scripts/reportgen/citations.py` 渲染成编号条目，给标题、来源方、抓取日期、按域名去重的链接，带「引用于 §N」回链与折叠的要点摘录；没被正文引用过的出处归到第二组「数据与方法来源」。
 
 每节是一个 `<section class="sec" id="s<N>-<slug>">` 块，标题带跳回摘要的回链，事实处用 `[[NN]]` 角标（契约见 PATTERNS.md）。
@@ -33,45 +33,47 @@
 | 章节文件 | 讲什么 | 事实源 |
 |---|---|---|
 | `sections/header.html` | 大标题、行程窗口、行程硬约束与计价口径导语 | 行程硬约束；`{{BUILD_DATE}}` |
-| `sections/summary.html` | 摘要：六行结论（套餐、行前准备、保险、行程强度、总价、返程风险） | 各节结论；`{{TOTAL_USD}}` |
+| `sections/summary.html` | 摘要：七行结论（每天穿什么、套餐、行前准备、保险、行程强度、总价、返程风险） | 各节结论；`{{TOTAL_USD}}` |
 | `sections/core-intro.html` | 核心层标题与一句阅读指引 | — |
-| `sections/core-deal.html` | §1 Majestic Trails 12 天套餐值不值：直升机版 USD 1,400（不含餐）与自组的两档口径差价、拼机实报下沿与 2026 挂牌两种敏感度、全包餐不买、两张比价表、四件书面确认 | `data/quote-comparison.csv`、`data/cost-breakdown.csv`、`sources/02`、`03`、`04`、`05`、`07`、`14`、`16` |
-| `sections/core-prep.html` | §2 行前准备：按时间倒排的行动清单 + 装备决策表 + 全量装备清单 | `data/packing-list.csv`、`sources/01`、`04`、`05`、`07`、`09`、`14` |
-| `sections/core-insurance.html` | §3 保险：单份单档主选与人均金额、保游赔高反的三笔钱各走哪一项责任（每条按「条款原文 → 意思 → 所以」展开）、一张与六项核对清单逐行对应的三家比对表、14 天保费一行、三家共有的「自行安排救援一分不赔」限制、加买 CTG 的边际成本与它补上的场景、三件待书面确认的事、购买流程 | `sources/08`、`14`、`18`、`19`、`20`、`21` |
-| `sections/core-route.html` | §4 12 天行程与强度：开篇直给强度结论、一张合并的逐日表（距离、总爬升/总下降、终点海拔、当天剖面小图，Day 1 与 Day 12 三列写 `—`）、徒步详图与全程剖面 | `data/itinerary.csv`、`data/day-track-stats.csv`、`sources/06`、`13`、`15`；`assets/route-map-trek.png`、`elevation-profile.png`、`day-profile-02.png`…`day-profile-11.png` |
+| `sections/core-clothing.html` | §1 每天穿什么：三层穿衣的分工与「按走起来的体感穿」这条判据、裤子两条的分工、逐日温度区间与上身/下身/日包加带的搭配表 | `data/clothing-by-day.csv`、`data/itinerary.csv`、`sources/06`、`09`、`14`、`22` |
+| `sections/core-deal.html` | §2 Majestic Trails 12 天套餐值不值：直升机版 USD 1,400（不含餐）与自组的两档口径差价、拼机实报下沿与 2026 挂牌两种敏感度、全包餐不买、两张比价表、四件书面确认 | `data/quote-comparison.csv`、`data/cost-breakdown.csv`、`sources/02`、`03`、`04`、`05`、`07`、`14`、`16` |
+| `sections/core-prep.html` | §3 行前准备：按时间倒排的行动清单 + 装备决策表 + 全量装备清单 | `data/packing-list.csv`、`sources/01`、`04`、`05`、`07`、`09`、`14` |
+| `sections/core-insurance.html` | §4 保险：单份单档主选与人均金额、保游赔高反的三笔钱各走哪一项责任（每条按「条款原文 → 意思 → 所以」展开）、一张与六项核对清单逐行对应的三家比对表、14 天保费一行、三家共有的「自行安排救援一分不赔」限制、加买 CTG 的边际成本与它补上的场景、三件待书面确认的事、购买流程 | `sources/08`、`14`、`18`、`19`、`20`、`21` |
+| `sections/core-route.html` | §5 12 天行程与强度：开篇直给强度结论、一张合并的逐日表（距离、总爬升/总下降、终点海拔、当天剖面小图，Day 1 与 Day 12 三列写 `—`）、徒步详图与全程剖面 | `data/itinerary.csv`、`data/day-track-stats.csv`、`sources/06`、`13`、`15`；`assets/route-map-trek.png`、`elevation-profile.png`、`day-profile-02.png`…`day-profile-11.png` |
 | `sections/sup-intro.html` | 支持层标题与一句阅读指引 | — |
-| `sections/sup-cost.html` | §5 花多少钱：必要开销明细表与参考表、分摊与取值口径 | `data/cost-breakdown.csv` |
-| `sections/sup-transport.html` | §6 进出山交通与返程风险：往返直升机的价格口径与班次窗口、6 人拆两架与订座报体重、10.6 无缓冲日的包机差额预备金与残余天气风险；全局路线图 | `sources/02`、`03`、`14`、`17`；`assets/route-map-overview.png` |
-| `sections/sup-crew.html` | §7 高反与向导背夫：一个适应日的代价、Diamox、血氧仪、下撤原则、请向导的三条理由与配置价格 | `sources/05`、`06`、`07`、`08`、`09`、`14`、`16` |
-| `sections/sup-onsite.html` | §8 签证、许可证、现金与通讯：落地签流程、两个证在哪办、现金额度、Ncell 与 Everest Link、市内安全与天气窗口 | `sources/01`、`04`、`07`、`10`、`12`、`14` |
+| `sections/sup-cost.html` | §6 花多少钱：必要开销明细表与参考表、分摊与取值口径 | `data/cost-breakdown.csv` |
+| `sections/sup-transport.html` | §7 进出山交通与返程风险：往返直升机的价格口径与班次窗口、6 人拆两架与订座报体重、10.6 无缓冲日的包机差额预备金与残余天气风险；全局路线图 | `sources/02`、`03`、`14`、`17`；`assets/route-map-overview.png` |
+| `sections/sup-crew.html` | §8 高反与向导背夫：一个适应日的代价、Diamox、血氧仪、下撤原则、请向导的三条理由与配置价格 | `sources/05`、`06`、`07`、`08`、`09`、`14`、`16` |
+| `sections/sup-onsite.html` | §9 签证、许可证、现金与通讯：落地签流程、两个证在哪办、现金额度、Ncell 与 Everest Link、市内安全与天气窗口 | `sources/01`、`04`、`07`、`10`、`12`、`14` |
 | `sections/references.html` | References 层标题与 `{{REFERENCES}}` | `sources/*.md` |
 
 ## 出处文件
 
-`sources/` 一个主题一份文件，含来源 URL、抓取日期和提取出的具体数字。真人走完全程的完整攻略（trip report）是最高优先级来源。文件名前两位是编号，它同时是正文角标显示的数字与 References 条目的 `#ref-NN` 锚点，所以编号一经使用就不重排。当前 18 份：
+`sources/` 一个主题一份文件，含来源 URL、抓取日期和提取出的具体数字。真人走完全程的完整攻略（trip report）是最高优先级来源。文件名前两位是编号，它同时是正文角标显示的数字与 References 条目的 `#ref-NN` 锚点，所以编号一经使用就不重排。当前 22 份：
 
-`01` 签证（中国公民）· `02` 加德满都↔Lukla 固定翼（旺季改飞 Ramechhap）· `03` 加德满都↔Lukla 直升机 · `04` 两个许可证 · `05` 向导与背夫 · `06` 路线与逐日行程（Earth Trekkers 完整攻略）· `07` 沿途食宿与杂项价格 · `08` 保险（高海拔 + 直升机救援，中国公民视角）· `09` 装备清单与加德满都租赁 · `10` 中文完整攻略 · `11` GPX 轨迹文件 · `12` 加德满都市内 · `13` 带地形静态地图的选型 · `14` 小红书中文徒步者实地情报 · `15` KMZ 实测大环线轨迹（里程、爬升、海拔剖面、地形图的共同输入，含 OpenTopoData SRTM30m 与 Overpass API 的用法）· `16` 代理报价单 Majestic Trails Nepal · `17` 与 Majestic Trails Nepal 向导 Bibek 的直接沟通（加都↔Lukla 旺季起降机场的不确定性）· `18` 两步路（携保）平台 208 个在售计划的逐条款核查，含承保国家名单原文、京东安联那款的 ¥8,000 尼泊尔直升机子限额与费率表，以及平台外三条替代路径的对照 · `19` 中国大陆居民可投保方案的逐条款核查（World Nomads 拒中国居民的实测、保游尊享/平安臻享的保单样本与十八份条款、四个档位的保障额度对照表与 20 万计划 11–14 天保费、华泰畅意玩 2 号与大地畅行全球两个国内备选、SafetyWing 等国际产品的居住国限制、Global Rescue 与 ÖAV/DAV/AAC 等会籍型救援方案、6 人同时撤离的赔付口径、高反走疾病责任线的三处条文依据）· `20` Himalayan Guardian CTG 的逐条款核查（IGI Prudential 承保的四份官方 PDF、四个海拔档位的保额与保费、EBC 线路自动匹配 ≤5,500m 档与 Kala Patthar 越线、高反的血氧认定标准与三段录像举证、15% 自付、救援方式由 Call Center 决定、只在尼泊尔境内有效、Alpine Rescue Service 与 HGN 的公司资历）· `21` 六项保险核对清单（§3 比对表的行结构来源，同行者转来的无署名指南，只取清单不取事实）
+`01` 签证（中国公民）· `02` 加德满都↔Lukla 固定翼（旺季改飞 Ramechhap）· `03` 加德满都↔Lukla 直升机 · `04` 两个许可证 · `05` 向导与背夫 · `06` 路线与逐日行程（Earth Trekkers 完整攻略）· `07` 沿途食宿与杂项价格 · `08` 保险（高海拔 + 直升机救援，中国公民视角）· `09` 装备清单与加德满都租赁 · `10` 中文完整攻略 · `11` GPX 轨迹文件 · `12` 加德满都市内 · `13` 带地形静态地图的选型 · `14` 小红书中文徒步者实地情报 · `15` KMZ 实测大环线轨迹（里程、爬升、海拔剖面、地形图的共同输入，含 OpenTopoData SRTM30m 与 Overpass API 的用法）· `16` 代理报价单 Majestic Trails Nepal · `17` 与 Majestic Trails Nepal 向导 Bibek 的直接沟通（加都↔Lukla 旺季起降机场的不确定性）· `18` 两步路（携保）平台 208 个在售计划的逐条款核查，含承保国家名单原文、京东安联那款的 ¥8,000 尼泊尔直升机子限额与费率表，以及平台外三条替代路径的对照 · `19` 中国大陆居民可投保方案的逐条款核查（World Nomads 拒中国居民的实测、保游尊享/平安臻享的保单样本与十八份条款、四个档位的保障额度对照表与 20 万计划 11–14 天保费、华泰畅意玩 2 号与大地畅行全球两个国内备选、SafetyWing 等国际产品的居住国限制、Global Rescue 与 ÖAV/DAV/AAC 等会籍型救援方案、6 人同时撤离的赔付口径、高反走疾病责任线的三处条文依据）· `20` Himalayan Guardian CTG 的逐条款核查（IGI Prudential 承保的四份官方 PDF、四个海拔档位的保额与保费、EBC 线路自动匹配 ≤5,500m 档与 Kala Patthar 越线、高反的血氧认定标准与三段录像举证、15% 自付、救援方式由 Call Center 决定、只在尼泊尔境内有效、Alpine Rescue Service 与 HGN 的公司资历）· `21` 六项保险核对清单（§4 比对表的行结构来源，同行者转来的无署名指南，只取清单不取事实） · `22` Khumbu 沿线 9 月下旬至 10 月上旬的逐海拔气温（运营商月度气温表与高海拔观测站数据，白天区间、夜间最低、风寒修正与降水形态的分界海拔）
 
 `trek-packages.md` 存代理报价单原文，从它提取出的事实写在 `sources/16`。
 
-## data 目录八个文件的职责与相互关系
+## data 目录九个文件的职责与相互关系
 
-`data/` 是表格类数据与轨迹几何的事实源。六张 CSV 是报告表格唯一的数字来源，改数字就改 CSV；两个 JSON 是图件脚本之间传递逐日轨迹点的中间产物，不直接进报告。
+`data/` 是表格类数据与轨迹几何的事实源。七张 CSV 是报告表格唯一的数字来源，改数字就改 CSV；两个 JSON 是图件脚本之间传递逐日轨迹点的中间产物，不直接进报告。
 
 - **`itinerary.csv`**（人工整理，12 行数据，18 列）— 12 天定点安排：日期、`day_type`（转场/徒步/适应日）、`start_point`/`end_point`、`route`、茶屋与海拔、三餐、单日食宿花费、注意事项、出处。Day 1（加都休整）与 Day 12（转场回加都）没有徒步轨迹；距离与爬升/下降查 `day-track-stats.csv`，两张表按 `day` 列对齐拼成 Section 5 的合并表。
 - **`day-track-stats.csv`**（脚本产物，`scripts/day_tracks.py` 写出，10 行数据即 Day 2–11，7 列）— 逐日距离、总爬升、总下降、起点/终点海拔、数据来源。`source` 列区分 KMZ 实测 / GPX 实测 / OSM+SRTM30m 及其组合，与 `day_tracks.py` 里 `DAY_SOURCES` 常量一一对应。算法：轨迹按 25 m 重采样、海拔用窗口 5 的滚动中位数平滑压掉 GPS 跳变、再按 8 m 滞回阈值累计爬升/下降，三个参数写在 `day_tracks.py` 顶部，标定依据见 `sources/15`。
 - **`day-tracks.json`**（脚本产物，`scripts/day_tracks.py` 写出）— Day 2–11 逐点轨迹坐标（经度、纬度、海拔），是 `day-track-stats.csv`、10 张逐日剖面小图、全程剖面图、徒步详图共同的上游中间产物。
 - **`gap-legs.json`**（脚本产物 + 缓存，`scripts/gap_legs.py` 写出）— KMZ 大环线与 GPX 都没走到的 4 段（Namche 往返 Everest View、Dingboche 往返 Nangkartshang、Lobuche–Pheriche、Pheriche–Pangboche）按 OSM 步道几何 + SRTM30m 高程补测出的逐点序列；`day_tracks.py` 只装配其中 3 段（行程只在 Dingboche 安排适应日，Namche 往返段缓存着但不参与装配）。文件已含全部 4 段时构建期不再发网络请求。
 - **`cost-breakdown.csv`**（人工整理，18 行数据，9 列）— 必要开销明细与合计。`in_total=yes` 的行进合计，`in_total=no` 的行进参考表（装备按用户口径另算；拼机订不到座时的包机差额预备金不动用不花）。`shared_by_n` 列声明该项由几个人分摊。`unit_price_quote` 列写该项报出时的原始货币（许可证 NPR 3000、向导 USD 32/天），`pp_usd` 是每人单点最佳估算的美元值，取值规则见该行 `notes`。`category=合计` 那一行存每人合计，由各行精确值求和后取整。
+- **`clothing-by-day.csv`**（人工整理，12 行数据，8 列）— 逐日穿衣搭配：白天与夜间的气温区间、行进时上身穿什么、裤子穿哪条、日包里额外加带什么、取值理由与出处。路段与两个海拔不存在这张表里，由 `scripts/reportgen/clothing.py` 按 `day` 列从 `itinerary.csv` join 过来，行程一改穿衣表跟着变。温度按海拔分别取：白天一列对应 `end_ele_m`（当天到达的最高点），夜间一列对应 `sleep_ele_m`（宿营地），适应日与 EBC 当天这两个海拔差六七百米。
 - **`packing-list.csv`**（人工整理，34 行数据，8 列）— 零装备起步的最小装备清单：分类、数量、优先级、放驼包还是随身、购买或租赁渠道、备注、出处。
 - **`route-track-stats.csv`**（脚本产物，`scripts/make_profile.py` 写出，10 行数据，5 列）— Day 2–8 接成 Lukla→EBC 上山走廊，10 个在这条走廊上的村庄各自吸附到轨迹后的累计里程、轨迹实测海拔、文献海拔、吸附偏差。Pheriche 只在 Day 9–10 下撤时经过，不在这条上山走廊上，退出这张表，它的里程与海拔在 `day-track-stats.csv` 的 Day 9/10 行里。
 - **`quote-comparison.csv`**（人工整理，13 行数据，7 列）— 代理报价与自组成本的逐项比对。`block` 列把行分成 `items`（他的套餐内容逐项，9 行）与 `totals`（口径合计，4 行）。`ours_pp_usd` 列是每人单值，取自 `cost-breakdown.csv`，取值规则写在 `basis` 列。自组成本分两档：向导背夫在 Lukla 会合时不承担他们的进山交通，从加德满都随行（坐固定翼）时要付他们的往返，`totals` 块里的加购行是这笔钱。改了 `cost-breakdown.csv` 之后同步复核这张表。
 
-关系链：`scripts/gap_legs.py`（OSM+SRTM30m 补测 4 段）连同 `assets/ebc-loop.kml`（KMZ 大环线）与 `assets/Everest_Base_Camp.gpx`（标准直上直下线）一起喂给 `scripts/day_tracks.py`，装配出 `day-tracks.json` 与 `day-track-stats.csv`；`day-tracks.json` 再喂给 `scripts/make_profile.py`（11 张剖面小图 + 全程剖面图 + `route-track-stats.csv`）与 `scripts/make_map.py`（徒步详图）；`day-track-stats.csv` 与 `itinerary.csv` 按 `day` 对齐拼成 Section 5 的合并表；`cost-breakdown.csv`（明细与合计）→ 供 `quote-comparison.csv` 的 `ours_pp_usd` 取单值。
+关系链：`scripts/gap_legs.py`（OSM+SRTM30m 补测 4 段）连同 `assets/ebc-loop.kml`（KMZ 大环线）与 `assets/Everest_Base_Camp.gpx`（标准直上直下线）一起喂给 `scripts/day_tracks.py`，装配出 `day-tracks.json` 与 `day-track-stats.csv`；`day-tracks.json` 再喂给 `scripts/make_profile.py`（11 张剖面小图 + 全程剖面图 + `route-track-stats.csv`）与 `scripts/make_map.py`（徒步详图）；`day-track-stats.csv` 与 `itinerary.csv` 按 `day` 对齐拼成 Section 5 的合并表；`clothing-by-day.csv` 同样按 `day` 对齐 `itinerary.csv`，拼成 Section 1 的穿衣表；`cost-breakdown.csv`（明细与合计）→ 供 `quote-comparison.csv` 的 `ours_pp_usd` 取单值。
 
 ## 当前状态
 
-报告为四层结构（摘要 6 行 + 核心 §1–§4 + 支持 §5–§8 + References 19 条），构建通过，层间锚点成对、无悬空角标，全量测试 306 passed。逐日里程与海拔剖面来自 KMZ 大环线实测轨迹，缺口 4 段由 OSM 步道 + SRTM30m 补测。push 到 main 后 GitHub Actions 自动重新构建并发布到 `https://hcazrej.github.io/ebc-trail/`（流程见 DEVFLOW.md「发布到 GitHub Pages」）。
+报告为四层结构（摘要 7 行 + 核心 §1–§5 + 支持 §6–§9 + References 22 条），构建通过，层间锚点成对、无悬空角标，全量测试 306 passed。逐日里程与海拔剖面来自 KMZ 大环线实测轨迹，缺口 4 段由 OSM 步道 + SRTM30m 补测。push 到 main 后 GitHub Actions 自动重新构建并发布到 `https://hcazrej.github.io/ebc-trail/`（流程见 DEVFLOW.md「发布到 GitHub Pages」）。
 
 **待议事项一：是否请向导。** 法规上 Khumbu 地区允许不请（两个独立来源确认，其中一个更新于 2026-01-08）；报告按「请 1 名」计入费用，理由是旺季逐站订房需要人打电话、高反恶化时需要人协调直升机救援与保险对接，以及持证向导在保险上有两处用处：华泰畅意玩 2 号要求户外运动「经过专业人士培训和指导」，而多数意外险主险把「探险活动」列为除外高风险运动，随行持证向导的商业徒步团是反驳这条认定的依据。出发前一个月再核实一次豁免政策。
 

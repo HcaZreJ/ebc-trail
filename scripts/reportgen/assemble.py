@@ -109,10 +109,10 @@ def collect_tokens():
 
     REFERENCES 不在这里：它要等其余 token 都替换完、拿到整份正文才能建引用图，由 build() 第二阶段填。
     """
-    from . import costs, figures, packing, quotes, route
+    from . import clothing, costs, figures, packing, quotes, route
 
     merged = {"BUILD_DATE": date.today().isoformat()}
-    for provider in (figures, costs, quotes, route, packing):
+    for provider in (figures, costs, quotes, route, packing, clothing):
         for name, value in provider.tokens().items():
             if name in merged:
                 raise SystemExit(f"token 名冲突：{name} 同时由 {provider.__name__} 提供")
