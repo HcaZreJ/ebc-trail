@@ -33,7 +33,7 @@
 
 6. **按依赖顺序重跑四条命令**：`uv run scripts/day_tracks.py` → `uv run --with matplotlib scripts/make_profile.py` 与 `uv run --with pillow scripts/make_map.py` → `uv run --with markdown scripts/build_report.py`。读每一步的终端输出核对轨迹点数、10 天的总里程与每天的 `source` 是否符合预期；`make_map.py` 的 bbox 是写死的常量（见 TECHSTACK.md「外部服务」），新轨迹走到框外时先放宽这两个常量再跑，框变了要抓的瓦片跟着变，把新抓到的 `assets/.tile-cache/*.png` 一起提交。出图后打开两张 PNG 与 10 张剖面小图，看轨迹有没有被边框截断、曲线是否连续。
 
-7. **检查报告正文。** §4 正文里复述的总里程、总爬升/总下降（当前「10 个徒步日合计 113.2 km，累计爬升 6,502 m、累计下降 6,419 m」）随新一轮 `day-track-stats.csv` 变化，`grep` 这几个数字把复述它们的地方一起改——`sections/core-route.html` 与 `sections/summary.html` 都有。
+7. **检查报告正文。** §5 正文里复述的总里程、总爬升/总下降（当前「10 个徒步日合计 113.2 km，累计爬升 6,502 m、累计下降 6,419 m」）随新一轮 `day-track-stats.csv` 变化，`grep` 这几个数字把复述它们的地方一起改——`sections/core-route.html` 与 `sections/summary.html` 都有。
 
 ## 交付前检查
 

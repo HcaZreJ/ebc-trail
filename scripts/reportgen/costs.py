@@ -1,4 +1,4 @@
-"""Section 8 预估总价：cost-breakdown.csv 的计入项与参考项两张表 + 合计口径。
+"""Section 6 花多少钱：cost-breakdown.csv 的计入项与参考项两张表 + 合计口径。
 
 每行是单点最佳估算（取值规则见该行 notes 与 AGENTS.md 的费用口径）。
 """
